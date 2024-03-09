@@ -19,11 +19,11 @@ class ProductsComponent extends Component
     protected $queryString = ['q', 'category', 'sort'];
 
     public $categories;
-    public $category = 'all';
+    public $category = 'all' , $level;
     public $sortable;
     public $sort = 'latest';
     public $q;
-    public $perPage = 12;
+    public $perPage = 12 , $priceRange = 100;
 
     public $banners;
 
@@ -55,6 +55,27 @@ class ProductsComponent extends Component
         $this->resetPage();
     }
 
+    public function levelTest()
+    {
+        if ($this->level == 0)
+            $this->level = 1;
+        else
+            $this->level = 0;
+    }
+    public function apply_filter()
+    {
+    }
+
+    public function priceRanges()
+    {
+    }
+    public function clear_filter()
+    {
+        $this->level = 0;
+        $this->priceRange = 100;
+        $this->reset(['level','filter']);
+    }
+
     public function render()
     {
         $products = Product::with('category')->fgtal()->orderBy('status')->latest();
@@ -70,11 +91,12 @@ class ProductsComponent extends Component
             $products = $products->where('title', 'LIKE', '%' . $this->q . '%');
         }
 
-        if ($this->sort == Product::STATUS_AVAILABLE) {
+        if ($this->sort == Product::STATUS_AVAILABLE || $this->level) {
             $products->where('status', Product::STATUS_AVAILABLE);
         }
-
-        $products = $products->paginate(20);
+        $max = $products->max('amount');
+        $range = ($this->priceRange/100)*($max);
+        $products = $products->where('amount','>=', 0)->where('amount','<=', $range)->paginate(20);
         $link = $products->links('site.components.pagination');
 
         if ($this->sort == 'latest') {
@@ -87,7 +109,7 @@ class ProductsComponent extends Component
             $products = $products->sortByDesc('price');
         }
 
-        return view('site.products.products-component', ['products' => $products, 'link' => $link])
-            ->extends('site.layouts.site');
+        return view('site.products.products-component', ['products' => $products,'max' => $max,'range'=>$range, 'link' => $link])
+            ->extends('site.layouts.category');
     }
 }

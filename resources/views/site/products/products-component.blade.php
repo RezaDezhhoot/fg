@@ -1,179 +1,191 @@
-<div id="header-main-search" class="flex-box flex-justify-space">
-    <div class="item-header-main-search flex-box flex-justify-space">
-        <div class="text-filter-search">
-            <span>فیلتر ها</span>
-        </div>
-
-        <button class="btn-delete-filter-search">
-            <span>حذف فیلتر ها</span>
-        </button>
-    </div>
-
-    <div class="item-header-main-search flex-box flex-right">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M3 7H21" stroke="#374151" stroke-width="1.5" stroke-linecap="round" />
-            <path d="M6 12H18" stroke="#374151" stroke-width="1.5" stroke-linecap="round" />
-            <path d="M10 17H14" stroke="#374151" stroke-width="1.5" stroke-linecap="round" />
-        </svg>
-
-        <div class="margin-horizontal-1">
-            <span>مرتب سازی : </span>
-        </div>
-
+<div class="position-relative">
+    <div class="container-fluid p-0">
         <div>
-            <ul class="flex-box">
-                @foreach ($sortable as $key => $value)
-                    <li value="{{ $key }}"
-                        class="margin-horizontal-1 item-filter-header-search select-box__option"
-                        x-on:click="sort = '{{ $value }}';$wire.set('sort', '{{ $key }}')">
-                        {{ $value }}</li>
-                @endforeach
-                {{-- <li class="margin-horizontal-1 item-filter-header-search color-blue">پربازدید ترین</li> --}}
-            </ul>
-        </div>
-    </div>
-</div>
 
-<div id="main-search" class="flex-box flex-justify-space margin-vetical-1">
-    <div class="item-message-main-search">
-        <div>
-            <div class="item-header-mobile open-box-category">
-                <span>دسته بندی ها</span>
+            <div class="window-tabs">
 
-                <div>
-                    <button class="btn-delete-filter-search-mo margin-horizontal-1">حذف فیلتر</button>
+                <div class="tabs">
+                    <div class="slide skin active_slide"
+                         id="skin" wire:ignore.self>
+                        <div class="skin-product" wire:ignore.self>
+                            <div class="row" wire:ignore.self>
+                                <div class="col-lg-3 col-md-4 d-none d-lg-block d-xl-block" wire:ignore.self>
+                                    <div class="col-12">
 
-                    <svg class="icon-header-store-mbile icon-category-header-store" width="9" height="18"
-                        viewBox="0 0 9 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M7.99984 16.9201L1.47984 10.4001C0.709844 9.63008 0.709844 8.37008 1.47984 7.60008L7.99984 1.08008"
-                            stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                    </svg>
-                </div>
-            </div>
+                                        <div class="filters mt-1">
+                                            <div class=" form-switch d-flex align-items-center py-2 px-1">
+                                                <div class="product-checkbox d-flex align-items-center">
 
-            <div class="hide-item message-header-sore message-category-store-mobile">
-                <form>
-                    <div class="box-readio-box-filter flex-box flex-right">
-                        <div class="flex-box">
-                            <input type="radio" id="radio1" class="radio1 select-price-carts" name="fav_language">
-                        </div>
+                                                    <input type="checkbox" {{ $level == 1 ? 'checked' : '' }}
+                                                    id="switchD" value="1">
 
-                        <label for="radio1" class="txt-radio-box flex-box flex-justify-space margin-horizontal-1">
-                            <div>
-                                <div class="flex-box">
-                                    <span>فیلتر ها</span>
+                                                    <label style="right:-1px" wire:click="levelTest" for="switchD"
+                                                           class="mb-0">Toggle</label>
+                                                    <span class="mr-2" style="font-size:15px"> کالا های
+                                                        موجود</span>
+                                                </div>
+                                            </div>
+                                            <div class="sidenav mt-4" wire:ignore.self>
+                                                <div class="col-12 form-group py-1 px-2 filter_groups mb-3"
+                                                     wire:ignore.self>
+                                                    <button class="dropdown-btn px-2 py-2 text-black">
+                                                        <i class="fa fa-caret-down"></i>
+                                                        <strong>
+                                                            محدوده قیمت
+                                                        </strong>
+                                                    </button>
+                                                    <div class="dropdown-container mt-2" wire:ignore.self>
+                                                        <div class="d-flex align-items-center py-1" wire:ignore.self>
+                                                            <div class="price-range desk p-0" wire:ignore.self>
+                                                                <span>محدوده قیمت</span>
+                                                                <div class="col-12">
+                                                                    <input type="range" wire:model.defer="priceRange"
+                                                                           wire:change="priceRanges">
+                                                                </div>
+                                                                <br>
+                                                                <div
+                                                                    class="text-center d-flex align-items-center justify-content-between">
+                                                                    <small>از</small>
+                                                                    <input value="0" disabled type="text"
+                                                                           class="p-1">
+                                                                    <small>تا</small>
+                                                                    <input value="{{ number_format($range) }}" disabled
+                                                                           class="p-1" type="text">
+                                                                    <small>تومان</small>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-lg-none d-xl-none px-0" wire:ignore>
+                                    <div class="col-12 mb-2">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <button class="btn-filter mr-3" id="btn-advanced-search">
+                                                جستوجو پیشرفته
+                                                <i></i>
+                                            </button>
+                                            <button class="btn-filter mx-2" id="btn-filter">
+                                                مرتب سازی بر اساس
+                                                <i></i>
+                                            </button>
+                                        </div>
+                                        <div class="position-fixed filter-panel" wire:ignore>
+                                            <div class="filter p-3">
+                                                <div
+                                                    class="filter-row d-flex align-items-center justify-content-between">
+                                                    <b class="text-secondary">مرتب سازی بر اساس</b>
+                                                    <i class="fas fa-times text-secondary close-filter"></i>
+                                                </div>
+                                                @foreach ($sortable as $key => $value)
+                                                    <div class="filter-row m-0 m-0 d-flex align-items-center">
+                                                        <label  wire:click="$set('sort', '{{ $key }}')" class="btn  {{ $sort == $key ? 'border' : '' }} my-0 py-0 mt-1" for="option1">{{ $value }}</label>
+                                                    </div>
+                                                @endforeach
+
+                                            </div>
+                                            <div class="advanced-search p-0">
+
+                                                <div
+                                                    class="bg-white px-3 py-2 d-flex align-items-center justify-content-between resp_button_height">
+                                                    <button class="btn-filter" id="clear-filter"
+                                                            wire:click="clear_filter">
+                                                        پاک کردن همه
+                                                    </button>
+                                                    <div class=" form-switch d-flex align-items-center p-1">
+                                                        <div class="product-checkbox d-flex">
+                                                            <small style="font-size:12px"> کالا های
+                                                                موجود</small>
+                                                            <input type="checkbox" {{ $level == 1 ? 'checked' : '' }}
+                                                            id="switch" value="1">
+                                                            <label wire:click="levelTest" for="switch"
+                                                                   class="mb-0">Toggle</label>
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="filters mx-2 my-2 resp_filter_height">
+                                                    <div class="sidenav" wire:ignore>
+                                                        <div class="col-12 form-group py-1 px-2 filter_groups mb-3">
+                                                            <button class="dropdown-btn px-2 py-2 text-black">
+                                                                <i class="fa fa-caret-down"></i>
+                                                                <strong>
+                                                                    محدوده قیمت
+                                                                </strong>
+                                                            </button>
+                                                            <div class="dropdown-container mt-2">
+                                                                <div class="d-flex align-items-center py-1">
+                                                                    <div class="price-range res p-0">
+                                                                        <span>محدوده قیمت</span>
+                                                                        <div class="col-12">
+
+                                                                            <input type="range"
+                                                                                   wire:model.defer="priceRange"
+                                                                                   id="rangeInput"
+                                                                                   onchange="priceRange()">
+                                                                            <input type="hidden"
+                                                                                   value="{{ $max }}"
+                                                                                   id="max-range">
+                                                                        </div>
+
+                                                                        <br>
+                                                                        <div class="text-center">
+                                                                            <small>از</small>
+                                                                            <input value="0" disabled
+                                                                                   type="text" class="py-1 px-2">
+                                                                            <small>تا</small>
+                                                                            <input value="{{ number_format($range) }}"
+                                                                                   class="py-1 px-2" id="range-show"
+                                                                                   disabled type="text">
+                                                                            <small>تومان</small>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="apply-filter" wire:click="apply_filter()">
+                                                    جستوجو پیشرفته
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12 p-1">
+                                    <div class="col-12 mb-3" wire:ignore.self>
+                                        <div class="skin-ordering d-none d-lg-flex d-xl-flex">
+                                            <i></i>
+                                            <span> : مرتب سازی بر اساس </span>
+
+                                            @foreach ($sortable as $key => $value)
+                                                <label  wire:click="$set('sort', '{{ $key }}')" class="btn  {{ $sort == $key ? 'border' : '' }} btn-primary mt-2" for="option1">{{ $value }}</label>
+                                            @endforeach
+
+                                        </div>
+                                    </div>
+                                    <div class="col-12" wire:ignore.self>
+                                        <div class="skin-product-box" wire:ignore.self>
+                                            <div
+                                                class="grid gap-4 grid-cols-2 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-5 relative">
+
+                                                @foreach ($products as $product)
+                                                    @include('site.components.products.product-box')
+                                                @endforeach
+
+
+                                            </div>
+                                            {!! $link !!}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </label>
-                    </div>
-                </form>
-            </div>
-        </div>
 
-        <div>
-            <div class="item-header-mobile open-box-category">
-                <span>فیلتر ها</span>
-
-                <div>
-                    <svg class="icon-header-store-mbile icon-category-header-store" width="9" height="18"
-                        viewBox="0 0 9 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M7.99984 16.9201L1.47984 10.4001C0.709844 9.63008 0.709844 8.37008 1.47984 7.60008L7.99984 1.08008"
-                            stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                    </svg>
-                </div>
-            </div>
-
-            <div class="hide-item message-header-sore message-category-store-mobile">
-                <form>
-                    <div class="box-readio-box-filter flex-box flex-right">
-                        <div class="flex-box">
-                            <input type="radio" id="radio4" class="radio1 select-price-carts" name="fav_language">
-                        </div>
-
-                        <label for="radio4" class="txt-radio-box flex-box flex-justify-space margin-horizontal-1">
-                            <div>
-                                <div class="flex-box">
-                                    <span>فیلتر ها</span>
-                                </div>
-                            </div>
-                        </label>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <div>
-            <div class="item-header-mobile open-box-category">
-                <span>قیمت</span>
-
-                <div>
-                    <svg class="icon-header-store-mbile icon-category-header-store" width="9" height="18"
-                        viewBox="0 0 9 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M7.99984 16.9201L1.47984 10.4001C0.709844 9.63008 0.709844 8.37008 1.47984 7.60008L7.99984 1.08008"
-                            stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                    </svg>
-                </div>
-            </div>
-
-            <div class="message-header-sore message-category-store-mobile">
-                <div class="wrapper" dir="ltr">
-                    <div class="box-price-input">
-                        <div class="price-input">
-                            <span class="txt2-box-price">از</span>
-                            <h2 class="input-min massage-box-price">0</h2>
-                            <span class="txt1-box-price">تومان</span>
-                        </div>
-
-                        <div class="price-input">
-                            <span class="txt2-box-price">از</span>
-                            <h2 class="input-max massage-box-price">10000</h2>
-                            <span class="txt1-box-price">تومان</span>
-                        </div>
-                    </div>
-
-                    <div class="slider">
-                        <div class="progress"></div>
-                    </div>
-
-                    <div class="range-input" dir="lte">
-                        <input type="range" class="range-min" min="0" max="10000" value="0"
-                            step="100">
-                        <input type="range" class="range-max" min="0" max="10000" value="10000"
-                            step="100">
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="flex-box flex-justify-space margin-vetical-1">
-            <div>
-                <span>کالاهای موجود</span>
-            </div>
-
-            <div>
-                <div class="toggle-btn flex-box">
-                    <div class="box-true-btn-toggle">
-                        <div class="true-btn-toggle flex-box hide-item">
-                            <svg width="12" height="9" viewBox="0 0 12 9" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path d="M10.5 1L4 7.5L1 5" stroke="white" stroke-width="2" stroke-linecap="round" />
-                            </svg>
-                        </div>
-                    </div>
-
-                    <div class="box-false-btn-toggle">
-                        <div class="false-btn-toggle flex-box">
-                            <svg width="11" height="11" viewBox="0 0 11 11" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path d="M9.5 1L1 9.5M9.5 9.5L1 1" stroke="black" stroke-width="2"
-                                    stroke-linecap="round" />
-                            </svg>
                         </div>
                     </div>
                 </div>
@@ -181,90 +193,36 @@
         </div>
     </div>
 
-    <div class="left-message-main-search flex-box flex-wrap flex-right">
-        <div class="grid gap-4 grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 relative">
-            @foreach ($products as $product)
-                @include('site.components.products.product-box')
-            @endforeach
-        </div>
-    </div>
-
-    {!! $link !!}
 </div>
-
-<section class="grid gap-4 mt-4 sm:grid-cols-2">
-    @foreach ($banners as $banner)
-        <a href="{{ $banner['url'] }}" class="flex"><img class="w-full rounded-lg"
-                src="{{ asset($banner['image']) }}" alt=""></a>
-    @endforeach
-</section>
-
-<div>
-    <section>
-        <div class="flex flex-wrap items-center gap-4 mb-8">
-
-            <div class="select-box" x-data="{ open: false, category: 'همه' }" x-bind:class="{ 'open': open }">
-                <div class="select-box__head" @click="open = true">
-                    <div class="select-box__head-content">
-                        <div class="flex gap-2 items-center max-w-48 overflow-hidden">
-                            <i class="select-field__icon icon-product"></i>
-                            <span class="select-box__title" x-text="category"></span>
-                        </div>
-                        <i class="icon-angle-down"></i>
-                    </div>
-                </div>
-                <ul class="select-box__options-list" @click="open = false" @click.away="open = false">
-                    <li value="0" class="select-box__option"
-                        x-on:click="category = 'همه';$wire.set('category', 'all')"><strong>همه</strong></li>
-                    @foreach ($categories as $item)
-                        <li value="{{ $item->id }}" class="select-box__option"
-                            x-on:click="category = '{{ $item->title }}';$wire.set('category', '{{ $item->slug }}')">
-                            <strong>{{ $item->title }}</strong>
-                        </li>
-                        @foreach ($item->subCategories as $subCategory)
-                            <li value="{{ $subCategory->id }}" class="select-box__option"
-                                x-on:click="category = '{{ $subCategory->title }}';$wire.set('category', '{{ $subCategory->slug }}')">
-                                {{ $subCategory->title }}</li>
-                        @endforeach
-                    @endforeach
-                </ul>
-            </div>
-
-            {{-- Sortable --}}
-            <div class="select-box" x-data="{ open: false, sort: 'جدید ترین' }" x-bind:class="{ 'open': open }">
-                <div class="select-box__head" @click="open = true">
-                    <div class="select-box__head-content">
-                        <div class="flex gap-2 items-center max-w-48 overflow-hidden">
-                            <i class="select-field__icon icon-filter"></i>
-                            <span class="select-box__title" x-text="sort">جدید ترین</span>
-                        </div>
-                        <i class="icon-angle-down"></i>
-                    </div>
-                </div>
-                <ul class="select-box__options-list" @click="open = false" @click.away="open = false">
-                    @foreach ($sortable as $key => $value)
-                        <li value="{{ $key }}" class="select-box__option"
-                            x-on:click="sort = '{{ $value }}';$wire.set('sort', '{{ $key }}')">
-                            {{ $value }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        </div>
-
-        {{-- Products --}}
-        <div class="grid gap-4 grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 relative">
-            @foreach ($products as $product)
-                @include('site.components.products.product-box')
-            @endforeach
-        </div>
-
-        {!! $link !!}
-    </section>
-
-    <section class="grid gap-4 mt-4 sm:grid-cols-2">
-        @foreach ($banners as $banner)
-            <a href="{{ $banner['url'] }}" class="flex"><img class="w-full rounded-lg"
-                    src="{{ asset($banner['image']) }}" alt=""></a>
-        @endforeach
-    </section>
-</div>
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            new Swiper('.swiper-container', {
+                loop: true,
+                nextButton: '.d-none',
+                prevButton: '.d-none',
+                slidesPerView: 6,
+                paginationClickable: true,
+                spaceBetween: 30,
+                breakpoints: {
+                    1920: {
+                        slidesPerView: 7,
+                        spaceBetween: 30
+                    },
+                    1028: {
+                        slidesPerView: 5,
+                        spaceBetween: 25
+                    },
+                    480: {
+                        slidesPerView: 2,
+                        spaceBetween: 30
+                    },
+                    1: {
+                        slidesPerView: 1,
+                        spaceBetween: 250
+                    }
+                }
+            });
+        });
+    </script>
+@endpush

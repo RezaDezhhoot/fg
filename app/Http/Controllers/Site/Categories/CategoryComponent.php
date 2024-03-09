@@ -32,7 +32,7 @@ class CategoryComponent extends Component
 	public $mainProduct , $windows  , $category , $priceRange = 100 , $is , $level;
 	public $most_amount, $filters = [] , $filter = [];
     public function mount($slug)
-    {     
+    {
 		$category = Category::with(['childrenRecursive'])->where('slug',$slug)->firstOrFail();
 		$this->category = $category;
         SEOMeta::setTitle(' محصولات '.$category->title);
@@ -50,8 +50,8 @@ class CategoryComponent extends Component
 		$this->productsCount = $products->count();
 		$ordersCount = 0;
 		if(is_null($category->parent_id))
-			$this->sub_categories = $this->category->toArray()['children_recursive']; 
-		
+			$this->sub_categories = $this->category->toArray()['children_recursive'];
+
 		$this->groups = $this->category->groups()->with('filters')->get()->toArray();
 		foreach($products->get() as $product)
 		{
@@ -66,7 +66,7 @@ class CategoryComponent extends Component
 			$this->mainProduct = Product::where('id',$windows->product_id)->first();
 			$this->windows = $windows;
 		}
-		
+
     }
 	public function levelTest()
 	{
@@ -85,7 +85,7 @@ class CategoryComponent extends Component
 		$this->level = 0;
 		$this->activeLink();
 		$this->priceRange = 100;
-		$this->reset(['level','filter']);
+		$this->reset(['level']);
 	}
 
 	public function priceRanges()
@@ -100,10 +100,10 @@ class CategoryComponent extends Component
 				$filter[] = $key;
 
 		if(empty($filter))
-			$this->reset(['filter']);	
+			$this->reset(['filter']);
 
 		if(empty($this->sub_category))
-			$this->reset(['sub_category']);		
+			$this->reset(['sub_category']);
 
 		if(!is_null($this->sub_category))
 			$max = Product::with(['category'])->where('category_id', $this->sub_category)->max('amount');
@@ -124,11 +124,11 @@ class CategoryComponent extends Component
 			$this->activeLink();
 			return $query->orderBy('amount',$this->most_amount);
 		})->where(function($query){
-			return $this->level == 0 ? $query->where('status','!=',Product::STATUS_DRAFT) : 
+			return $this->level == 0 ? $query->where('status','!=',Product::STATUS_DRAFT) :
 				$query->where('status',Product::STATUS_AVAILABLE);
 		})->where('amount','>=', 0)->where('amount','<=', $range)->paginate(15);
 	 	$link = $products->links('site.components.pagination');
-		
+
         return view('site.categories.category-component',['range' => $range , 'max' => $max,'products' => $products,'link' => $link])
             ->extends('site.layouts.category');
     }
@@ -137,7 +137,7 @@ class CategoryComponent extends Component
     {
         $this->prePageComment += 15;
     }
-	
+
 	public static function array_value_recursive($key, array $arr){
         $val = array();
         array_walk_recursive($arr, function($v, $k) use($key, &$val){
