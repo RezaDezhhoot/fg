@@ -99,6 +99,8 @@ class StoreTicket extends Component
             ]);
             $ticket->save();
             redirect()->route('dashboard.tickets');
+        } else {
+            $this->addError('body','شما یک تیکت در حال بررسی دارید');
         }
     }
 
