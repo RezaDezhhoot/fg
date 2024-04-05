@@ -24,7 +24,7 @@ class StoreTicket extends Component
 
     public $formSubject , $orderId , $productName , $cardNumber , $priority , $body;
 
-    public $file;
+    public $file , $description;
 
 
     public function mount()
@@ -33,6 +33,9 @@ class StoreTicket extends Component
         OpenGraph::setTitle('تیکت جدید - فارس گیمر');
         TwitterCard::setTitle('تیکت جدید - فارس گیمر');
         JsonLd::setTitle('تیکت جدید - فارس گیمر');
+        if (Ticket::query()->where('user_id',\auth()->id())->whereNull('parent_id')->where('status',Ticket::PENDING)->exists()) {
+            abort(404);
+        }
     }
     public function render()
     {
@@ -53,48 +56,50 @@ class StoreTicket extends Component
 
     public function submitTicket()
     {
-        $this->validate([
-            'ticketSubject' => ['required','exists:subjects,id'],
-            'formSubject' => ['required','string','max:100'],
-            'orderId' => [$this->orderStep == Subject::AFTER_ORDER ?  'required' : 'nullable','string','max:100000'],
-            'productName' => [$this->orderStep == Subject::AFTER_ORDER ? 'required' : 'nullable','string','max:200'],
-            'cardNumber' => [$this->orderStep == Subject::AFTER_ORDER ?  'required' : 'nullable','string','max:30'],
-            'priority' => ['required',Rule::in(array_keys(Ticket::getPriority()))],
-            'body' => ['required','string','max:1000']
-        ],[],[
-            'formSubject' => 'موضوغ',
-            'orderId' => 'کد سفارش',
-            'productName' => 'نام محصول',
-            'cardNumber' => 'شماره کارت',
-            'priority' => 'اولویت',
-            'body' => 'متن'
-        ]);
-        $user_id = auth()->id();
-        $ticket = new Ticket();
-        $path = null;
-        if ($this->file) {
-            $this->validate(['file' => ['image','max:2048']]);
-            $path = 'storage/'.$this->file->store('media/tickets','public');
+        if (Ticket::query()->where('user_id',\auth()->id())->where('status',Ticket::PENDING)->doesntExist()) {
+            $this->validate([
+                'ticketSubject' => ['required','exists:subjects,id'],
+                'formSubject' => ['required','string','max:100'],
+                'orderId' => [$this->orderStep == Subject::AFTER_ORDER ?  'required' : 'nullable','string','max:100000'],
+                'productName' => [$this->orderStep == Subject::AFTER_ORDER ? 'required' : 'nullable','string','max:200'],
+                'cardNumber' => [$this->orderStep == Subject::AFTER_ORDER ?  'required' : 'nullable','string','max:30'],
+                'priority' => ['required',Rule::in(array_keys(Ticket::getPriority()))],
+                'body' => ['required','string','max:1000']
+            ],[],[
+                'formSubject' => 'موضوغ',
+                'orderId' => 'کد سفارش',
+                'productName' => 'نام محصول',
+                'cardNumber' => 'شماره کارت',
+                'priority' => 'اولویت',
+                'body' => 'متن'
+            ]);
+            $user_id = auth()->id();
+            $ticket = new Ticket();
+            $path = null;
+            if ($this->file) {
+                $this->validate(['file' => ['image','max:2048']]);
+                $path = 'storage/'.$this->file->store('media/tickets','public');
+            }
+            $ticket->user()->associate(auth()->user());
+            $ticket->fill([
+                'user_id' =>  $user_id,
+                'content' => $this->body,
+                'sender_id' => $user_id,
+                'priority' => $this->priority,
+                'status' => Ticket::PENDING,
+                'sender_type' => Ticket::USER,
+                'subject_id' => $this->ticketSubject,
+                'data' => [
+                    'orderId' => $this->orderId,
+                    'productName' => $this->productName,
+                    'cardNumber' => $this->cardNumber,
+                    'formSubject' => $this->formSubject,
+                ],
+                'file' => $path
+            ]);
+            $ticket->save();
+            redirect()->route('dashboard.tickets');
         }
-        $ticket->user()->associate(auth()->user());
-        $ticket->fill([
-            'user_id' =>  $user_id,
-            'content' => $this->body,
-            'sender_id' => $user_id,
-            'priority' => $this->priority,
-            'status' => Ticket::PENDING,
-            'sender_type' => Ticket::USER,
-            'subject_id' => $this->ticketSubject,
-            'data' => [
-                'orderId' => $this->orderId,
-                'productName' => $this->productName,
-                'cardNumber' => $this->cardNumber,
-                'formSubject' => $this->formSubject,
-            ],
-            'file' => $path
-        ]);
-        $ticket->save();
-        redirect()->route('dashboard.tickets');
     }
 
     public function nextStep($step)
@@ -103,11 +108,14 @@ class StoreTicket extends Component
             $this->validate(['orderStep' => 'required']);
         }
         if ($step == 'form') {
-            $this->validate(['acceptBody' => ['required','boolean']]);
+            $this->validate(['acceptBody' => ['required','boolean']],[],[
+                'acceptBody' => 'تاییدیه'
+            ]);
         }
         if ($step == 'description') {
             $this->validate(['ticketSubject' => ['required','exists:subjects,id']]);
             $this->subject = Subject::query()->find($this->ticketSubject);
+            $this->description = $this->subject->body;
             if (empty($this->subject->body)) {
                 $step = 'form';
             }

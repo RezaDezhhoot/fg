@@ -41,89 +41,36 @@
         </div>
 
         <div class="box-tickets-mobile hide-item-mobile">
-            <div class="box-item-ticket-dashbord-m">
-                <div class="header">
-                    <div>
-                        <span class="title">شماره تیکت</span>
+            @foreach($items as $ticket)
+                <div class="box-item-ticket-dashbord-m">
+                    <div class="header">
+                        <div>
+                            <span class="title">شماره تیکت</span>
 
-                        <span>12312423</span>
+                            <span>{{ $ticket->id }}</span>
+                        </div>
+
+                        <div>
+                            <span> {{ $ticket->created_at->diffForHumans() }}</span>
+                        </div>
                     </div>
 
-                    <div>
-                        <span> 2 ساعت قبل</span>
-                    </div>
-                </div>
+                    <div class="title">
+                        <span class="title">موضوع</span>
 
-                <div class="title">
-                    <span class="title">موضوع</span>
-
-                    <span> مشکل پرداخت خرید 12213123</span>
-                </div>
-
-                <div class="status">
-                    <span class="color-green">وضعیت باز</span>
-                </div>
-
-                <div class="btn">
-                    <a href="#" class="btn-open-ticket-dashboard">مشاهده تیکت</a>
-                </div>
-            </div>
-
-            <div class="box-item-ticket-dashbord-m">
-                <div class="header">
-                    <div>
-                        <span class="title">شماره تیکت</span>
-
-                        <span>12312423</span>
+                        <span> {{ $ticket->data['formSubject'] ?? $ticket->subject->title  }} </span>
                     </div>
 
-                    <div>
-                        <span> 2 ساعت قبل</span>
-                    </div>
-                </div>
-
-                <div class="title">
-                    <span class="title">موضوع</span>
-
-                    <span> مشکل پرداخت خرید 12213123</span>
-                </div>
-
-                <div class="status">
-                    <span class="color-yel">وضعیت در انتظار پاسخ</span>
-                </div>
-
-                <div class="btn">
-                    <a href="#" class="btn-open-ticket-dashboard">مشاهده تیکت</a>
-                </div>
-            </div>
-
-            <div class="box-item-ticket-dashbord-m">
-                <div class="header">
-                    <div>
-                        <span class="title">شماره تیکت</span>
-
-                        <span>12312423</span>
+                    <div class="status">
+                        <span class="color-{{ $ticket->status == \App\Models\Ticket::ACTIVE ? 'green' : ( $ticket->status == \App\Models\Ticket::PENDING ? 'yel' : 'red' )  }}">وضعیت {{ $ticket->status_label }}</span>
                     </div>
 
-                    <div>
-                        <span> 2 ساعت قبل</span>
+                    <div class="btn">
+                        <a href="{{ route('dashboard.tickets.edit',$ticket->id) }}" class="btn-open-ticket-dashboard">مشاهده تیکت</a>
                     </div>
                 </div>
+            @endforeach
 
-                <div class="title">
-                    <span class="title">موضوع</span>
-
-                    <span> مشکل پرداخت خرید 12213123</span>
-                </div>
-
-                <div class="status">
-                    <span class="color-red">وضعیت لسته</span>
-                </div>
-
-                <div class="btn">
-                    <a href="#" class="btn-open-ticket-dashboard">مشاهده تیکت</a>
-                </div>
-            </div>
         </div>
     </section>
 </section>

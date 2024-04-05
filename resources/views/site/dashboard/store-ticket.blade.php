@@ -67,9 +67,10 @@
                 <span class="text-[#0F45FF] font-semibold">3/3</span>
             </div>
 
+
             <div>
                 <div class="max-h-[15rem] overflow-y-auto">
-                    {!! $subject['body'] ?? '' !!}
+                    {!! $description ?? '' !!}
                 </div>
 
                 <div class="flex items-center mt-[1rem] mb-[1rem] font-semibold text-[14px]">
@@ -77,7 +78,11 @@
 
                     <label class="mr-[0.5rem]" for="confirm">متن بالا را مطالعه کردم و متوجه شدم</label>
                 </div>
-
+                @error('acceptBody')
+                <small class="text-danger">
+                    {{ $message }}
+                </small>
+                @enderror
                 <div class="flex justify-center">
                     <button wire:click="nextStep('form')" type="button" class="input-submit-style !rounded-[0.5rem] !w-[15rem]">مرحله بعد</button>
                 </div>
@@ -168,7 +173,7 @@
                             <path d="M5.82338 12L4.27922 10.4558C2.57359 8.75022 2.57359 5.98485 4.27922 4.27922C5.98485 2.57359 8.75022 2.57359 10.4558 4.27922L19.7208 13.5442C21.4264 15.2498 21.4264 18.0152 19.7208 19.7208C18.0152 21.4264 15.2498 21.4264 13.5442 19.7208L10.0698 16.2464C9.00379 15.1804 9.00379 13.4521 10.0698 12.386C11.1358 11.32 12.8642 11.32 13.9302 12.386L15.8604 14.3162" stroke="#0F45FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
 
-                        <label for="file" class="mr-[0.5rem]">ارسال فایل</label>
+                        <label wire:loading.remove for="file" class="mr-[0.5rem]">ارسال فایل</label>
                     </button>
 
                     <button wire:click="submitTicket" type="button" class="input-submit-style !rounded-[0.5rem] !min-h-[2.5rem] mr-[0.5rem] !w-[65%]">ارسال</button>

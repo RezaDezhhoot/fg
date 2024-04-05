@@ -21,21 +21,36 @@
                                                     label="موضوع" ajaxUrl="{{ route('admin.subjects.feed') }}"
                                                     wire:model.defer="subject"/>
 
-					<x-admin.forms.text-editor id="content" label="متن اصلی" required="true" wire:model.defer="content"/>
 					<x-admin.forms.lfm-standalone id="file" label="فایل" :image="$file" required="true" wire:model="file"/>
-
-
-
 
                     @if($mode == 'update')
                         <x-admin.forms.header title="تاریخچه گفتگو"/>
 
                         <div class="w-100 py-2 mx-4 mb-2">
+                            <div class="col-12 w-100 border px-4 py-3 d-flex align-items-center justify-content-between">
+                                <div>
+                                    <h5 class="text-info">
+                                        {{ $ticket->sender->name }}({{ $ticket->sender_type }}) :
+                                    </h5>
+                                    <p>
+                                        {!! $ticket->content !!}
+                                    </p>
+                                    <small class="text-warning">{{ $ticket->date }}</small>
+                                    @if(!empty($ticket->file))
+                                        <p>
+                                            <label for="">فایل</label>
+                                            @foreach(explode(',',$ticket->file) as $value)
+                                                <a class="btn btn-link" href="{{ asset($value) }}">مشاهده</a>
+                                            @endforeach
+                                        </p>
+                                    @endif
+                                </div>
+                            </div>
                             @foreach($child as $key =>  $item)
                                 <div class="col-12 w-100 border px-4 py-3 d-flex align-items-center justify-content-between">
                                     <div>
                                         <h5 class="text-info">
-                                            {{ $item->sender->name }} :
+                                            {{ $item->sender->name }} ({{ $item->sender_type }}) :
                                         </h5>
                                         <p>
                                             {!! $item->content !!}
