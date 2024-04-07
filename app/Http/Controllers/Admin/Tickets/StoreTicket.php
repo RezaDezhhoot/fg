@@ -11,14 +11,14 @@ use Illuminate\Support\Facades\Auth;
 
 class StoreTicket extends BaseComponent
 {
-    use AuthorizesRequests ;
-    public $ticket , $header;
-    public $subject , $user_id , $content , $file , $priority , $status , $child = [] , $user_name , $answer , $answerFile , $oldSubject , $oldUser;
-    public function mount($action , $id = null)
+    use AuthorizesRequests;
+    public $ticket, $header;
+    public $subject, $user_id, $content, $file, $cardNumber, $orderId, $productName, $priority, $status, $child = [], $user_name, $answer, $answerFile, $oldSubject, $oldUser;
+    public function mount($action, $id = null)
     {
         $this->authorize('show_tickets');
 
-		if ($action == 'create') {
+        if ($action == 'create') {
             $this->create();
         } elseif ($action == 'edit') {
             $this->edit($id);
@@ -27,11 +27,13 @@ class StoreTicket extends BaseComponent
         }
         $this->data['priority'] = Ticket::getPriority();
         $this->data['status'] = Ticket::getStatus();
-        $this->data['subject'] = Setting::getSingleRow('subject',[]);
-
+        $this->data['subject'] = Setting::getSingleRow('subject', []);
+        $this->data['cardNumber'] = $this->ticket->data['cardNumber'];
+        $this->data['productName'] = $this->ticket->data['productName'];
+        $this->data['orderId'] = $this->ticket->data['orderId'];
     }
 
-	public function create()
+    public function create()
     {
 
         $this->authorize('edit_tickets');
@@ -42,7 +44,7 @@ class StoreTicket extends BaseComponent
 
     public function store()
     {
-		 $this->authorize('edit_tickets');
+        $this->authorize('edit_tickets');
         $this->saveInDatabase(new Ticket());
 
         $this->emitNotify('تیکت با موفقیت ثبت شد');
@@ -50,12 +52,12 @@ class StoreTicket extends BaseComponent
     }
 
 
-	public function edit($id)
+    public function edit($id)
     {
         $this->authorize('edit_tickets');
 
         $this->setMode(self::MODE_UPDATE);
- 		$this->ticket = Ticket::findOrFail($id);
+        $this->ticket = Ticket::findOrFail($id);
         $this->subject = $this->ticket->subject_id;
         $this->oldSubject = $this->ticket->subject->toArray();
         $this->user_id = $this->ticket->user_id;
@@ -66,6 +68,9 @@ class StoreTicket extends BaseComponent
         $this->priority = $this->ticket->priority;
         $this->status = $this->ticket->status;
         $this->child = $this->ticket->child;
+        $this->cardNumber = $this->ticket->data['cardNumber'];
+        $this->productName = $this->ticket->data['productName'];
+        $this->orderId = $this->ticket->data['orderId'];
     }
 
     public function update()
@@ -81,29 +86,31 @@ class StoreTicket extends BaseComponent
     {
         $this->validate(
             [
-                'subject' => ['required','exists:subjects,id'],
-                'content' => ['required','string','max:95000'],
-                'file' => ['nullable','string','max:800'],
-                'priority' => ['required','in:'.implode(',',array_keys(Ticket::getPriority()))],
-                'status' => ['required', 'in:'.implode(',',array_keys(Ticket::getStatus()))],
-				'user_id' => ['required','exists:users,id']
-            ] , [] , [
+                'subject' => ['required', 'exists:subjects,id'],
+                'content' => ['required', 'string', 'max:95000'],
+                'file' => ['nullable', 'string', 'max:800'],
+                'priority' => ['required', 'in:' . implode(',', array_keys(Ticket::getPriority()))],
+                'status' => ['required', 'in:' . implode(',', array_keys(Ticket::getStatus()))],
+                'user_id' => ['required', 'exists:users,id']
+            ],
+            [],
+            [
                 'subject' => 'موضوع',
                 'content' => 'متن',
                 'file' => 'فایل',
                 'priority' => 'الویت',
                 'status' => 'وضعیت',
-				'user_id' => ' کاربر',
+                'user_id' => ' کاربر',
             ]
         );
         $model->subject_id = $this->subject;
         $model->user_id = $this->user_id;
-        $model->content = $this->content;
-        $model->file = $this->file;
-        $model->parent_id = null;
-        $model->sender_id  = \auth()->id();
-        $model->sender_type  = Ticket::ADMIN;
-        $model->priority = $this->priority;
+        $model->content =  $this->ticket->content;
+        $model->file =  $this->ticket->file;
+        $model->parent_id =  $this->ticket->parent_id;
+        $model->sender_id  = $this->ticket->user_id;
+        $model->sender_type  = $this->ticket->sender_type;
+        $model->priority =  $this->ticket->priority;
         $model->status = $this->status;
         $model->save();
         $this->emitNotify('اطلاعات با موفقیت ثبت شد');
@@ -122,8 +129,10 @@ class StoreTicket extends BaseComponent
         $this->validate(
             [
                 'answer' => ['required', 'string'],
-                'answerFile' => ['nullable' , 'max:250','string']
-            ] , [] , [
+                'answerFile' => ['nullable', 'max:250', 'string']
+            ],
+            [],
+            [
                 'answer' => 'پاسخ',
                 'answerFile' => 'فایل'
             ]
@@ -140,9 +149,10 @@ class StoreTicket extends BaseComponent
         $new->status = Ticket::ACTIVE;
 
         $this->ticket->status = Ticket::ACTIVE;
-        $this->ticket->save() ;
+        $this->ticket->save();
         $new->save();
         $this->child->push($new);
+        $this->ticket->child->push($new);
         \App\Http\Controllers\Smsir\Facades\Smsir::send("کاربر گرامی پاسخی برای تیکت شما ثبت شد \n\n فارس گیمر", $this->ticket->user->mobile);
         $this->emitNotify('اطلاعات با موفقیت ثبت شد');
     }
@@ -161,8 +171,8 @@ class StoreTicket extends BaseComponent
         return view('admin.tickets.store-ticket')->extends('admin.layouts.admin');
     }
 
-	public function resetInputs()
+    public function resetInputs()
     {
-        $this->reset(['subject','user_id','content','file','priority','status']);
+        $this->reset(['subject', 'user_id', 'content', 'file', 'priority', 'status']);
     }
 }

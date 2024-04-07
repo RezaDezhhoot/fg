@@ -63,9 +63,36 @@ class EditTicket extends Component
             $this->reset(['body','file']);
             $this->ticket->load('child');
         }
+<<<<<<< HEAD
+        $ticket->user()->associate(auth()->user());
+        $ticket->parent()->associate($this->ticket);
+        $ticket->fill([
+            'user_id' =>  $user_id,
+            'content' => $this->body,
+            'sender_id' => $user_id,
+            'priority' => $this->ticket->priority,
+            'status' => Ticket::PENDING,
+            'sender_type' => Ticket::USER,
+            'subject_id' => $this->ticket->subject_id,
+            'file' => $path
+        ]);
+        $this->ticket->update([
+            'status' => Ticket::PENDING
+        ]);
+        $ticket->save();
+        $this->reset(['body','file']);
+        $this->ticket->load('child');
+=======
 
+>>>>>>> main
     }
 
+    public function closeTicket()
+    {
+        $this->ticket->update([
+            'status' => Ticket::DEACTIVATE
+        ]);
+    }
 
     public function render()
     {

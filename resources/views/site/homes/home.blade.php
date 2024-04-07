@@ -6,11 +6,16 @@
         'title' => 'پرفروش‌های فارس گیمر',
         'icon' => 'site/svg/fire.svg',
     ])
-    @include('site.homes.gift-cards')
+
+
 
     @include('site.homes.special-discount')
 
-    @include('site.homes.fortnite', ['products' => $fortnite, 'title' => 'موس', 'icon' => ''])
+    @include('site.homes.fortnite', [
+        'products' => $fortnite,
+        'title' => 'پرداخت درون برنامه ای',
+        'icon' => '',
+    ])
 
     <section class="grid gap-4 mt-4 sm:grid-cols-2">
         @foreach (\App\Models\Setting::whereIn('name', ['home_medium_two', 'home_medium_three'])->get()->pluck('value', 'id') as $banner)
@@ -33,19 +38,20 @@
         @endforeach
     </section>
 
-    {{-- @include('site.homes.best-sellers', [
+    @include('site.homes.best-sellers', [
         'products' => $steam,
         'title' => ' مانیتور',
         'route' => route('products'),
         'icon' => '',
-    ]) --}}
+    ])
 
     @include('site.homes.best-sellers', [
         'products' => $MouseProduct,
-        'title' => 'پرداخت درون برنامه ای',
+        'title' => 'موس',
         'route' => route('products'),
         'icon' => '',
     ])
+
 
     @include('site.homes.recent-comments')
 

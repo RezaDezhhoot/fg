@@ -58,6 +58,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard/tickets', \App\Http\Controllers\Site\Dashboard\IndexTicket::class)->name('dashboard.tickets');
     Route::get('/dashboard/tickets/{action}', \App\Http\Controllers\Site\Dashboard\StoreTicket::class)->name('dashboard.tickets.show');
     Route::get('/dashboard/show-ticket/{id}', \App\Http\Controllers\Site\Dashboard\EditTicket::class)->name('dashboard.tickets.edit');
+    Route::get('/dashboard/endPage/', [\App\Http\Controllers\Site\Dashboard\StoreTicket::class,'endPage'])->name('dashboard.tickets.endPage');
 
     Route::get('/dashboard/profile', \App\Http\Controllers\Site\Dashboard\ProfileComponent::class)->name('dashboard.profile');
     Route::get('/dashboard/comments', \App\Http\Controllers\Site\Dashboard\MyCommentsComponent::class)->name('dashboard.comments');

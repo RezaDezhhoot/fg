@@ -8,6 +8,7 @@ use Artesaos\SEOTools\Facades\JsonLd;
 use Artesaos\SEOTools\Facades\OpenGraph;
 use Artesaos\SEOTools\Facades\SEOMeta;
 use Artesaos\SEOTools\Facades\TwitterCard;
+use Auth;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -16,7 +17,7 @@ class StoreTicket extends Component
 {
     use WithFileUploads;
 
-    public $ticketSubject , $orderStep , $subjects = [] , $ticketStep;
+    public $ticketSubject , $orderStep , $subjects = [] , $ticketStep = 'first';
 
     public $acceptBody;
 
@@ -33,8 +34,13 @@ class StoreTicket extends Component
         OpenGraph::setTitle('تیکت جدید - فارس گیمر');
         TwitterCard::setTitle('تیکت جدید - فارس گیمر');
         JsonLd::setTitle('تیکت جدید - فارس گیمر');
+<<<<<<< HEAD
+        if (Ticket::query()->where('user_id',\auth()->id())->whereNull('parent_id')->where('status','!=',Ticket::DEACTIVATE)->exists()) {
+            abort('506');
+=======
         if (Ticket::query()->where('user_id',\auth()->id())->whereNull('parent_id')->where('status',Ticket::PENDING)->exists()) {
             abort(404);
+>>>>>>> main
         }
     }
     public function render()
@@ -56,7 +62,11 @@ class StoreTicket extends Component
 
     public function submitTicket()
     {
+<<<<<<< HEAD
+        if (Ticket::query()->where('user_id',\auth()->id())->whereNull('parent_id')->where('status','!=',Ticket::DEACTIVATE)->doesntExist()) {
+=======
         if (Ticket::query()->where('user_id',\auth()->id())->where('status',Ticket::PENDING)->doesntExist()) {
+>>>>>>> main
             $this->validate([
                 'ticketSubject' => ['required','exists:subjects,id'],
                 'formSubject' => ['required','string','max:100'],
@@ -98,11 +108,21 @@ class StoreTicket extends Component
                 'file' => $path
             ]);
             $ticket->save();
+<<<<<<< HEAD
+            redirect()->route('dashboard.tickets.endPage');
+=======
             redirect()->route('dashboard.tickets');
         } else {
             $this->addError('body','شما یک تیکت در حال بررسی دارید');
+>>>>>>> main
         }
     }
+
+    public function endPage()
+    {
+        return view('site.dashboard.end-page-ticket')->extends('site.layouts.tickets');
+    }
+
 
     public function nextStep($step)
     {
