@@ -55,11 +55,20 @@ class EditTicket extends Component
             'subject_id' => $this->ticket->subject_id,
             'file' => $path
         ]);
+        $this->ticket->update([
+            'status' => Ticket::PENDING
+        ]);
         $ticket->save();
         $this->reset(['body','file']);
         $this->ticket->load('child');
     }
 
+    public function closeTicket()
+    {
+        $this->ticket->update([
+            'status' => Ticket::DEACTIVATE
+        ]);
+    }
 
     public function render()
     {

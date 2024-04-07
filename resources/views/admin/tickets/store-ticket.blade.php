@@ -1,70 +1,142 @@
 <div>
-    <x-admin.subheader title="تیکت" :mode="$mode" :create="false"/>
+    <x-admin.subheader title="تیکت" :mode="$mode" :create="false" />
 
     <div class="content d-flex flex-column-fluid">
         <div class="container">
 
             <div>
-                <x-admin.forms.validation-errors/>
+                <x-admin.forms.validation-errors />
             </div>
             <x-admin.forms.form title="تیکت" :mode="$mode">
-            	<div class="row">
+                <div class="row">
+                    <x-admin.forms.dropdown id="status" with="12" :options="$data['status']" label="وضعیت*"
+                        wire:model.defer="status" />
 
+                    <table class="table table-striped table-bordered dt-responsive">
+                        <thead>
+                            <tr>
+                                <td>کد سفارش</td>
+                                <td>نام محصول</td>
+                                <td>شماره کارت پرداخت شده</td>
+                                <td>شماره کاربر</td>
+                                <td>نام و نام خانوادگی کاربر</td>
+                                <td>وضعیت</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{ $orderId }}</td>
+                                <td>{{ $productName }}</td>
+                                <td>{{ $cardNumber }}</td>
+                                <td>{{ $ticket->sender->mobile }}</td>
+                                <td>{{ $ticket->sender->name . ' ' . $ticket->sender->family }}</td>
+                                <td>{{ $ticket->status_label }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
 
-					<x-admin.forms.dropdown id="status" with="6" :options="$data['status']" label="وضعیت*" wire:model.defer="status"/>
-					<x-admin.forms.dropdown id="priority" with="6"  :options="$data['priority']" label="الویت*" wire:model.defer="priority"/>
-                    <x-admin.forms.dynamic-select2  :data="$oldUser" text="username" width="6" id="user_id"
-                                                    label="کاربر"  ajaxUrl="{{ route('admin.feed.users') }}"
-                                                    wire:model.defer="user_id"/>
+                    <x-admin.forms.dynamic-select2 :data="$oldSubject" text="title" id="subject" label="موضوع"
+                        ajaxUrl="{{ route('admin.subjects.feed') }}" wire:model.defer="subject" />
 
-                    <x-admin.forms.dynamic-select2 :data="$oldSubject" text="title"  id="subject"
-                                                    label="موضوع" ajaxUrl="{{ route('admin.subjects.feed') }}"
-                                                    wire:model.defer="subject"/>
-
-					<x-admin.forms.text-editor id="content" label="متن اصلی" required="true" wire:model.defer="content"/>
-					<x-admin.forms.lfm-standalone id="file" label="فایل" :image="$file" required="true" wire:model="file"/>
-
-
-
-
-                    @if($mode == 'update')
-                        <x-admin.forms.header title="تاریخچه گفتگو"/>
+                    @if ($mode == 'update')
+                        <x-admin.forms.header title="تاریخچه گفتگو" />
 
                         <div class="w-100 py-2 mx-4 mb-2">
-                            @foreach($child as $key =>  $item)
-                                <div class="col-12 w-100 border px-4 py-3 d-flex align-items-center justify-content-between">
-                                    <div>
-                                        <h5 class="text-info">
-                                            {{ $item->sender->name }} :
-                                        </h5>
+                            <div class="col-12 w-100 border px-4 py-3 d-flex align-items-center justify-content-between alert alert-light"
+                                role="alert">
+                                <div>
+                                    <h5 class="text-info">
+                                        {{ $ticket->sender->name . ' ' . $ticket->sender->family }}
+                                        ({{ $ticket->sender_type }})
+                                    </h5>
+                                    <p>
+                                        {!! $ticket->content !!}
+                                    </p>
+                                    <small class="text-warning">{{ jalaliDate($ticket->created_at) }}</small>
+                                    @if (!empty($ticket->file))
                                         <p>
-                                            {!! $item->content !!}
+                                            <label for="">فایل</label>
+                                            @foreach (explode(',', $ticket->file) as $value)
+                                                <a class="btn btn-link" href="{{ asset($value) }}">مشاهده</a>
+                                            @endforeach
                                         </p>
-                                        <small class="text-warning">{{ $item->date }}</small>
-                                        @if(!empty($item->file))
-                                            <p>
-                                                <label for="">فایل</label>
-                                                @foreach(explode(',',$item->file) as $value)
-                                                    <a class="btn btn-link" href="{{ asset($value) }}">مشاهده</a>
-                                                @endforeach
-                                            </p>
-                                        @endif
-                                    </div>
-                                    <div>
-                                        <button class="btn btn-light-danger font-weight-bolder btn-sm mx-3r" wire:click="delete({{$key}})">حذف</button>
-                                    </div>
+                                    @endif
                                 </div>
+                            </div>
+                            @foreach ($ticket->child as $key => $item)
+                                @if ($item->sender_type == \App\Models\Ticket::ADMIN)
+                                    <div class="col-12 w-100 border px-4 py-3 d-flex align-items-center justify-content-between alert alert-light" style="background-color: #7d91a7 !important;"
+                                        role="alert">
+                                        <div>
+                                            <h5 class="text-info">
+                                                {{ $item->sender->name . ' ' . $item->sender->family  }} ({{ $item->sender_type }})
+                                            </h5>
+                                            <div  style="color: white !important">
+                                                {!! $item->content !!}
+                                            </div>
+                                            <small class="text-warning">{{ jalaliDate($ticket->created_at) }}</small>
+                                            @if (!empty($item->file))
+                                                <p>
+                                                    <label for="">فایل</label>
+                                                    @foreach (explode(',', $item->file) as $value)
+                                                        <a class="btn btn-link" href="{{ asset($value) }}">مشاهده</a>
+                                                    @endforeach
+                                                </p>
+                                            @endif
+                                        </div>
+                                        <div>
+                                            <button class="btn btn-light-danger font-weight-bolder btn-sm mx-3r"
+                                                wire:click="delete({{ $key }})">حذف</button>
+                                        </div>
+                                    </div>
+                                @else
+                                    @if ($item->sender_type == \App\Models\Ticket::USER)
+                                        <div class="col-12 w-100 border px-4 py-3 d-flex align-items-center justify-content-between alert alert-light"
+                                            role="alert">
+                                            <div>
+                                                <h5 class="text-info">
+                                                    {{ $item->sender->name . ' ' . $item->sender->family  }} ({{ $item->sender_type }})
+                                                </h5>
+                                                <p>
+                                                    {!! $item->content !!}
+                                                </p>
+                                                <small class="text-warning">{{ jalaliDate($ticket->created_at) }}</small>
+                                                @if (!empty($item->file))
+                                                    <p>
+                                                        <label for="">فایل</label>
+                                                        @foreach (explode(',', $item->file) as $value)
+                                                            <a class="btn btn-link"
+                                                                href="{{ asset($value) }}">مشاهده</a>
+                                                        @endforeach
+                                                    </p>
+                                                @endif
+                                            </div>
+                                            <div>
+                                                <button class="btn btn-light-danger font-weight-bolder btn-sm mx-3r"
+                                                    wire:click="delete({{ $key }})">حذف</button>
+                                            </div>
+                                        </div>
+                                    @endif
+                                @endif
                             @endforeach
                         </div>
-                        <x-admin.forms.header title="ارسال پاسخ"/>
+                        <x-admin.forms.header title="ارسال پاسخ" />
 
-                        <x-admin.forms.text-editor id="answer" label="متن " required="true" wire:model.defer="answer"/>
-                        <x-admin.forms.lfm-standalone id="answerFile" label="فایل" :image="$answerFile"  wire:model="answerFile"/>
-                        <x-admin.button class="btn btn-light-primary font-weight-bolder btn-sm" content="ثبت" wire:click="newAnswer()" />
+                        <x-admin.forms.text-editor id="answer" label="متن " required="true"
+                            wire:model.defer="answer" />
+
+                        <div
+                            style="display: flex;justify-content: space-between;align-items: center;width: 100%;box-sizing: border-box">
+                            <div>
+                                <x-admin.forms.lfm-standalone id="answerFile" label="پیوست فایل" :image="$answerFile"
+                                    wire:model="answerFile" with="1" />
+                            </div>
+
+                            <x-admin.button class="btn btn-light-primary font-weight-bolder btn-sm" content="ارسال پاسخ"
+                                wire:click="newAnswer()" />
+                        </div>
                     @endif
-
-
-				</div>
+                </div>
             </x-admin.forms.form>
 
         </div>
@@ -90,7 +162,7 @@
                             'تیکت   مورد نظر با موفقیت حذف شد',
                         )
                     }
-                @this.call('deleteItem', id)
+                    @this.call('deleteItem', id)
                 }
             })
         }

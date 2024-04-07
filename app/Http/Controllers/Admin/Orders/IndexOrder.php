@@ -108,9 +108,6 @@ class IndexOrder extends BaseComponent
         $this->statusCount['wc-refunded'] = $this->getCount('wc-refunded');
         $this->statusCount['wc-completed'] = $this->getCount('wc-completed');
 		$this->statusCount['wc-breacked'] = $this->getCount('wc-breacked');
-
-		$ordersss = OrderDetail::where('product_id',3969)->all();
-		dd($ordersss);
 		
         return view('admin.orders.index-order', ['orders' => $orders])
             ->extends('admin.layouts.admin');

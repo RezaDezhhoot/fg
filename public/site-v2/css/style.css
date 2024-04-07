@@ -469,6 +469,21 @@ main
 }
 
 
+.input-submit-style-t{
+    background: #3D42DF !important;
+    color: white !important;
+    font-weight: 700 !important;
+    font-size: 16px !important;
+    cursor: pointer !important;
+    width: 100% !important;
+    height: 3.1rem !important;
+    outline: none !important;
+    border-radius: 16px !important;
+    border: none !important;
+    display: flex !important;
+}
+
+
 .input-submit-style-disable{
     font-weight: 700;
     font-size: 16px;
@@ -559,7 +574,7 @@ main
     overflow-y: auto;
     min-height: 12rem;
     max-height: 12rem;
-    z-index: 9;
+    z-index: 99;
 }
 
 
@@ -641,6 +656,11 @@ main
     padding: 0.5rem 2rem;
     border: 1px solid black;
     border-radius: 0.5rem;
+}
+
+
+.box-tickets thead{
+    border: none !important;
 }
 
 
@@ -1350,6 +1370,16 @@ aside .show-sidebar-mobile{
     color: #374151;
 }
 
+
+.item-personal-notif .number{
+    margin-right: 0.3rem;
+}
+
+
+.item-general-notif .number{
+    margin-right: 0.3rem;
+}
+
 /* hover sidbar item .......................................... */
 
 .nav-menu-item-active{
@@ -1577,7 +1607,7 @@ aside .show-sidebar-mobile{
 
 
 .box-message-box-hever-store{
-    border-right: 1px solid #BDBDC7;
+    border-right: 1px solid #F7F7FA;
 }
 
 
@@ -3163,7 +3193,7 @@ footer{
     background: #F8F9FB;
     border-radius: 16px;
     padding: 0.5rem;
-    height: 21rem;
+    height: auto;
     width: 100%;
 }
 
