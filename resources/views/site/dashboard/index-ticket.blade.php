@@ -45,7 +45,11 @@
                 <div class="box-item-ticket-dashbord-m">
                     <div class="header">
                         <div>
+<<<<<<< HEAD
                             <span class="title">شماره درخواست</span>
+=======
+                            <span class="title">شماره تیکت</span>
+>>>>>>> main
 
                             <span>{{ $ticket->id }}</span>
                         </div>
@@ -62,11 +66,19 @@
                     </div>
 
                     <div class="status">
+<<<<<<< HEAD
                         <span class="color-{{ $ticket->status == \App\Models\Ticket::ACTIVE ? 'green' : ( $ticket->status == \App\Models\Ticket::PENDING ? 'yel' : 'red' )  }}">{{ $ticket->status_label }}</span>
                     </div>
 
                     <div class="btn">
                         <a href="{{ route('dashboard.tickets.edit',$ticket->id) }}" class="btn-open-ticket-dashboard">مشاهده درخواست</a>
+=======
+                        <span class="color-{{ $ticket->status == \App\Models\Ticket::ACTIVE ? 'green' : ( $ticket->status == \App\Models\Ticket::PENDING ? 'yel' : 'red' )  }}">وضعیت {{ $ticket->status_label }}</span>
+                    </div>
+
+                    <div class="btn">
+                        <a href="{{ route('dashboard.tickets.edit',$ticket->id) }}" class="btn-open-ticket-dashboard">مشاهده تیکت</a>
+>>>>>>> main
                     </div>
                 </div>
             @endforeach

@@ -83,7 +83,11 @@
 
 
             <div>
+<<<<<<< HEAD
                 <div class="max-h-[10rem] min-h-[10rem]  overflow-y-auto">
+=======
+                <div class="max-h-[15rem] overflow-y-auto">
+>>>>>>> main
                     {!! $description ?? '' !!}
                 </div>
 
@@ -93,9 +97,15 @@
                     <label class="mr-[0.5rem]" for="confirm">متن بالا را مطالعه کردم و متوجه شدم</label>
                 </div>
                 @error('acceptBody')
+<<<<<<< HEAD
                     <small class="text-danger">
                         {{ $message }}
                     </small>
+=======
+                <small class="text-danger">
+                    {{ $message }}
+                </small>
+>>>>>>> main
                 @enderror
                 <div class="flex justify-center">
                     <button wire:click="nextStep('subject')" type="button"
@@ -208,7 +218,11 @@
                                 stroke-linejoin="round" />
                         </svg>
 
+<<<<<<< HEAD
                         <label wire:loading.remove for="file" class="mr-[0.5rem]">پیوست فایل</label>
+=======
+                        <label wire:loading.remove for="file" class="mr-[0.5rem]">ارسال فایل</label>
+>>>>>>> main
                     </button>
 
                     <button wire:click="submitTicket" type="button"

@@ -31,18 +31,39 @@ class EditTicket extends Component
 
     public function submitTicket()
     {
-        $this->validate([
-            'body' => ['required','string','max:1000']
-        ],[],[
-            'body' => 'متن'
-        ]);
-        $user_id = auth()->id();
-        $ticket = new Ticket();
-        $path = null;
-        if ($this->file) {
-            $this->validate(['file' => ['image','max:2048']]);
-            $path = 'storage/'.$this->file->store('media/tickets','public');
+        if ($this->ticket->status != Ticket::PENDING) {
+            $this->validate([
+                'body' => ['required','string','max:1000']
+            ],[],[
+                'body' => 'متن'
+            ]);
+            $user_id = auth()->id();
+            $ticket = new Ticket();
+            $path = null;
+            if ($this->file) {
+                $this->validate(['file' => ['image','max:2048']]);
+                $path = 'storage/'.$this->file->store('media/tickets','public');
+            }
+            $ticket->user()->associate(auth()->user());
+            $ticket->parent()->associate($this->ticket);
+            $ticket->fill([
+                'user_id' =>  $user_id,
+                'content' => $this->body,
+                'sender_id' => $user_id,
+                'priority' => $this->ticket->priority,
+                'status' => Ticket::ACTIVE,
+                'sender_type' => Ticket::USER,
+                'subject_id' => $this->ticket->subject_id,
+                'file' => $path
+            ]);
+            $ticket->save();
+            $this->ticket->update([
+                'status' => Ticket::PENDING
+            ]);
+            $this->reset(['body','file']);
+            $this->ticket->load('child');
         }
+<<<<<<< HEAD
         $ticket->user()->associate(auth()->user());
         $ticket->parent()->associate($this->ticket);
         $ticket->fill([
@@ -61,6 +82,9 @@ class EditTicket extends Component
         $ticket->save();
         $this->reset(['body','file']);
         $this->ticket->load('child');
+=======
+
+>>>>>>> main
     }
 
     public function closeTicket()
