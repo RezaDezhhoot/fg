@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers\Admin\Tickets;
 
-use App\Http\Controllers\Admin\BaseComponent;
-use App\Models\Setting;
-use App\Models\Ticket;
 use App\Models\User;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use App\Models\Ticket;
+use App\Models\Setting;
+use App\Models\TicketMessage;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Admin\BaseComponent;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class StoreTicket extends BaseComponent
 {
     use AuthorizesRequests;
     public $ticket, $header;
-    public $subject, $user_id, $content, $file, $cardNumber, $orderId, $productName, $priority, $status, $child = [], $user_name, $answer, $answerFile, $oldSubject, $oldUser;
+    public $TicketMessages ,$subject, $user_id, $content, $file, $cardNumber, $orderId, $productName, $priority, $status, $child = [], $user_name, $answer, $answerFile, $oldSubject, $oldUser;
     public function mount($action, $id = null)
     {
         $this->authorize('show_tickets');
@@ -31,6 +32,7 @@ class StoreTicket extends BaseComponent
         $this->data['cardNumber'] = $this->ticket->data['cardNumber'];
         $this->data['productName'] = $this->ticket->data['productName'];
         $this->data['orderId'] = $this->ticket->data['orderId'];
+        $this->TicketMessages = TicketMessage::get();
     }
 
     public function create()

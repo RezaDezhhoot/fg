@@ -65,13 +65,14 @@
                             </div>
                             @foreach ($ticket->child as $key => $item)
                                 @if ($item->sender_type == \App\Models\Ticket::ADMIN)
-                                    <div class="col-12 w-100 border px-4 py-3 d-flex align-items-center justify-content-between alert alert-light" style="background-color: #7d91a7 !important;"
-                                        role="alert">
+                                    <div class="col-12 w-100 border px-4 py-3 d-flex align-items-center justify-content-between alert alert-light"
+                                        style="background-color: #7d91a7 !important;" role="alert">
                                         <div>
                                             <h5 class="text-info">
-                                                {{ $item->sender->name . ' ' . $item->sender->family  }} ({{ $item->sender_type }})
+                                                {{ $item->sender->name . ' ' . $item->sender->family }}
+                                                ({{ $item->sender_type }})
                                             </h5>
-                                            <div  style="color: white !important">
+                                            <div style="color: white !important">
                                                 {!! $item->content !!}
                                             </div>
                                             <small class="text-warning">{{ jalaliDate($ticket->created_at) }}</small>
@@ -86,7 +87,7 @@
                                         </div>
                                         <div>
                                             <button class="btn btn-light-danger font-weight-bolder btn-sm mx-3r"
-                                                wire:click="delete({{ $key }})">حذف</button>
+                                                wire:click="deleteItem({{ $key }})">حذف</button>
                                         </div>
                                     </div>
                                 @else
@@ -95,12 +96,14 @@
                                             role="alert">
                                             <div>
                                                 <h5 class="text-info">
-                                                    {{ $item->sender->name . ' ' . $item->sender->family  }} ({{ $item->sender_type }})
+                                                    {{ $item->sender->name . ' ' . $item->sender->family }}
+                                                    ({{ $item->sender_type }})
                                                 </h5>
                                                 <p>
                                                     {!! $item->content !!}
                                                 </p>
-                                                <small class="text-warning">{{ jalaliDate($ticket->created_at) }}</small>
+                                                <small
+                                                    class="text-warning">{{ jalaliDate($ticket->created_at) }}</small>
                                                 @if (!empty($item->file))
                                                     <p>
                                                         <label for="">فایل</label>
@@ -113,7 +116,7 @@
                                             </div>
                                             <div>
                                                 <button class="btn btn-light-danger font-weight-bolder btn-sm mx-3r"
-                                                    wire:click="delete({{ $key }})">حذف</button>
+                                                    wire:click="deleteItem({{ $key }})">حذف</button>
                                             </div>
                                         </div>
                                     @endif
@@ -121,6 +124,13 @@
                             @endforeach
                         </div>
                         <x-admin.forms.header title="ارسال پاسخ" />
+
+                        <div class="my-2">
+                            @foreach ($TicketMessages as $key => $item)
+                                <button type="button" class="btn btn-outline-dark my-2 mx-2"
+                                    onclick="chengetxt({{ $key }})">{{ $item->title }}</button>
+                            @endforeach
+                        </div>
 
                         <x-admin.forms.text-editor id="answer" label="متن " required="true"
                             wire:model.defer="answer" />
@@ -144,6 +154,10 @@
 </div>
 @push('scripts')
     <script>
+        function chengetxt(text) {
+            CKEDITOR.instances['answer'].setData();
+        }
+
         function deleteItem(id) {
             Swal.fire({
                 title: 'حذف تیکت  !',
