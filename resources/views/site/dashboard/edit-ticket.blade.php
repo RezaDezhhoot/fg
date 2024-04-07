@@ -101,27 +101,7 @@
 
         <div class="lg:border-t border-solid border-[#BDBDC7] mt-[1rem] pt-[1rem]">
             <div class="flex">
-<<<<<<< HEAD
                 <div class="lg:w-[5rem] ml-[1rem] flex justify-center items-center h-full flex-col">
-=======
-                <div class="w-full bg-white p-[1rem] rounded-[0.5rem]">
-                    <div class="text-[12px] font-semibold mb-[0.5rem]">
-                        <span class="text-[#0F45FF] mr-[0.5rem]">َشما</span>
-                    </div>
-
-                    <div class="text-justify font-semibold text-[14px]">
-                        <p>
-                            {!! $ticket->content !!}
-                        </p>
-                    </div>
-
-                    <div class="text-left mt-[1rem] text-[12px] text-[#BDBDC7]">
-                        <span>{{jalaliDate($ticket->created_at,"Y/m/d")}}</span>
-                    </div>
-                </div>
-
-                <div class="mr-[1rem] lg:w-[7rem] lg:mr-[2rem] flex justify-center items-center h-full flex-col">
->>>>>>> main
                     <div class="w-[3rem] h-[3rem] rounded-full bg-white relative">
                         <img class="max-w-[72px] absolute right-[-0.3rem] top-[-0.3rem]"
                             src="https://farsgamer.com/media/660eb28364d2f.png" alt="">
@@ -159,11 +139,7 @@
 
             @if (sizeof($ticket->child) > 0)
                 <div class="text-[#BDBDC7] border-b border-solid border-[#BDBDC7] py-[1rem] my-[2rem] text-center">
-<<<<<<< HEAD
                     <span>{{ jalaliDate($ticket->child[0]->created_at, 'Y/m/d') }}</span>
-=======
-                    <span>{{ jalaliDate($ticket->child[0]->created_at,"Y/m/d") }}</span>
->>>>>>> main
                 </div>
 
                 @foreach ($ticket->child as $key => $item)
@@ -172,8 +148,6 @@
                             <span>آخرین پیام</span>
                         </div>
                     @endif
-
-<<<<<<< HEAD
                     @if ($item->sender_type == \App\Models\Ticket::ADMIN)
                         <div class="flex my-[1rem]">
                             <div class="w-full bg-white p-[1rem] rounded-[0.5rem]">
@@ -217,54 +191,11 @@
 
                                 <div class="hidden lg:flex text-[12px] text-center text-[#808191]">
                                     <span>پشتیبانی سفارشات</span>
-=======
-                <div class="text-right text-[14px] text-[#808191] my-[1rem]">
-                    <span>آخرین پیام</span>
-                </div>
-            @foreach($ticket->child as $item)
-                @if($item->sender_type == \App\Models\Ticket::ADMIN)
-                        <div class="flex py-2">
-                            <div class="lg:w-[5rem] ml-[1rem] flex justify-center items-center h-full flex-col">
-                                <div class="w-[3rem] h-[3rem] rounded-full bg-white relative">
-                                    <img class="max-w-[72px] absolute right-[-0.5rem] top-[-0.5rem]" src="{{ auth()->id() == $item->user_id ? 'https://farsgamer.com/media/660eb28364d2f.png' : 'https://farsgamer.com/media/660eb1b886b50.png' }}" alt="">
-                                </div>
 
-                                <div class="hidden lg:flex text-[12px] text-center font-semibold">
-                                    <span>{{ auth()->id() == $item->user_id ? 'شما' : $item->user->username }}</span>
-                                </div>
-                            </div>
-                            <div class="w-full bg-white p-[1rem] rounded-[0.5rem]">
-                                <div class="text-[12px] font-semibold mb-[0.5rem]">
-                                    <span>{{auth()->id() == $item->user_id ? "کاربر" :  "پشتیبانی محصول" }}</span>
-
-                                    <span class="text-[#0F45FF] mr-[0.5rem]">{{ $item->user->username }}</span>
-                                </div>
-
-                                <div class="text-justify font-semibold text-[14px]">
-                                    <p>
-                                        {!! $item->content !!}
-                                    </p>
-                                </div>
-
-                                <div class="my-[2em]">
-                                    @if(! empty($item->file))
-                                        <span class="text-[14px] text-[#808191] ml-[1.5rem]">فایل اپلود شده</span>
-
-                                        <div class="flex flex-wrap">
-                                            <a href="{{ asset($item->file) }}" class="text-[14px] text-[#808191] my-[0.5rem] mx-[0.5rem] px-[1.5rem] py-[0.5rem] !text-[#808191] border border-[#808191] rounded-[0.5rem]">{{ basename($item->file) }}</a>
-                                        </div>
-                                    @endif
-
-                                </div>
-
-                                <div class="text-left mt-[1rem] text-[12px] text-[#BDBDC7]">
-                                    <span>1402/02/03</span>
->>>>>>> main
                                 </div>
                             </div>
                         </div>
                     @else
-<<<<<<< HEAD
                         <div class="flex my-[1rem]">
                             <div class="lg:w-[5rem] ml-[1rem] flex justify-center items-center h-full flex-col">
                                 <div class="w-[3rem] h-[3rem] rounded-full bg-white relative">
@@ -374,42 +305,6 @@
                     @enderror
                 </div>
             @endif
-=======
-                        <div class="flex py-2">
-                            <div class="w-full bg-white p-[1rem] rounded-[0.5rem]">
-                                <div class="text-[12px] font-semibold mb-[0.5rem]">
-                                    <span class="text-[#0F45FF] mr-[0.5rem]">َشما</span>
-                                </div>
-
-                                <div class="text-justify font-semibold text-[14px]">
-                                    <p>
-                                        {!! $item->content !!}
-                                    </p>
-                                </div>
-
-                                <div class="text-left mt-[1rem] text-[12px] text-[#BDBDC7]">
-                                    <span>{{jalaliDate($item->created_at,"Y/m/d")}}</span>
-                                </div>
-                            </div>
-
-                            <div class="mr-[1rem] lg:w-[7rem] lg:mr-[2rem] flex justify-center items-center h-full flex-col">
-                                <div class="w-[3rem] h-[3rem] rounded-full bg-white relative">
-                                    <img class="max-w-[72px] absolute right-[-1rem] top-[-1rem]" src="https://farsgamer.com/media/660eb28364d2f.png" alt="">
-                                </div>
-
-                                <div class="hidden lg:flex text-[12px] text-center font-semibold">
-                                    <span>{{ $item->user->username }}</span>
-                                </div>
-
-                                <div class="hidden lg:flex text-[12px] text-center text-[#808191]">
-                                    <span>کاربر</span>
-                                </div>
-                            </div>
-                        </div>
-                @endif
-
-            @endforeach
->>>>>>> main
 
             @if ($ticket->status == \App\Models\Ticket::DEACTIVATE)
                 <div class="alert alert-danger text-center mt-[1rem]" role="alert">درخواست در وضعیت بسته شده قرار
@@ -432,50 +327,7 @@
                     </div>
                 </div>
             @endif
-<<<<<<< HEAD
-=======
-
-            @if($ticket->status != \App\Models\Ticket::PENDING)
-                <div>
-                    <div class="my-[0.5rem]">
-                        <textarea wire:model.defer="body" class="input-hover w-full bg-[#F8F9FB] border border-[#BDBDC7] rounded-[0.5rem] p-[1rem] h-[5rem]" placeholder="لطفا متن موضوع  خود را وارد نمایید"></textarea>
-                        @error('body')
-                        <span class="text-danger">
-                        {{ $message }}
-                    </span>
-                        @enderror
-                    </div>
-
-                    <div class="flex justify-end">
-                        <div class="flex justify-center mt-[0.5rem] w-full lg:w-[50%] xl:w-[40%]">
-                            <button x-data="{ isUploading: false, progress: 0 }"
-                                    x-on:livewire-upload-start="isUploading = true"
-                                    x-on:livewire-upload-finish="isUploading = false"
-                                    x-on:livewire-upload-error="isUploading = false"
-                                    x-on:livewire-upload-progress="progress = $event.detail.progress" type="button" class="flex justify-center items-center bg-transparent border-solid !text-[#0F45FF] !border !border-[#0F45FF] input-submit-style !rounded-[0.5rem] !min-h-[2.5rem] !w-[35%]">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M5.82338 12L4.27922 10.4558C2.57359 8.75022 2.57359 5.98485 4.27922 4.27922C5.98485 2.57359 8.75022 2.57359 10.4558 4.27922L19.7208 13.5442C21.4264 15.2498 21.4264 18.0152 19.7208 19.7208C18.0152 21.4264 15.2498 21.4264 13.5442 19.7208L10.0698 16.2464C9.00379 15.1804 9.00379 13.4521 10.0698 12.386C11.1358 11.32 12.8642 11.32 13.9302 12.386L15.8604 14.3162" stroke="#0F45FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                                <input type="file"
-                                       class="form-control d-none" id="file" wire:model="file"/>
-                                <div class="mt-2" x-show="isUploading">
-                                    در حال اپلود
-                                </div>
-                                <label for="file" class="mr-[0.5rem]">ارسال فایل</label>
-                            </button>
-
-                            <button wire:loading.remove wire:click="submitTicket" type="button" class="input-submit-style !rounded-[0.5rem] !min-h-[2.5rem] mr-[0.5rem] !w-[65%]">ارسال</button>
-                        </div>
-                    </div>
-                    @error('file')
-                    <span class="text-danger">
-                    {{ $message }}
-                </span>
-                    @enderror
-                </div>
-            @endif
-
->>>>>>> main
+            </div>
         </div>
     </div>
 </div>

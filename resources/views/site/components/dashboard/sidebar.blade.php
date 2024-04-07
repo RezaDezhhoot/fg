@@ -157,7 +157,7 @@
                     </li>
                 </a>
 
-                {{-- <a href="{{ route('dashboard.tickets') }}">
+                 <a href="{{ route('dashboard.tickets') }}">
                     <li
                         class="hover-menu-dashboard flex-box flex-right {{ request()->routeIs(['dashboard.tickets','dashboard.tickets.show']) ? ' item-menu-dashboard-active' : '' }}">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -171,7 +171,7 @@
 
                         <span>پشتیبانی</span>
                     </li>
-                </a> --}}
+                </a>
 
                 @if (auth()->user()->hasRole('همکار'))
                     <a href="{{ route('partner.orders') }}">
