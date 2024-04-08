@@ -129,7 +129,7 @@
                         <div class="my-2">
                             @foreach ($TicketMessages as $key => $item)
                                 <button type="button" class="btn btn-outline-dark my-2 mx-2"
-                                    wire:click="$set('answer','{{$item->body}}')">{{ $item->title }}
+                                    wire:click="addText('{{ $item->id }}')">{{ $item->title }}
                                 </button>
                             @endforeach
                         </div>

@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Ticket;
 use App\Models\Setting;
 use App\Models\TicketMessage;
+use GuzzleHttp\Psr7\MessageTrait;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\BaseComponent;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -177,6 +178,11 @@ class StoreTicket extends BaseComponent
     public function render()
     {
         return view('admin.tickets.store-ticket')->extends('admin.layouts.admin');
+    }
+
+    public function addText($id)
+    {
+        $this->answer = TicketMessage::query()->find($id)->body ?? null;
     }
 
     public function resetInputs()
