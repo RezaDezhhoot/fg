@@ -29,9 +29,6 @@ class StoreTicket extends BaseComponent
         $this->data['priority'] = Ticket::getPriority();
         $this->data['status'] = Ticket::getStatus();
         $this->data['subject'] = Setting::getSingleRow('subject', []);
-        $this->data['cardNumber'] = $this->ticket->data['cardNumber'];
-        $this->data['productName'] = $this->ticket->data['productName'];
-        $this->data['orderId'] = $this->ticket->data['orderId'];
         $this->TicketMessages = TicketMessage::get();
     }
 
@@ -73,6 +70,9 @@ class StoreTicket extends BaseComponent
         $this->cardNumber = $this->ticket->data['cardNumber'];
         $this->productName = $this->ticket->data['productName'];
         $this->orderId = $this->ticket->data['orderId'];
+        $this->data['cardNumber'] = $this->ticket->data['cardNumber'];
+        $this->data['productName'] = $this->ticket->data['productName'];
+        $this->data['orderId'] = $this->ticket->data['orderId'];
     }
 
     public function update()
@@ -122,6 +122,12 @@ class StoreTicket extends BaseComponent
     {
         $this->ticket->delete();
         return redirect()->route('admin.ticket');
+    }
+
+    public function deleteChild($id)
+    {
+        Ticket::destroy($id);
+        $this->ticket->load('child');
     }
 
 

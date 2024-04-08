@@ -12,6 +12,7 @@
                     <x-admin.forms.dropdown id="status" with="12" :options="$data['status']" label="وضعیت*"
                         wire:model.defer="status" />
 
+                    @if ($mode == 'update')
                     <table class="table table-striped table-bordered dt-responsive">
                         <thead>
                             <tr>
@@ -34,7 +35,7 @@
                             </tr>
                         </tbody>
                     </table>
-
+                    @endif
                     <x-admin.forms.dynamic-select2 :data="$oldSubject" text="title" id="subject" label="موضوع"
                         ajaxUrl="{{ route('admin.subjects.feed') }}" wire:model.defer="subject" />
 
@@ -87,7 +88,7 @@
                                         </div>
                                         <div>
                                             <button class="btn btn-light-danger font-weight-bolder btn-sm mx-3r"
-                                                wire:click="deleteItem({{ $key }})">حذف</button>
+                                                wire:click="deleteChild({{ $item->id }})">حذف</button>
                                         </div>
                                     </div>
                                 @else
@@ -128,7 +129,8 @@
                         <div class="my-2">
                             @foreach ($TicketMessages as $key => $item)
                                 <button type="button" class="btn btn-outline-dark my-2 mx-2"
-                                    onclick="chengetxt({{ $key }})">{{ $item->title }}</button>
+                                    wire:click="$set('answer','{{$item->body}}')">{{ $item->title }}
+                                </button>
                             @endforeach
                         </div>
 
@@ -154,10 +156,6 @@
 </div>
 @push('scripts')
     <script>
-        function chengetxt(text) {
-            CKEDITOR.instances['answer'].setData();
-        }
-
         function deleteItem(id) {
             Swal.fire({
                 title: 'حذف تیکت  !',
