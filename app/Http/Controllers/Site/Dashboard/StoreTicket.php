@@ -79,7 +79,7 @@ class StoreTicket extends Component
             $path = null;
             if ($this->file) {
                 $this->validate(['file' => ['image','max:2048']]);
-                $path = 'storage/'.$this->file->store('media/tickets','public');
+                $path = 'media/'.$this->file->store('tickets','media');
             }
             $ticket->user()->associate(auth()->user());
             $ticket->fill([

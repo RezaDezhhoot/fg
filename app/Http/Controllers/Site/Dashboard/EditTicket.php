@@ -42,13 +42,12 @@ class EditTicket extends Component
             $path = null;
             if ($this->file) {
                 $this->validate(['file' => ['image','max:2048']]);
-                $path = 'storage/'.$this->file->store('media/tickets','public');
+                $path = 'media/'.$this->file->store('tickets','media');
             }
             $ticket->user()->associate(auth()->user());
             $ticket->parent()->associate($this->ticket);
             $ticket->fill([
                 'user_id' =>  $user_id,
-                'content' => $this->body,
                 'sender_id' => $user_id,
                 'priority' => $this->ticket->priority,
                 'status' => Ticket::ACTIVE,
@@ -56,6 +55,7 @@ class EditTicket extends Component
                 'subject_id' => $this->ticket->subject_id,
                 'file' => $path
             ]);
+            $ticket->content = $this->body;
             $ticket->save();
             $this->ticket->update([
                 'status' => Ticket::PENDING
@@ -63,25 +63,6 @@ class EditTicket extends Component
             $this->reset(['body','file']);
             $this->ticket->load('child');
         }
-        $ticket->user()->associate(auth()->user());
-        $ticket->parent()->associate($this->ticket);
-        $ticket->fill([
-            'user_id' =>  $user_id,
-            'content' => $this->body,
-            'sender_id' => $user_id,
-            'priority' => $this->ticket->priority,
-            'status' => Ticket::PENDING,
-            'sender_type' => Ticket::USER,
-            'subject_id' => $this->ticket->subject_id,
-            'file' => $path
-        ]);
-        $this->ticket->update([
-            'status' => Ticket::PENDING
-        ]);
-        $ticket->save();
-        $this->reset(['body','file']);
-        dd($ticket);
-        $this->ticket->load('child');
     }
 
     public function closeTicket()
