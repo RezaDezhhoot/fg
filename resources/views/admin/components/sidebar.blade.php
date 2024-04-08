@@ -310,6 +310,10 @@
                                 :active="request()->routeIs(['admin.subjects', 'admin.subjects.store'])" icons="flaticon-settings-1">موضوعات تیکت
                             </x-admin.sidebar-link>
 
+                            <x-admin.sidebar-link href="{{ route('admin.ticket-message') }}" icon="menu-bullet menu-bullet-dot"
+                                :active="request()->routeIs(['admin.ticket-message', 'admin.ticket-message.store'])" icons="flaticon-settings-1">پیام های آماده تیکت
+                            </x-admin.sidebar-link>
+
                         </x-admin.multiplesidebar-link>
                     @endcan
                 @endif

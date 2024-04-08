@@ -2,18 +2,20 @@
 
 namespace App\Http\Controllers\Admin\Tickets;
 
-use App\Http\Controllers\Admin\BaseComponent;
-use App\Models\Setting;
-use App\Models\Ticket;
 use App\Models\User;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use App\Models\Ticket;
+use App\Models\Setting;
+use App\Models\TicketMessage;
+use GuzzleHttp\Psr7\MessageTrait;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Admin\BaseComponent;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class StoreTicket extends BaseComponent
 {
     use AuthorizesRequests;
     public $ticket, $header;
-    public $subject, $user_id, $content, $file, $cardNumber, $orderId, $productName, $priority, $status, $child = [], $user_name, $answer, $answerFile, $oldSubject, $oldUser;
+    public $TicketMessages ,$subject, $user_id, $content, $file, $cardNumber, $orderId, $productName, $priority, $status, $child = [], $user_name, $answer, $answerFile, $oldSubject, $oldUser;
     public function mount($action, $id = null)
     {
         $this->authorize('show_tickets');
@@ -28,9 +30,7 @@ class StoreTicket extends BaseComponent
         $this->data['priority'] = Ticket::getPriority();
         $this->data['status'] = Ticket::getStatus();
         $this->data['subject'] = Setting::getSingleRow('subject', []);
-        $this->data['cardNumber'] = $this->ticket->data['cardNumber'];
-        $this->data['productName'] = $this->ticket->data['productName'];
-        $this->data['orderId'] = $this->ticket->data['orderId'];
+        $this->TicketMessages = TicketMessage::get();
     }
 
     public function create()
@@ -71,6 +71,9 @@ class StoreTicket extends BaseComponent
         $this->cardNumber = $this->ticket->data['cardNumber'];
         $this->productName = $this->ticket->data['productName'];
         $this->orderId = $this->ticket->data['orderId'];
+        $this->data['cardNumber'] = $this->ticket->data['cardNumber'];
+        $this->data['productName'] = $this->ticket->data['productName'];
+        $this->data['orderId'] = $this->ticket->data['orderId'];
     }
 
     public function update()
@@ -122,6 +125,12 @@ class StoreTicket extends BaseComponent
         return redirect()->route('admin.ticket');
     }
 
+    public function deleteChild($id)
+    {
+        Ticket::destroy($id);
+        $this->ticket->load('child');
+    }
+
 
     public function newAnswer()
     {
@@ -169,6 +178,11 @@ class StoreTicket extends BaseComponent
     public function render()
     {
         return view('admin.tickets.store-ticket')->extends('admin.layouts.admin');
+    }
+
+    public function addText($id)
+    {
+        $this->answer = TicketMessage::query()->find($id)->body ?? null;
     }
 
     public function resetInputs()

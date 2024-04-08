@@ -63,7 +63,6 @@ class EditTicket extends Component
             $this->reset(['body','file']);
             $this->ticket->load('child');
         }
-<<<<<<< HEAD
         $ticket->user()->associate(auth()->user());
         $ticket->parent()->associate($this->ticket);
         $ticket->fill([
@@ -81,10 +80,8 @@ class EditTicket extends Component
         ]);
         $ticket->save();
         $this->reset(['body','file']);
+        dd($ticket);
         $this->ticket->load('child');
-=======
-
->>>>>>> main
     }
 
     public function closeTicket()

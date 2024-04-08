@@ -34,13 +34,8 @@ class StoreTicket extends Component
         OpenGraph::setTitle('تیکت جدید - فارس گیمر');
         TwitterCard::setTitle('تیکت جدید - فارس گیمر');
         JsonLd::setTitle('تیکت جدید - فارس گیمر');
-<<<<<<< HEAD
         if (Ticket::query()->where('user_id',\auth()->id())->whereNull('parent_id')->where('status','!=',Ticket::DEACTIVATE)->exists()) {
             abort('506');
-=======
-        if (Ticket::query()->where('user_id',\auth()->id())->whereNull('parent_id')->where('status',Ticket::PENDING)->exists()) {
-            abort(404);
->>>>>>> main
         }
     }
     public function render()
@@ -62,11 +57,7 @@ class StoreTicket extends Component
 
     public function submitTicket()
     {
-<<<<<<< HEAD
         if (Ticket::query()->where('user_id',\auth()->id())->whereNull('parent_id')->where('status','!=',Ticket::DEACTIVATE)->doesntExist()) {
-=======
-        if (Ticket::query()->where('user_id',\auth()->id())->where('status',Ticket::PENDING)->doesntExist()) {
->>>>>>> main
             $this->validate([
                 'ticketSubject' => ['required','exists:subjects,id'],
                 'formSubject' => ['required','string','max:100'],
@@ -108,13 +99,10 @@ class StoreTicket extends Component
                 'file' => $path
             ]);
             $ticket->save();
-<<<<<<< HEAD
             redirect()->route('dashboard.tickets.endPage');
-=======
-            redirect()->route('dashboard.tickets');
+
         } else {
             $this->addError('body','شما یک تیکت در حال بررسی دارید');
->>>>>>> main
         }
     }
 
@@ -128,6 +116,7 @@ class StoreTicket extends Component
     {
         if ($step == 'subject') {
             $this->validate(['orderStep' => 'required']);
+            $this->reset(['ticketSubject']);
         }
         if ($step == 'form') {
             $this->validate(['acceptBody' => ['required','boolean']],[],[

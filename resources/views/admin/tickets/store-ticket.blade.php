@@ -12,6 +12,7 @@
                     <x-admin.forms.dropdown id="status" with="12" :options="$data['status']" label="وضعیت*"
                         wire:model.defer="status" />
 
+                    @if ($mode == 'update')
                     <table class="table table-striped table-bordered dt-responsive">
                         <thead>
                             <tr>
@@ -34,11 +35,10 @@
                             </tr>
                         </tbody>
                     </table>
-
+                    @endif
                     <x-admin.forms.dynamic-select2 :data="$oldSubject" text="title" id="subject" label="موضوع"
                         ajaxUrl="{{ route('admin.subjects.feed') }}" wire:model.defer="subject" />
 
-<<<<<<< HEAD
                     @if ($mode == 'update')
                         <x-admin.forms.header title="تاریخچه گفتگو" />
 
@@ -49,48 +49,12 @@
                                     <h5 class="text-info">
                                         {{ $ticket->sender->name . ' ' . $ticket->sender->family }}
                                         ({{ $ticket->sender_type }})
-=======
-                    <x-admin.forms.dynamic-select2 :data="$oldSubject" text="title"  id="subject"
-                                                    label="موضوع" ajaxUrl="{{ route('admin.subjects.feed') }}"
-                                                    wire:model.defer="subject"/>
-
-					<x-admin.forms.lfm-standalone id="file" label="فایل" :image="$file" required="true" wire:model="file"/>
-
-                    @if($mode == 'update')
-                        <x-admin.forms.header title="تاریخچه گفتگو"/>
-
-                        <div class="w-100 py-2 mx-4 mb-2">
-                            <div class="col-12 w-100 border px-4 py-3 d-flex align-items-center justify-content-between">
-                                <div>
-                                    <h5 class="text-info">
-                                        {{ $ticket->sender->name }}({{ $ticket->sender_type }}) :
->>>>>>> main
                                     </h5>
                                     <p>
                                         {!! $ticket->content !!}
                                     </p>
-<<<<<<< HEAD
                                     <small class="text-warning">{{ jalaliDate($ticket->created_at) }}</small>
                                     @if (!empty($ticket->file))
-=======
-                                    <small class="text-warning">{{ $ticket->date }}</small>
-                                    @if(!empty($ticket->file))
-                                        <p>
-                                            <label for="">فایل</label>
-                                            @foreach(explode(',',$ticket->file) as $value)
-                                                <a class="btn btn-link" href="{{ asset($value) }}">مشاهده</a>
-                                            @endforeach
-                                        </p>
-                                    @endif
-                                </div>
-                            </div>
-                            @foreach($child as $key =>  $item)
-                                <div class="col-12 w-100 border px-4 py-3 d-flex align-items-center justify-content-between">
-                                    <div>
-                                        <h5 class="text-info">
-                                            {{ $item->sender->name }} ({{ $item->sender_type }}) :
-                                        </h5>
->>>>>>> main
                                         <p>
                                             <label for="">فایل</label>
                                             @foreach (explode(',', $ticket->file) as $value)
@@ -102,13 +66,14 @@
                             </div>
                             @foreach ($ticket->child as $key => $item)
                                 @if ($item->sender_type == \App\Models\Ticket::ADMIN)
-                                    <div class="col-12 w-100 border px-4 py-3 d-flex align-items-center justify-content-between alert alert-light" style="background-color: #7d91a7 !important;"
-                                        role="alert">
+                                    <div class="col-12 w-100 border px-4 py-3 d-flex align-items-center justify-content-between alert alert-light"
+                                        style="background-color: #7d91a7 !important;" role="alert">
                                         <div>
                                             <h5 class="text-info">
-                                                {{ $item->sender->name . ' ' . $item->sender->family  }} ({{ $item->sender_type }})
+                                                {{ $item->sender->name . ' ' . $item->sender->family }}
+                                                ({{ $item->sender_type }})
                                             </h5>
-                                            <div  style="color: white !important">
+                                            <div style="color: white !important">
                                                 {!! $item->content !!}
                                             </div>
                                             <small class="text-warning">{{ jalaliDate($ticket->created_at) }}</small>
@@ -123,7 +88,7 @@
                                         </div>
                                         <div>
                                             <button class="btn btn-light-danger font-weight-bolder btn-sm mx-3r"
-                                                wire:click="delete({{ $key }})">حذف</button>
+                                                wire:click="deleteChild({{ $item->id }})">حذف</button>
                                         </div>
                                     </div>
                                 @else
@@ -132,12 +97,14 @@
                                             role="alert">
                                             <div>
                                                 <h5 class="text-info">
-                                                    {{ $item->sender->name . ' ' . $item->sender->family  }} ({{ $item->sender_type }})
+                                                    {{ $item->sender->name . ' ' . $item->sender->family }}
+                                                    ({{ $item->sender_type }})
                                                 </h5>
                                                 <p>
                                                     {!! $item->content !!}
                                                 </p>
-                                                <small class="text-warning">{{ jalaliDate($ticket->created_at) }}</small>
+                                                <small
+                                                    class="text-warning">{{ jalaliDate($ticket->created_at) }}</small>
                                                 @if (!empty($item->file))
                                                     <p>
                                                         <label for="">فایل</label>
@@ -150,7 +117,7 @@
                                             </div>
                                             <div>
                                                 <button class="btn btn-light-danger font-weight-bolder btn-sm mx-3r"
-                                                    wire:click="delete({{ $key }})">حذف</button>
+                                                    wire:click="deleteItem({{ $key }})">حذف</button>
                                             </div>
                                         </div>
                                     @endif
@@ -158,6 +125,14 @@
                             @endforeach
                         </div>
                         <x-admin.forms.header title="ارسال پاسخ" />
+
+                        <div class="my-2">
+                            @foreach ($TicketMessages as $key => $item)
+                                <button type="button" class="btn btn-outline-dark my-2 mx-2"
+                                    wire:click="addText('{{ $item->id }}')">{{ $item->title }}
+                                </button>
+                            @endforeach
+                        </div>
 
                         <x-admin.forms.text-editor id="answer" label="متن " required="true"
                             wire:model.defer="answer" />

@@ -7,13 +7,16 @@
 
                     <div class="row">
                         <div class="form-group col-6">
-                            {{-- <button type="button" style="border: 1px solid #E4E6EF;" class="btn btn-link disabled m-2" wire:click="$set('status', {{ null }})">همه ({{ \App\Models\Ticket::where('parent_id',null)->get()->count() }})</button> --}}
+                            <a href="{{ route('admin.ticket') }}" type="button" style="border: 1px solid #E4E6EF;"
+                                class="btn btn-link m-2" wire:click="$set('status', 'pending')">همه </a>
+
                             @foreach ($data['status'] as $key => $item)
                                 @if ($status == $key)
                                     <button type="button" style="border: 1px solid #E4E6EF;"
                                         class="btn btn-link disabled m-2"
                                         wire:click="$set('status', '{{ $key }}')">{{ $item }}
-                                        ({{ \App\Models\Ticket::where('status', $key)->where('parent_id', null)->get()->count() }})</button>
+                                        ({{ \App\Models\Ticket::where('status', $key)->where('parent_id', null)->get()->count() }})
+                                    </button>
                                 @else
                                     <button type="button" style="border: 1px solid #E4E6EF;" class="btn btn-link m-2"
                                         wire:click="$set('status', '{{ $key }}')">{{ $item }}
@@ -56,7 +59,8 @@
                                                     'pending' => '#FFBC00',
                                                 ];
                                             @endphp
-                                            <td style="color:{{$label[$item->status]}}">{{ $item->statusLabel }}</td>
+                                            <td style="color:{{ $label[$item->status] }}">{{ $item->statusLabel }}
+                                            </td>
                                             <td>{{ $item->priorityLabel }}</td>
                                             <td>{{ jalaliDate($item->created_at, '%d %B %Y') }}</td>
                                             <td>

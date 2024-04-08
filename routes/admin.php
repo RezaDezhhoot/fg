@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Permission;
 
@@ -11,10 +12,10 @@ Route::prefix('lfm')->middleware(['web', 'auth', 'role:admin'])->group(function 
     \UniSharp\LaravelFilemanager\Lfm::routes();
 });
 
-Route::middleware(['auth', 'role:admin','schedule'])->group(function () {
+Route::middleware(['auth', 'role:admin', 'schedule'])->group(function () {
 
-    Route::get('feed-articles',\App\Http\Controllers\Admin\Articles\ArticleFeedController::class)->name('feed.articles');
-    Route::get('feed-users',\App\Http\Controllers\Admin\Users\FeedController::class)->name('feed.users');
+    Route::get('feed-articles', \App\Http\Controllers\Admin\Articles\ArticleFeedController::class)->name('feed.articles');
+    Route::get('feed-users', \App\Http\Controllers\Admin\Users\FeedController::class)->name('feed.users');
 
     Route::get('dashboard', \App\Http\Controllers\Admin\Dashboards\IndexDashboard::class)
         ->name('dashboard');
@@ -24,7 +25,6 @@ Route::middleware(['auth', 'role:admin','schedule'])->group(function () {
     Route::get('categories/{action}/{id?}', \App\Http\Controllers\Admin\Categories\StoreCategory::class)
         ->name('categories.store');
 
-
     Route::get('subjects', \App\Http\Controllers\Admin\Subjects\IndexSubject::class)
         ->name('subjects');
     Route::get('subjects/{action}/{id?}', \App\Http\Controllers\Admin\Subjects\StoreSubject::class)
@@ -32,6 +32,14 @@ Route::middleware(['auth', 'role:admin','schedule'])->group(function () {
 
     Route::get('feed-subjects', \App\Http\Controllers\Admin\Subjects\FeedController::class)
         ->name('subjects.feed');
+
+    Route::get('ticket-message', \App\Http\Controllers\Admin\TicketMessage\IndexTicketMessage::class)
+        ->name('ticket-message');
+    Route::get('ticket-message/{action}/{id?}', \App\Http\Controllers\Admin\TicketMessage\StoreTicketMessage::class)
+        ->name('ticket-message.store');
+
+    Route::get('feed-ticket-message', \App\Http\Controllers\Admin\TicketMessage\FeedController::class)
+        ->name('ticket-message.feed');
 
     Route::get('currencies', \App\Http\Controllers\Admin\Currencies\IndexCurrency::class)
         ->name('currencies');
@@ -47,7 +55,7 @@ Route::middleware(['auth', 'role:admin','schedule'])->group(function () {
     Route::get('products/{action}/{id?}', \App\Http\Controllers\Admin\Products\StoreProduct::class)
         ->name('products.store');
 
-	Route::get('/tickets', \App\Http\Controllers\Admin\Tickets\IndexTicket::class)->name('ticket');
+    Route::get('/tickets', \App\Http\Controllers\Admin\Tickets\IndexTicket::class)->name('ticket');
     Route::get('/tickets/{action}/{id?}', \App\Http\Controllers\Admin\Tickets\StoreTicket::class)->name('store.ticket');
 
     Route::get('orders', \App\Http\Controllers\Admin\Orders\IndexOrder::class)
@@ -55,23 +63,23 @@ Route::middleware(['auth', 'role:admin','schedule'])->group(function () {
     Route::get('orders/{action}/{id?}', \App\Http\Controllers\Admin\Orders\StoreOrder::class)
         ->name('orders.store');
 
-		Route::get('order/new', \App\Http\Controllers\Admin\Orders\CreateOrder::class)
+    Route::get('order/new', \App\Http\Controllers\Admin\Orders\CreateOrder::class)
         ->name('orders.new');
 
 
-	Route::get('license', \App\Http\Controllers\Admin\Products\IndexLicense::class)
+    Route::get('license', \App\Http\Controllers\Admin\Products\IndexLicense::class)
         ->name('license');
 
-		Route::get('depot', \App\Http\Controllers\Admin\Depot\IndexDepot::class)
+    Route::get('depot', \App\Http\Controllers\Admin\Depot\IndexDepot::class)
         ->name('depot');
 
-	Route::get('wallet', \App\Http\Controllers\Admin\Wallets\IndexWallet::class)
+    Route::get('wallet', \App\Http\Controllers\Admin\Wallets\IndexWallet::class)
         ->name('wallet');
 
-	Route::get('factor/{id}', \App\Http\Controllers\Admin\Factor\IndexFactor::class)
+    Route::get('factor/{id}', \App\Http\Controllers\Admin\Factor\IndexFactor::class)
         ->name('factor');
 
-	Route::get('digital-depot-test-test', \App\Http\Controllers\Admin\Depot\IndexDigitalDepot::class)
+    Route::get('digital-depot-test-test', \App\Http\Controllers\Admin\Depot\IndexDigitalDepot::class)
         ->name('digital_depot');
 
     Route::get('vouchers', \App\Http\Controllers\Admin\Vouchers\IndexVoucher::class)
@@ -79,10 +87,10 @@ Route::middleware(['auth', 'role:admin','schedule'])->group(function () {
     Route::get('vouchers/{action}/{id?}', \App\Http\Controllers\Admin\Vouchers\StoreVoucher::class)
         ->name('vouchers.store');
 
-	Route::get('teams', \App\Http\Controllers\Admin\Teams\IndexTeam::class)
+    Route::get('teams', \App\Http\Controllers\Admin\Teams\IndexTeam::class)
         ->name('teams');
 
-	Route::get('lottery', \App\Http\Controllers\Admin\Lotteries\IndexLottery::class)
+    Route::get('lottery', \App\Http\Controllers\Admin\Lotteries\IndexLottery::class)
         ->name('lottery');
 
     Route::get('teams/{action}/{id?}', \App\Http\Controllers\Admin\Teams\StoreTeam::class)
@@ -97,7 +105,7 @@ Route::middleware(['auth', 'role:admin','schedule'])->group(function () {
         ->name('questions');
 
 
-	Route::get('myLanguage', \App\Http\Controllers\Admin\Settings\MyLanguage::class)
+    Route::get('myLanguage', \App\Http\Controllers\Admin\Settings\MyLanguage::class)
         ->name('myLanguage');
 
     Route::get('questions/{action}/{id?}', \App\Http\Controllers\Admin\Questions\StoreQuestion::class)
@@ -105,15 +113,15 @@ Route::middleware(['auth', 'role:admin','schedule'])->group(function () {
 
     Route::get('articles', \App\Http\Controllers\Admin\Articles\IndexArticle::class)
         ->name('articles');
-		Route::get('articles/categories', \App\Http\Controllers\Admin\Articles\CategoryArticles::class)
+    Route::get('articles/categories', \App\Http\Controllers\Admin\Articles\CategoryArticles::class)
         ->name('articlesCat');
-	Route::get('articles/categories/{action}/{id?}', \App\Http\Controllers\Admin\Articles\StoreArticleCategory::class)
+    Route::get('articles/categories/{action}/{id?}', \App\Http\Controllers\Admin\Articles\StoreArticleCategory::class)
         ->name('articlesCat.manage');
     Route::get('articles/{action}/{id?}', \App\Http\Controllers\Admin\Articles\StoreArticle::class)
         ->name('articles.store');
 
 
-	Route::get('guaranteed', \App\Http\Controllers\Admin\Articles\IndexGuaranteed::class)
+    Route::get('guaranteed', \App\Http\Controllers\Admin\Articles\IndexGuaranteed::class)
         ->name('guaranteed');
     Route::get('guaranteed/{action}/{id?}', \App\Http\Controllers\Admin\Articles\StoreGuaranteed::class)
         ->name('guaranteed.store');
@@ -126,7 +134,7 @@ Route::middleware(['auth', 'role:admin','schedule'])->group(function () {
 
     Route::get('users/roles', \App\Http\Controllers\Admin\Users\IndexRole::class)
         ->name('roles');
-	Route::get('users/partners', \App\Http\Controllers\Admin\Users\IndexPartner::class)
+    Route::get('users/partners', \App\Http\Controllers\Admin\Users\IndexPartner::class)
         ->name('partners');
     Route::get('users/roles/{action}/{id?}', \App\Http\Controllers\Admin\Users\StoreRole::class)
         ->name('roles.store');
@@ -139,17 +147,17 @@ Route::middleware(['auth', 'role:admin','schedule'])->group(function () {
     Route::get('users/{action}/{id?}', \App\Http\Controllers\Admin\Users\StoreUser::class)
         ->name('users.store');
 
-	Route::get('forms', \App\Http\Controllers\Admin\Reports\IndexForms::class)
+    Route::get('forms', \App\Http\Controllers\Admin\Reports\IndexForms::class)
         ->name('forms');
     Route::get('forms/{action}/{id?}', \App\Http\Controllers\Admin\Reports\StoreForms::class)
         ->name('forms.store');
 
-	Route::get('admin-forms', \App\Http\Controllers\Admin\Reports\IndexAdminForms::class)
+    Route::get('admin-forms', \App\Http\Controllers\Admin\Reports\IndexAdminForms::class)
         ->name('admin.forms');
     Route::get('admin-forms/{action}/{id?}', \App\Http\Controllers\Admin\Reports\StoreAdminForms::class)
         ->name('admin.forms.store');
 
-	Route::get('my-forms', \App\Http\Controllers\Admin\Reports\IndexMyForms::class)
+    Route::get('my-forms', \App\Http\Controllers\Admin\Reports\IndexMyForms::class)
         ->name('my.forms');
     Route::get('my-forms/{action}/{id?}', \App\Http\Controllers\Admin\Reports\StoreMyForms::class)
         ->name('my.forms.store');
@@ -163,15 +171,15 @@ Route::middleware(['auth', 'role:admin','schedule'])->group(function () {
     Route::get('settings/streams', \App\Http\Controllers\Admin\Settings\StreamsComponent::class)
         ->name('streams');
 
-	Route::get('settings/windows', \App\Http\Controllers\Admin\Settings\WindowComponent::class)
-    ->name('windows');
+    Route::get('settings/windows', \App\Http\Controllers\Admin\Settings\WindowComponent::class)
+        ->name('windows');
 
 
-	Route::get('settings/windows/{action}', \App\Http\Controllers\Admin\Settings\StoreWindow::class)
-    ->name('windows.create');
+    Route::get('settings/windows/{action}', \App\Http\Controllers\Admin\Settings\StoreWindow::class)
+        ->name('windows.create');
 
-	Route::get('settings/windows/{action}/{window}', \App\Http\Controllers\Admin\Settings\StoreWindow::class)
-    ->name('windows.window');
+    Route::get('settings/windows/{action}/{window}', \App\Http\Controllers\Admin\Settings\StoreWindow::class)
+        ->name('windows.window');
 
 
 
@@ -190,7 +198,7 @@ Route::middleware(['auth', 'role:admin','schedule'])->group(function () {
     Route::get('settings/physical-rules/{action}/{id?}', \App\Http\Controllers\Admin\Settings\StorePhysicalRule::class)
         ->name('physical.store');
 
-	Route::get('settings/card-rules', \App\Http\Controllers\Admin\Settings\IndexCartsRule::class)
+    Route::get('settings/card-rules', \App\Http\Controllers\Admin\Settings\IndexCartsRule::class)
         ->name('card');
     Route::get('settings/card-rules/{action}/{id?}', \App\Http\Controllers\Admin\Settings\StoreCartRule::class)
         ->name('card.store');
@@ -208,6 +216,6 @@ Route::middleware(['auth', 'role:admin','schedule'])->group(function () {
 
     Route::get('settings', \App\Http\Controllers\Admin\Settings\SettingComponent::class)
         ->name('settings');
-		Route::get('settings/languages', \App\Http\Controllers\Admin\Settings\IndexLanguage::class)
+    Route::get('settings/languages', \App\Http\Controllers\Admin\Settings\IndexLanguage::class)
         ->name('languages');
 });
