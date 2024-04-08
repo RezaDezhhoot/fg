@@ -88,7 +88,7 @@ class Ticket extends Model
 
     public function child()
     {
-        return $this->hasMany(Ticket::class,'parent_id')->latest('id');
+        return $this->hasMany(Ticket::class,'parent_id');
     }
 
     public function getStatusLabelAttribute()

@@ -80,6 +80,7 @@ class EditTicket extends Component
         ]);
         $ticket->save();
         $this->reset(['body','file']);
+        dd($ticket);
         $this->ticket->load('child');
     }
 
