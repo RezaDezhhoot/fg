@@ -10,6 +10,7 @@ use App\Models\Product;
 use App\Models\Order;
 use App\Models\User;
 use App\Models\PartnerSetting;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\EventMail;
 use Illuminate\Support\Facades\Artisan;
@@ -44,23 +45,23 @@ class Smsir
         if (app()->environment('local')) {
             return;
         }
-		
+
 		// $user = User::where('mobile',$number)->first();
 		// Mail::to($user->email)->send(new EventMail('کد تایید احراز هویت',$code));
 
         $client = new Client();
-        $query = ['apikey' => $this->apiKey,
-            'pid' => 'ul9jh01gzz',
-            'fnum' => $this->lineNumber,
-            'tnum' => $number,
-            'p1' => 'verification-code',
-            'v1' => $code];
+        $query = Arr::query([
+            'username' => $this->username,
+            'password' => $this->password,
+            'from' => $this->lineNumber,
+            'to' => $number,
+            'pattern_code' => "ul9jh01gzz",
+            'input_data' => json_encode([
+                "verification-code" => $code
+            ]),
+        ]);
 
-        $result = $client->get('http://ippanel.com:8080/',
-            [
-                'query' => $query,
-            ]);
-
+        $result = $client->post("https://ippanel.com/patterns/pattern"."?$query");
         return json_decode($result->getBody(), true);
     }
 
@@ -74,18 +75,19 @@ class Smsir
 		// Mail::to($user->email)->send(new EventMail('کد تایید احراز هویت',$code));
 
         $client = new Client();
-        $query = ['apikey' => $this->apiKey,
-            'pid' => '9rfeq9e87v',
-            'fnum' => $this->lineNumber,
-            'tnum' => $number,
-            'p1' => 'code',
-            'v1' => $code];
+        $query = Arr::query([
+            'username' => $this->username,
+            'password' => $this->password,
+            'from' => $this->lineNumber,
+            'to' => $number,
+            'pattern_code' => "9rfeq9e87v",
+            'input_data' => json_encode([
+                "code" => $code
+            ]),
+        ]);
 
-        $result = $client->get('http://ippanel.com:8080/',
-            [
-                'query' => $query,
-            ]);
 
+        $result = $client->post("https://ippanel.com/patterns/pattern"."?$query");
         return json_decode($result->getBody(), true);
     }
 
@@ -228,12 +230,12 @@ class Smsir
 		if ($status == User::USER_REJECT_AUTH)
 		{
 			$template = Setting::where('name','user_ok_auth')->first()->value;
-			
-			
+
+
 		} elseif ($status == User::USER_OK) {
 			$template = Setting::where('name','user_reject_auth')->first()->value;
-			
-		
+
+
 		}
 
 
@@ -264,7 +266,7 @@ class Smsir
 					$template = $template->value;
 				}
 			}
-            
+
             $allItems = [];
             $allItemsQty = [];
             foreach ($orderDetails as $detail) {
@@ -363,25 +365,21 @@ FarsGamer.com';
 			} catch (\Exception $exception) {
 
 			}
-			
-           
-			$client = new Client();
-			$query = ['apikey' => $this->apiKey,
-				'pid' => 'd1eq3avgdl',
-				'fnum' => $this->lineNumber,
-				'tnum' => $order->mobile,
-				'p1' => 'b_first_name',
-				'v1' => $order->name,
-				'p2' => 'licenses',
-				'v2' => $license,
-				'p3' => 'order_id',
-				'v3' => $order->tracking_code
-				];
 
-			$result = $client->get('http://ippanel.com:8080/',
-				[
-					'query' => $query,
-				]);
+			$client = new Client();
+            $query = Arr::query([
+                'username' => $this->username,
+                'password' => $this->password,
+                'from' => $this->lineNumber,
+                'to' => $order->mobile,
+                'pattern_code' => "d1eq3avgdl",
+                'input_data' => json_encode([
+                    "b_first_name" => $order->name,
+                    "licenses" => $license,
+                    "order_id" => $order->tracking_code
+                ]),
+            ]);
+            $result = $client->post("https://ippanel.com/patterns/pattern"."?$query");
 		}
 
         // return json_decode($result->getBody(), true);
