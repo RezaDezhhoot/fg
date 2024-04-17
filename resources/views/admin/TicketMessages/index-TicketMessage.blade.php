@@ -22,7 +22,7 @@
                                     <td>{{ $item->title }}</td>
                                     <td>{{ $item->label }}</td>
                                     <td>
-                                        <x-admin.edit-table href="{{route('admin.subjects.store',
+                                        <x-admin.edit-table href="{{route('admin.ticket-message.store',
                                             ['action'=>'edit', 'id' => $item->id])}}"/>
                                         <x-admin.delete-table onclick="deleteItem({{$item->id}})"/>
                                     </td>
