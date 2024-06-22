@@ -505,6 +505,7 @@ main
 
 .select-box{
     position: relative;
+    z-index: 1 !important;
 }
 
 
@@ -574,7 +575,7 @@ main
     overflow-y: auto;
     min-height: 12rem;
     max-height: 12rem;
-    z-index: 99;
+    z-index: 1 !important;
 }
 
 
@@ -656,6 +657,7 @@ main
     padding: 0.5rem 2rem;
     border: 1px solid black;
     border-radius: 0.5rem;
+    text-wrap: nowrap !important;
 }
 
 
@@ -712,13 +714,13 @@ main
     background-color: #F8F9FB;
     padding: 1rem;
     border-radius: 1rem;
-    
 }
 
 
 .box-item-ticket-dashbord-m{
     background-color: #FFFFFF;
     border-radius: 0.5rem;
+    margin: 0.5rem 0rem;
 }
 
 
@@ -6741,6 +6743,15 @@ input[type="range"]::-moz-range-thumb{
         max-height: 6rem;
         padding: 0.4rem;
         margin: 0.2rem;
+    }
+
+    #exampleModalCenter .modal-dialog
+    {
+        padding: 1rem !important;
+    }
+
+    #exampleModalCenter .modal-content{
+        height: min-content !important;
     }
 
     .item-box-footer{

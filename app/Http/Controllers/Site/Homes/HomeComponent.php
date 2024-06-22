@@ -70,7 +70,8 @@ class HomeComponent extends Component
         $physical = $settings->where('name', 'physical')->pluck('value')->toArray();
         $steam = $settings->where('name', 'steam')->pluck('value')->toArray();
         $article = $settings->where('name', 'home_article')->pluck('value')->take(5)->toArray();
-        $GiftCardsNew = ['giftcardamazon-us','playstationgiftcard','giftcard-googleplay','giftcard-itunes','giftcardxbox-usa','giftcardsteam'];
+        $GiftCardsNew = ['giftcardsteam','playstationgiftcard','giftcard-googleplay','giftcard-itunes','giftcardxbox-usa'];
+        $BestSellersNew = ['asus-tuf-gaming-vg32aqa1a','asus-vg249q1r-copy','battelpass','1000-vbucks','call-of-duty-mobile'];
 
         $this->imageSpecialDiscount = $settings->where('name', 'image_special_discount')->first()->value ?? '';
 
@@ -86,7 +87,7 @@ class HomeComponent extends Component
             ))->get();
 
         $this->bestSellers = $products->whereIn('slug', $bestSellers);
-        $this->BestSellersNew = $products->whereIn('slug', $bestSellers)->take(5);
+        $this->BestSellersNew = Product::whereIn('slug', $BestSellersNew)->where("status","available")->take(5)->get();
         $this->GiftCardsNew = Product::whereIn('slug', $GiftCardsNew)->where("status","available")->take(5)->get();
         $this->SpecialDiscountsNew = Product::where('discount_amount',"!=", 0)->where("status","available")->take(5)->get();
         $this->fortnite = $products->whereIn('slug', $fortnite);

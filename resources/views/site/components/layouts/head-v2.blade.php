@@ -25,7 +25,7 @@
     <link rel="stylesheet" href="{{ asset('site/css/new.css') }}">
     <link rel="stylesheet" href="{{ asset('site/css/new2.css') }}">
     <link rel="stylesheet" href="{{ asset('site/css/pop.css') }}">
-    <link rel="stylesheet" href="{{ asset('site-v2/css/style.css?v=2.01') }}">
+    <link rel="stylesheet" href="{{ asset('site-v2/css/style.css?v=2.15') }}">
     <!-- <script src="https://kit.fontawesome.com/18f07e1d50.js" crossorigin="anonymous"></script> -->
     @livewireStyles
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>

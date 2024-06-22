@@ -47,7 +47,35 @@
                         <div class="swiper-pagination bottom-0"></div>
                     </div>
                 </div>
-                <div class="xl:p-2 xl:col-start-6 xl:col-end-13 leading-7">{!! $description !!}</div>
+                <div class="xl:p-2 xl:col-start-6 xl:col-end-13 leading-7">
+                    <div>
+                        {!! $description !!}
+                    </div>
+
+                    <div>
+                        <p>
+                            در صورتی که نیاز به پشتیبانی دارید از طریق کانال های ارتباطی زیر اقدام کنید :
+                            <br>
+                            تیکت پشتیبانی 24 ساعته ( پیشنهادی ) :
+                            همه روزه حتی روز های تعطیل از طریق لینک زیر می توانید درخواست خود را ثبت کنید.
+                            <br>
+                            <a class="text-primary" href="https://farsgamer.com/dashboard/tickets/create">https://farsgamer.com/dashboard/tickets/create</a>
+                            <br>
+                            چت آنلاین :
+                            7 روز هفته از ساعت 15 الی 18
+                            <br>
+                            تماس تلفنی ( در حال حاضر غیر فعال است ) :
+                            7 روز هفته از ساعت 12:00 الی 21:00
+                            91300908-021
+                            <br>
+                            شعبه حضوری :
+                            7 روز هفته از ساعت 12:00 الی 21:00
+                            شعبه اول : تهران - مجتمع تجاری اپال - طبقه هفتم - پلاک 743 - فارس گیمر
+                            شعبه دوم : بجنورد - تقاطع دستپاک و برنجی - جنب دستپاک 18 - ساختمان یوتب - طبقه 5 - فارس گیمر
+                            <br>
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
 

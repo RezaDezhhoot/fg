@@ -66,8 +66,8 @@ class Ticket extends Model
     {
         return [
             self::PENDING => 'در انتظار بررسی',
-            self::ACTIVE => 'باز',
-            self::DEACTIVATE => 'بسته',
+            self::ACTIVE => 'پاسخ داده شده',
+            self::DEACTIVATE => 'بسته شده',
         ];
     }
 

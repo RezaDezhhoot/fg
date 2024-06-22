@@ -48,7 +48,7 @@
                     </div>
                 </div>
             @else
-                @if ($product->is_active_discount)
+                @if ($product->is_active_discount && $product->status == \App\Models\Product::STATUS_AVAILABLE)
                     <div>
                         <div class="price flex gap-1.5 justify-center">
                             <div class="font-semibold leading-4 grid">
@@ -65,6 +65,18 @@
                                 <div class="bg-red text-white rounded-full py-0.5 px-2 text-xs">
                                     {{ $product->discount_percentage }}%</div>
                             </div>
+                        </div>
+                    </div>
+                @elseif($product->status == \App\Models\Product::STATUS_COMING_SOON)
+                    <div>
+                        <div class="price">
+                            <span>به زودی</span>
+                        </div>
+                    </div>
+                @elseif($product->status == \App\Models\Product::STATUS_UNAVAILABLE)
+                    <div>
+                        <div class="price">
+                            <span>ناموجود</span>
                         </div>
                     </div>
                 @else

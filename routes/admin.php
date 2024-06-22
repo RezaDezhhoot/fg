@@ -79,6 +79,9 @@ Route::middleware(['auth', 'role:admin', 'schedule'])->group(function () {
     Route::get('factor/{id}', \App\Http\Controllers\Admin\Factor\IndexFactor::class)
         ->name('factor');
 
+    Route::get('post-tag/{id}', \App\Http\Controllers\Admin\PostTag\IndexPostTag::class)
+            ->name('post_tag');
+
     Route::get('digital-depot-test-test', \App\Http\Controllers\Admin\Depot\IndexDigitalDepot::class)
         ->name('digital_depot');
 
