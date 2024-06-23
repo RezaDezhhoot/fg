@@ -111,6 +111,6 @@ class ProductsSalesAd extends Component
         // dd("hi");
 
         return view('site.products.products-sales-ad', ['products' => $products,'max' => $max,'range'=>$range, 'link' => $link])
-            ->extends('site.layouts.category');
+            ->extends('site.layouts.shop');
     }
 }

@@ -110,6 +110,6 @@ class ProductsComponent extends Component
         }
 
         return view('site.products.products-component', ['products' => $products,'max' => $max,'range'=>$range, 'link' => $link])
-            ->extends('site.layouts.category');
+            ->extends('site.layouts.shop');
     }
 }

@@ -1,195 +1,432 @@
-<div class="position-relative">
-    <div class="container-fluid p-0">
-        <div>
+<section id="main-search">
+    <div id="right-search">
+        <div class="item-header-main-search flex-box flex-justify-space">
+            <div class="text-filter-search">
+                <span>فیلتر ها</span>
+            </div>
 
-            <div class="window-tabs" style="margin: 0px !important">
+            <button class="btn-delete-filter-search">
+                <span>حذف فیلتر ها</span>
+            </button>
+        </div>
 
-                <div class="tabs" style="margin: 0px !important">
-                    <div class="slide skin active_slide" id="skin" wire:ignore.self>
-                        <div class="skin-product" wire:ignore.self>
-                            <div class="row" wire:ignore.self>
-                                <div class="col-lg-3 col-md-4 d-none d-lg-block d-xl-block" wire:ignore.self>
-                                    <div class="col-12">
+        <div class="item-message-main-search">
+            <div>
+                <div class="item-header-mobile open-box-category">
+                    <span>فیلتر ها</span>
 
-                                        <div class="filters mt-1">
-                                            <div class=" form-switch d-flex align-items-center py-2 px-1">
-                                                <div class="product-checkbox d-flex align-items-center">
+                    <div class="flex justify-center align-items-center">
+                        <button class="btn-delete-filter-search-mo ml-2">حذف فیلتر</button>
 
-                                                    <input type="checkbox" {{ $level == 1 ? 'checked' : '' }}
-                                                        id="switchD" value="1">
+                        <svg class="icon-header-store-mbile icon-category-header-store" width="24" height="24"
+                            viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M13.098 6.75012L8.9415 11.6401C8.45063 12.2176 7.64738 12.2176 7.1565 11.6401L3 6.75012"
+                                stroke="black" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                </div>
 
-                                                    <label style="right:-1px" wire:click="levelTest" for="switchD"
-                                                        class="mb-0">Toggle</label>
+                <div class="hide-item message-header-sore px-4 message-category-store-mobile">
+                    <form>
+                        <div class="custom-radio">
+                            <input type="radio" id="radio1" name="radioGroup">
+                            <label for="radio1">
+                                <div class="radio-custom"></div>
+                                <span>فیلترها</span>
+                            </label>
+                        </div>
 
-                                                    <span class="mr-2" style="font-size:15px"> کالا های
-                                                        موجود</span>
-                                                </div>
-                                            </div>
-                                            <div class="sidenav mt-4" wire:ignore.self>
-                                                <div class="col-12 form-group py-1 px-2 filter_groups mb-3"
-                                                    wire:ignore.self>
-                                                    <button class="dropdown-btn px-2 py-2 text-black">
-                                                        <i class="fa fa-caret-down"></i>
-                                                        <strong>
-                                                            محدوده قیمت
-                                                        </strong>
-                                                    </button>
-                                                    <div class="dropdown-container mt-2" wire:ignore.self>
-                                                        <div class="d-flex align-items-center py-1" wire:ignore.self>
-                                                            <div class="price-range desk p-0" wire:ignore.self>
-                                                                <span>محدوده قیمت</span>
-                                                                <div class="col-12">
-                                                                    <input type="range" wire:model.defer="priceRange"
-                                                                        wire:change="priceRanges">
-                                                                </div>
-                                                                <br>
-                                                                <div
-                                                                    class="text-center d-flex align-items-center justify-content-between">
-                                                                    <small>از</small>
-                                                                    <input value="0" disabled type="text"
-                                                                        class="p-1">
-                                                                    <small>تا</small>
-                                                                    <input value="{{ number_format($range) }}" disabled
-                                                                        class="p-1" type="text">
-                                                                    <small>تومان</small>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                        <div class="custom-radio">
+                            <input type="radio" id="radio2" name="radioGroup">
+                            <label for="radio2">
+                                <div class="radio-custom"></div>
+                                <span>فیلترها</span>
+                            </label>
+                        </div>
+
+                        <div class="custom-radio">
+                            <input type="radio" id="radio3" name="radioGroup">
+                            <label for="radio3">
+                                <div class="radio-custom"></div>
+                                <span>فیلترها</span>
+                            </label>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div>
+                <div class="item-header-mobile open-box-category">
+                    <span>فیلتر ها</span>
+
+                    <div>
+                        <svg class="icon-header-store-mbile icon-category-header-store" width="24" height="24"
+                            viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M13.098 6.75012L8.9415 11.6401C8.45063 12.2176 7.64738 12.2176 7.1565 11.6401L3 6.75012"
+                                stroke="black" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="hide-item message-header-sore message-category-store-mobile">
+                    <form>
+                        <div class="custom-radio">
+                            <input type="radio" id="radio4" name="radioGroup1">
+                            <label for="radio4">
+                                <div class="radio-custom"></div>
+                                <span>فیلترها</span>
+                            </label>
+                        </div>
+
+                        <div class="custom-radio">
+                            <input type="radio" id="radio5" name="radioGroup1">
+                            <label for="radio5">
+                                <div class="radio-custom"></div>
+                                <span>فیلترها</span>
+                            </label>
+                        </div>
+
+                        <div class="custom-radio">
+                            <input type="radio" id="radio6" name="radioGroup1">
+                            <label for="radio6">
+                                <div class="radio-custom"></div>
+                                <span>فیلترها</span>
+                            </label>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div>
+                <div class="item-header-mobile open-box-category">
+                    <span>قیمت</span>
+
+                    <div>
+                        <svg class="icon-header-store-mbile icon-category-header-store" width="24" height="24"
+                            viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M13.098 6.75012L8.9415 11.6401C8.45063 12.2176 7.64738 12.2176 7.1565 11.6401L3 6.75012"
+                                stroke="black" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="message-header-sore message-category-store-mobile">
+                    <div class="box-price-input">
+                        <div class="price-input">
+                            <span class="txt2-box-price">تا</span>
+                            <h2 class="input-min massage-box-price" id="rangeMaxValue1">200</h2>
+                            <span class="txt1-box-price">تومان</span>
+                        </div>
+
+                        <div class="price-input">
+                            <span class="txt2-box-price">از</span>
+                            <h2 class="input-max massage-box-price" id="rangeMinValue1">800</h2>
+                            <span class="txt1-box-price">تومان</span>
+                        </div>
+                    </div>
+
+                    <div class="range-slider">
+                        <input type="range" id="rangeMin1" min="0" max="1000" value="0"
+                            step="10">
+                        <input type="range" id="rangeMax1" min="0" max="1000" value="1000"
+                            step="10">
+                        <div class="track"></div>
+                        <div class="range-track" id="rangeTrack1"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex-box flex-justify-space margin-vetical-1">
+                <div>
+                    <span>کالاهای موجود</span>
+                </div>
+
+                <div>
+                    <div class="checkbox-container">
+                        <input type="checkbox" id="checkbox" class="checkbox">
+
+                        <label for="checkbox" class="checkbox-label">
+                            <span class="checkbox-icon unchecked">
+                                <svg width="11" height="11" viewBox="0 0 11 11" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9.07266 1L1.84766 9.5M9.07266 9.5L1.84766 1" stroke="black"
+                                        stroke-width="2" stroke-linecap="round" />
+                                </svg>
+                            </span>
+
+                            <span class="checkbox-icon checked">
+                                <svg width="11" height="9" viewBox="0 0 11 9" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9.47734 1L3.95234 7.5L1.40234 5" stroke="white" stroke-width="2"
+                                        stroke-linecap="round" />
+                                </svg>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- این قسمت فیلتر ها در ریسپانسیو است ....................................................... --}}
+    <section id="box-search-mobile">
+        <div class="right-search-mobile width-50" data-bs-toggle="modal" data-bs-target="#modal-filters">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M3.15104 1.2251H10.851C11.4927 1.2251 12.0177 1.7501 12.0177 2.39176V3.6751C12.0177 4.14176 11.726 4.7251 11.4344 5.01676L8.92604 7.23343C8.57604 7.5251 8.34271 8.10843 8.34271 8.5751V11.0834C8.34271 11.4334 8.10937 11.9001 7.81771 12.0751L7.00104 12.6001C6.24271 13.0668 5.19271 12.5418 5.19271 11.6084V8.51676C5.19271 8.10843 4.95938 7.58343 4.72604 7.29176L2.50938 4.95843C2.21771 4.66676 1.98438 4.14176 1.98438 3.79176V2.4501C1.98438 1.7501 2.50937 1.2251 3.15104 1.2251Z"
+                    stroke="#808191" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                <path d="M6.37583 1.2251L3.5 5.83343" stroke="#808191" stroke-width="1.5" stroke-miterlimit="10"
+                    stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+
+            <span>فیلتر</span>
+        </div>
+
+        <div class="left-search-mobile width-50" data-bs-toggle="modal" data-bs-target="#modal-request">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path d="M2 4.66675H14" stroke="#808191" stroke-width="1.5" stroke-linecap="round" />
+                <path d="M4 8H12" stroke="#808191" stroke-width="1.5" stroke-linecap="round" />
+                <path d="M6.66797 11.3333H9.33464" stroke="#808191" stroke-width="1.5" stroke-linecap="round" />
+            </svg>
+
+            <span>مرتب سازی</span>
+        </div>
+    </section>
+
+    <!-- Modal ...................................................................................   -->
+    <div class="modal fade" id="modal-request" tabindex="-1" aria-labelledby="modal-requestLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header flex-box flex-justify-space">
+                    <span class="modal-title" id="exampleModalLabel">مرتب سازی</span>
+
+                    <svg class="cursor-pointer add-red-big" width="40" height="40" viewBox="0 0 34 34"
+                        fill="none" xmlns="http://www.w3.org/2000/svg" data-bs-dismiss="modal"
+                        aria-label="Close">
+                        <path d="M12.7285 21.2422L21.2138 12.7569" stroke="#FF3838" stroke-width="1.5"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M21.2138 21.2431L12.7285 12.7578" stroke="#FF3838" stroke-width="1.5"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </div>
+
+                <div class="modal-body text-center">
+                    <ul class="box-filter-search-mo">
+                        <li class="item-filter-search-mo">
+                            <svg class="img-item-filter-search-mo" width="12" height="9" viewBox="0 0 12 9"
+                                fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10.5 1L4 7.5L1 5" stroke="#3D42DF" stroke-width="2"
+                                    stroke-linecap="round" />
+                            </svg>
+
+                            <span class="txt-item-filter-search-mo color-blue">پرفروش ترین</span>
+                        </li>
+
+                        <li class="item-filter-search-mo">
+                            <span class="txt-item-filter-search-mo">پرفروش ترین</span>
+                        </li>
+
+                        <li class="item-filter-search-mo">
+                            <span class="txt-item-filter-search-mo">پرفروش ترین</span>
+                        </li>
+
+                        <li class="item-filter-search-mo">
+                            <span class="txt-item-filter-search-mo">پرفروش ترین</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-filters" tabindex="-1" aria-labelledby="modal-filtersLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header flex-box flex-justify-space">
+                    <svg class="cursor-pointer add-red-big-right pr-2" data-bs-dismiss="modal" aria-label="Close"
+                        width="40" height="40" viewBox="0 0 34 34" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12.7285 21.2422L21.2138 12.7569" stroke="#FF3838" stroke-width="1.5"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M21.2138 21.2431L12.7285 12.7578" stroke="#FF3838" stroke-width="1.5"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+
+                    <span class="modal-title" id="exampleModalLabel">فیلتر ها</span>
+
+                    <button class="btn-delete-filter-search-mo">حذف فیلتر</button>
+                </div>
+
+                <div class="modal-body text-center modal-filters">
+                    <ul>
+                        <li class="item-filters-search-mo flex-box flex-justify-space" data-bs-toggle="modal"
+                            data-bs-target="#modal-filters-1">
+                            <span class="txt-item-filter-search-mo">فیلتر ها</span>
+
+                            <svg class="img-item-filter-search-mo" width="18" height="18" viewBox="0 0 18 18"
+                                fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M11.2509 14.9396L6.36086 10.0496C5.78336 9.47207 5.78336 8.52707 6.36086 7.94957L11.2509 3.05957"
+                                    stroke="black" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </li>
+
+                        <li class="item-filters-search-mo flex-box flex-justify-space" data-bs-toggle="modal"
+                            data-bs-target="#modal-filters-2">
+                            <span class="txt-item-filter-search-mo">قیمت</span>
+
+                            <svg class="img-item-filter-search-mo" width="18" height="18" viewBox="0 0 18 18"
+                                fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M11.2509 14.9396L6.36086 10.0496C5.78336 9.47207 5.78336 8.52707 6.36086 7.94957L11.2509 3.05957"
+                                    stroke="black" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </li>
+
+                        <li class="item-filters-search-mo flex-box flex-justify-space">
+                            <span class="txt-item-filter-search-mo">کالاهای موجود</span>
+
+                            <div class="checkbox-container">
+                                <input type="checkbox" id="checkbox2" class="checkbox">
+
+                                <label for="checkbox2" class="checkbox-label">
+                                    <span class="checkbox-icon unchecked">
+                                        <svg width="11" height="11" viewBox="0 0 11 11" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M9.07266 1L1.84766 9.5M9.07266 9.5L1.84766 1" stroke="black"
+                                                stroke-width="2" stroke-linecap="round" />
+                                        </svg>
+                                    </span>
+
+                                    <span class="checkbox-icon checked">
+                                        <svg width="11" height="9" viewBox="0 0 11 9" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M9.47734 1L3.95234 7.5L1.40234 5" stroke="white" stroke-width="2"
+                                                stroke-linecap="round" />
+                                        </svg>
+                                    </span>
+                                </label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade modal-filters-header" id="modal-filters-1" tabindex="-1"
+        aria-labelledby="modal-filters-1Label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header flex-box flex-justify-space">
+                    <svg class="cursor-pointer" data-bs-toggle="modal" data-bs-target="#modal-filters"
+                        width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path d="M14.4297 5.92969L20.4997 11.9997L14.4297 18.0697" stroke="#292D32" stroke-width="1.5"
+                            stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M3.5 12H20.33" stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+
+                    <span class="modal-title" id="exampleModalLabel">فیلتر ها</span>
+
+                    <button class="btn-delete-filter-search-mo ml-2">حذف فیلتر</button>
+                </div>
+
+                <div class="modal-body text-center modal-filters">
+                    <ul>
+                        <form>
+                            <li class="item-filters-search-mo flex-box flex-justify-space">
+                                <div class="custom-radio">
+                                    <input type="radio" id="radio1f" name="radioGroupsf">
+                                    <label for="radio1f" class="mb-0">
+                                        <div class="radio-custom"></div>
+                                        <span>فیلترها</span>
+                                    </label>
                                 </div>
-                                <div class="d-lg-none d-xl-none px-0" wire:ignore>
-                                    <div class="col-12 mb-2">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <button class="btn-filter mr-3" id="btn-advanced-search">
-                                                جستوجو پیشرفته
-                                                <i></i>
-                                            </button>
-                                            <button class="btn-filter mx-2" id="btn-filter">
-                                                مرتب سازی بر اساس
-                                                <i></i>
-                                            </button>
-                                        </div>
-                                        <div class="position-fixed filter-panel" wire:ignore>
-                                            <div class="filter p-3">
-                                                <div
-                                                    class="filter-row d-flex align-items-center justify-content-between">
-                                                    <b class="text-secondary">مرتب سازی بر اساس</b>
-                                                    <i class="fas fa-times text-secondary close-filter"></i>
-                                                </div>
-                                                @foreach ($sortable as $key => $value)
-                                                    <div class="filter-row m-0 m-0 d-flex align-items-center">
-                                                        <label wire:click="$set('sort', '{{ $key }}')"
-                                                            class="btn  {{ $sort == $key ? 'border' : '' }} my-0 py-0 mt-1"
-                                                            for="option1">{{ $value }}</label>
-                                                    </div>
-                                                @endforeach
+                            </li>
 
-                                            </div>
-                                            <div class="advanced-search p-0">
-
-                                                <div
-                                                    class="bg-white px-3 py-2 d-flex align-items-center justify-content-between resp_button_height">
-                                                    <button class="btn-filter" id="clear-filter"
-                                                        wire:click="clear_filter">
-
-                                                        پاک کردن همه
-                                                    </button>
-                                                    <div class=" form-switch d-flex align-items-center p-1">
-                                                        <div class="product-checkbox d-flex">
-                                                            <small style="font-size:12px"> کالا های
-                                                                موجود</small>
-                                                            <input type="checkbox" {{ $level == 1 ? 'checked' : '' }}
-                                                                id="switch" value="1">
-                                                            <label wire:click="levelTest" for="switch"
-                                                                class="mb-0">Toggle</label>
-
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-
-                                                <div class="filters mx-2 my-2 resp_filter_height">
-                                                    <div class="sidenav" wire:ignore>
-                                                        <div class="col-12 form-group py-1 px-2 filter_groups mb-3">
-                                                            <button class="dropdown-btn px-2 py-2 text-black">
-                                                                <i class="fa fa-caret-down"></i>
-                                                                <strong>
-                                                                    محدوده قیمت
-                                                                </strong>
-                                                            </button>
-                                                            <div class="dropdown-container mt-2">
-                                                                <div class="d-flex align-items-center py-1">
-                                                                    <div class="price-range res p-0">
-                                                                        <span>محدوده قیمت</span>
-                                                                        <div class="col-12">
-
-                                                                            <input type="range"
-                                                                                wire:model.defer="priceRange"
-                                                                                id="rangeInput" onchange="priceRange()">
-                                                                            <input type="hidden"
-                                                                                value="{{ $max }}"
-                                                                                id="max-range">
-                                                                        </div>
-
-                                                                        <br>
-                                                                        <div class="text-center">
-                                                                            <small>از</small>
-                                                                            <input value="0" disabled
-                                                                                type="text" class="py-1 px-2">
-                                                                            <small>تا</small>
-                                                                            <input value="{{ number_format($range) }}"
-                                                                                class="py-1 px-2" id="range-show"
-                                                                                disabled type="text">
-                                                                            <small>تومان</small>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="apply-filter" wire:click="apply_filter()">
-                                                    جستوجو پیشرفته
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                            <li class="item-filters-search-mo flex-box flex-justify-space">
+                                <div class="custom-radio">
+                                    <input type="radio" id="radio1s" name="radioGroupsf">
+                                    <label for="radio1s" class="mb-0">
+                                        <div class="radio-custom"></div>
+                                        <span>فیلترها</span>
+                                    </label>
                                 </div>
-                                <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12 p-1">
-                                    <div class="col-12 mb-3" wire:ignore.self>
-                                        <div class="skin-ordering d-none d-lg-flex d-xl-flex">
-                                            <i></i>
-                                            <span> : مرتب سازی بر اساس </span>
+                            </li>
 
-                                            @foreach ($sortable as $key => $value)
-                                                <label wire:click="$set('sort', '{{ $key }}')"
-                                                    class="btn  {{ $sort == $key ? 'border' : '' }} btn-primary mt-2"
-                                                    for="option1">{{ $value }}</label>
-                                            @endforeach
-
-                                        </div>
-                                    </div>
-                                    <div class="col-12" wire:ignore.self>
-                                        <div class="skin-product-box" wire:ignore.self>
-                                            <div
-                                                class="grid gap-4 grid-cols-2 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-5 relative">
-
-                                                @foreach ($products as $product)
-                                                    @include('site.components.products.product-box')
-                                                @endforeach
-
-
-                                            </div>
-                                            {!! $link !!}
-                                        </div>
-                                    </div>
+                            <li class="item-filters-search-mo flex-box flex-justify-space">
+                                <div class="custom-radio">
+                                    <input type="radio" id="radio1m" name="radioGroupsf">
+                                    <label for="radio1m" class="mb-0">
+                                        <div class="radio-custom"></div>
+                                        <span>فیلترها</span>
+                                    </label>
                                 </div>
+                            </li>
+                        </form>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade modal-filters-header" id="modal-filters-2" tabindex="-1"
+        aria-labelledby="modal-filters-2Label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header flex-box flex-justify-space">
+                    <svg class="cursor-pointer" data-bs-toggle="modal" data-bs-target="#modal-filters"
+                        width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path d="M14.4297 5.92969L20.4997 11.9997L14.4297 18.0697" stroke="#292D32" stroke-width="1.5"
+                            stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M3.5 12H20.33" stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+
+                    <span class="modal-title" id="exampleModalLabel">محدوده قیمت</span>
+
+                    <button class="btn-delete-filter-search-mo">حذف فیلتر</button>
+                </div>
+
+                <div class="modal-body modal-filters">
+                    <div>
+                        <div class="box-price-input">
+                            <div class="price-input">
+                                <span class="txt2-box-price">تا</span>
+                                <h2 class="input-min massage-box-price" id="rangeMaxValue2">0</h2>
+                                <span class="txt1-box-price">تومان</span>
                             </div>
 
+                            <div class="price-input">
+                                <span class="txt2-box-price">از</span>
+                                <h2 class="input-max massage-box-price" id="rangeMinValue2">100</h2>
+                                <span class="txt1-box-price">تومان</span>
+                            </div>
+                        </div>
+
+                        <div class="range-slider">
+                            <input type="range" id="rangeMin2" min="0" max="1000" value="0"
+                                step="10">
+                            <input type="range" id="rangeMax2" min="0" max="1000" value="1000"
+                                step="10">
+                            <div class="track"></div>
+                            <div class="range-track" id="rangeTrack2"></div>
                         </div>
                     </div>
                 </div>
@@ -197,36 +434,38 @@
         </div>
     </div>
 
-</div>
-@push('scripts')
-    <script>
-        $(document).ready(function() {
-            new Swiper('.swiper-container', {
-                loop: true,
-                nextButton: '.d-none',
-                prevButton: '.d-none',
-                slidesPerView: 6,
-                paginationClickable: true,
-                spaceBetween: 30,
-                breakpoints: {
-                    1920: {
-                        slidesPerView: 7,
-                        spaceBetween: 30
-                    },
-                    1028: {
-                        slidesPerView: 5,
-                        spaceBetween: 25
-                    },
-                    480: {
-                        slidesPerView: 2,
-                        spaceBetween: 30
-                    },
-                    1: {
-                        slidesPerView: 1,
-                        spaceBetween: 250
-                    }
-                }
-            });
-        });
-    </script>
-@endpush
+    {{-- ........................................................................................ --}}
+
+    <div id="left-search">
+        <div class="item-header-main-search flex-box flex-right">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 7H21" stroke="#374151" stroke-width="1.5" stroke-linecap="round" />
+                <path d="M6 12H18" stroke="#374151" stroke-width="1.5" stroke-linecap="round" />
+                <path d="M10 17H14" stroke="#374151" stroke-width="1.5" stroke-linecap="round" />
+            </svg>
+
+            <div class="margin-horizontal-1">
+                <span>مرتب سازی : </span>
+            </div>
+
+            <div>
+                <ul class="flex-box">
+                    <li class="margin-horizontal-1 item-filter-header-search color-blue">پربازدید ترین</li>
+
+                    <li class="margin-horizontal-1 item-filter-header-search">ارزان ترین</li>
+
+                    <li class="margin-horizontal-1 item-filter-header-search">پربازدید ترین</li>
+
+                    <li class="margin-horizontal-1 item-filter-header-search">ارزان ترین</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="left-message-main-search flex-box flex-wrap flex-right">
+            @foreach ($products as $product)
+                @include('site.components.products.product-box')
+            @endforeach
+        </div>
+    </div>
+</section>
