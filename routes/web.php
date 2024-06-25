@@ -26,6 +26,7 @@ Route::get('/2', \App\Http\Controllers\Site\Homes\HomeComponent2::class)->name('
 Route::get('/shop', \App\Http\Controllers\Site\Products\ProductsComponent::class)->name('products');
 Route::get('/sales-ad', \App\Http\Controllers\Site\Products\ProductsSalesAd::class)->name('sales-ad');
 Route::get('/products/{slug}', \App\Http\Controllers\Site\Products\ProductComponent::class)->name('products.show');
+Route::get('/products-sales-ad/{slug}', \App\Http\Controllers\Site\Products\ProductSalesAdComponent::class)->name('products-sales-ad.show');
 
 Route::get('/faqs', \App\Http\Controllers\Site\Settings\OrdersDetailComponent::class)->name('faqs');
 Route::get('/lottery', \App\Http\Controllers\Site\Settings\LotteryComponent::class)->name('lottery');

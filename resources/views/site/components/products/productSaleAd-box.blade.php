@@ -1,6 +1,6 @@
 <div class="swiper-slide swiper-slide-prudect-box-new">
     <div class="swiper-slide-prudect swiper-slide-prudect-new flex-box flex-column flex-justify-space width-max">
-        <a href="{{ route('products.show', $product->slug) }}" class="show-swiper-slide-prudect flex-box flex-column">
+        <a href="{{ route('products-sales-ad.show', $product->slug) }}" class="show-swiper-slide-prudect flex-box flex-column">
             @if ($product->status == \App\Models\Product::STATUS_AVAILABLE)
                 <div>
                     <img class="w-full" src="{{ asset($product->image) }}" alt="">

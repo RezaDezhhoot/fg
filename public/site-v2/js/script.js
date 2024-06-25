@@ -643,6 +643,35 @@ if (formrequest != undefined) {
     })();
 }
 
+//  script product sale add page   ..............................................................
+
+var boxSafeTransaction = document.querySelectorAll(".box-safe-transaction");
+var btnOpenSafeTransaction = document.querySelectorAll(".btn-open-safe-transaction");
+var btnCloseSafeTransaction = document.querySelectorAll(".btn-close-safe-transaction");
+var boxContactSaleaAd = document.querySelectorAll(".box-contact-sale-ad");
+var btnOpenContactSale = document.querySelectorAll(".btn-open-contact-sale");
+
+if (boxSafeTransaction != undefined) {
+    btnOpenSafeTransaction.forEach((btnOpenSafeTransaction,index) => {
+        btnOpenSafeTransaction.addEventListener("click",function handleClick(event) {
+            boxSafeTransaction[index].classList.remove("hide-item");
+        });
+    });
+
+    btnCloseSafeTransaction.forEach((btnCloseSafeTransaction,index) => {
+        btnCloseSafeTransaction.addEventListener("click",function handleClick(event) {
+            boxSafeTransaction[index].classList.add("hide-item");
+        });
+    });
+
+    btnOpenContactSale.forEach((btnOpenContactSale,index) => {
+        btnOpenContactSale.addEventListener("click",function handleClick(event) {
+            boxContactSaleaAd[index].classList.remove("hide-item");
+            btnOpenContactSale.classList.add("hide-item");
+        });
+    });
+}
+
 //  script search page   ..............................................................
 
 var mainpagesearch = document.getElementById("main-page-search");
