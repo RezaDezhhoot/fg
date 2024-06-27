@@ -499,6 +499,49 @@ main
 }
 
 
+.btn-remove-sale-add-dashboard{
+    background: #FF3838;
+    color: white !important;
+    font-weight: 700 !important;
+    font-size: 14px !important;
+    padding: 0rem 1rem !important;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 2.5rem !important;
+    outline: none;
+    border-radius: 16px;
+    border: none;
+}
+
+
+.btn-edit-sale-add-dashboard{
+    border: 1px solid #BDBDC7 !important;
+    color: #374151 !important;
+    font-weight: 700 !important;
+    font-size: 14px !important;
+    padding: 0rem 1rem !important;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 2.5rem !important;
+    outline: none;
+    border-radius: 16px;
+    margin: 0.5rem 0rem;
+}
+
+
+.btn-open-sale-add-dashboard{
+    font-size: 12px !important;
+    color: #3D42DF !important;
+    text-align: center;
+}
+
+
 .input-submit-style-t{
     background: #3D42DF !important;
     color: white !important;
@@ -6145,6 +6188,187 @@ input[type="range"]::-moz-range-thumb{
     padding: 1rem;
 }
 
+.custom-checkbox {
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 2px solid #3D42DF;
+    border-radius: 0.5rem;
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+}
+
+
+.custom-checkbox:checked::before {
+    content: '✔';
+    display: block;
+    color: #3D42DF;
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1rem;
+}
+
+.custom-checkbox-black {
+    border: 2px solid #141B34;
+}
+
+
+.custom-checkbox:checked::before {
+    color: #141B34;
+}
+
+
+.box-sale-ad-dashboard .img{
+    height: 100%;
+    padding: 0.5rem;
+    min-width: 7.5rem !important;
+    max-width: 7.5rem !important;
+    margin: 0rem;
+}
+
+
+.box-sale-ad-mobile-my{
+    width: 100%;
+    border-bottom: 1px solid #F1F1F1;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+}
+
+
+.box-sale-ad-mobile-my .header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.box-sale-ad-mobile-my .img{
+    min-width: 6.5rem;
+    width: 6.5rem;
+    height: 6.5rem;
+}
+
+
+.box-sale-ad-mobile-my .img img{
+    width: 100%;
+    height: 100%;
+    border-radius: 1rem;
+}
+
+
+.box-sale-ad-mobile-my .box-title{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    margin-right: 1rem;
+}
+
+
+.box-sale-ad-mobile-my .box-title .title{
+    color: #808191 !important;
+    font-size: 20px;
+    text-align: right;
+}
+
+
+.box-sale-ad-mobile-my .box-title .time{
+    color: #808191 !important;
+    font-size: 14px;
+    margin-top: 0.5rem;
+    text-align: left;
+}
+
+
+.box-sale-ad-mobile-category{
+    margin-top: 1rem;
+    display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
+}
+
+
+.box-sale-ad-mobile-category .item{
+    background-color: #F8F9FB;
+    border-radius: 1rem;
+    color: #808191;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem;
+    width: 100%;
+    font-size: 12px;
+    text-wrap: nowrap;
+}
+
+
+.box-sale-ad-me-lov-dashboard{
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 2;
+}
+
+
+.box-sale-ad-mobile-btn{
+    display: flex;
+    margin-top: 1rem;
+}
+
+
+.box-sale-ad-mobile-btn .edit{
+    width: 70%;
+    margin-left: 0.5rem;
+    color: #374151;
+    border: 1px  solid #374151;
+    border-radius: 1rem;
+    padding: 0.5rem;
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.box-sale-ad-mobile-btn .remove{
+    width: 30%;
+    margin-left: 0.5rem;
+    color: white !important;
+    background-color: #FF3838;
+    border-radius: 1rem;
+    padding: 0.5rem;
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.box-sale-ad-dashboard td:last-child {
+    border-radius: 16px !important; 
+    -moz-border-radius: 16px !important;
+    overflow: hidden !important;
+}
+
+
+.show-swiper-slide-prudect-dashboard{
+    border: 1px solid  #F7F7FA;
+}
+
+
+.box-sale-ad-dashboard td{
+    padding: 1rem !important;
+}
+
+
+.box-sale-ad-dashboard .img img{
+    width: 100%;
+    min-width: 100%;
+    height: 100%;
+    border-radius: 1rem;
+}
+
 /* style prudect page  ........................................................ */
 
 .address-header-product{
@@ -6297,6 +6521,23 @@ input[type="range"]::-moz-range-thumb{
 }
 
 
+#modal-danger .modal-content{
+    border: none;
+    border-radius: 1rem;
+    padding: 0.5rem;
+}
+
+
+#modal-danger.modal-header{
+    padding: 0rem 0.5rem !important;
+}
+
+
+#modal-danger .modal-body{
+    padding: 0rem !important;
+}
+
+
 .box-item-report-sale-ad{
     display: flex;
     flex-direction: column;
@@ -6319,6 +6560,19 @@ input[type="range"]::-moz-range-thumb{
 
 
 #violation-report-sale-ad .modal-title h5{
+    margin-right: 0.5em;
+    color: #374151;
+}
+
+
+#modal-danger .modal-title{
+    display: flex;
+    align-items: center;
+    padding: 0.5em 0rem;
+}
+
+
+#modal-danger .modal-title h5{
     margin-right: 0.5em;
     color: #374151;
 }
@@ -7347,6 +7601,10 @@ input[type="range"]::-moz-range-thumb{
         display: none;
     }
 
+    .left-message-main-search .book-mark-sale-ad{
+        display: none;
+    }
+
     .item-box-hever-store{
         flex-direction: column;
         align-items: center;
@@ -7735,6 +7993,23 @@ input[type="range"]::-moz-range-thumb{
     }
 
     #violation-report-sale-ad .modal-dialog-centered{
+        min-height: calc(100% - 3.5rem);
+        margin: 1.75rem auto !important;
+        padding: 1rem !important;
+    }
+
+    #modal-danger .modal-content{
+        width: 100% !important;
+        height: unset !important;
+        border-radius: 1rem !important;
+    }
+
+    #modal-danger .modal-body {
+        overflow-y: auto !important;
+        overflow-x: auto !important;
+    }
+
+    #modal-danger .modal-dialog-centered{
         min-height: calc(100% - 3.5rem);
         margin: 1.75rem auto !important;
         padding: 1rem !important;
