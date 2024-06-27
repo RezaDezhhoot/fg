@@ -650,6 +650,26 @@ var btnOpenSafeTransaction = document.querySelectorAll(".btn-open-safe-transacti
 var btnCloseSafeTransaction = document.querySelectorAll(".btn-close-safe-transaction");
 var boxContactSaleaAd = document.querySelectorAll(".box-contact-sale-ad");
 var btnOpenContactSale = document.querySelectorAll(".btn-open-contact-sale");
+var uploadClickFileSale = document.querySelectorAll(".upload-click-file-sale");
+var uploadInputFileSale = document.querySelectorAll(".upload-input-file-sale");
+var boxSafeTransitionCreate = document.querySelector("#box-safe-transition-create");
+var checkBoxSafeTransition = document.querySelector("#check-box-safe-transition");
+
+if(boxSafeTransitionCreate != undefined){
+    checkBoxSafeTransition.addEventListener('click',function handleClick(e){
+        if(checkBoxSafeTransition.checked == true){
+            boxSafeTransitionCreate.classList.remove('hidden');
+        }else{
+            boxSafeTransitionCreate.classList.add('hidden');
+        }
+    })
+}
+
+uploadClickFileSale.forEach((uploadClickFileSale,index) => {
+    uploadClickFileSale.addEventListener("click",function handleClick(event) {
+        uploadInputFileSale[index].click();
+    });
+});
 
 if (boxSafeTransaction != undefined) {
     btnOpenSafeTransaction.forEach((btnOpenSafeTransaction,index) => {
@@ -689,8 +709,8 @@ if (mainpagesearch != undefined) {
         const maxPercent = (maxInput.value / maxInput.max) * 100;
         track.style.left = `${minPercent}%`;
         track.style.right = `${100 - maxPercent}%`;
-        minValue.textContent = `$${minInput.value}`;
-        maxValue.textContent = `$${maxInput.value}`;
+        minValue.textContent = `${minInput.value}`;
+        maxValue.textContent = `${maxInput.value}`;
     }
 
     // Initialize the first range slider
