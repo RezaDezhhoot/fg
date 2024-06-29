@@ -15,7 +15,7 @@ class StoreTicket extends BaseComponent
 {
     use AuthorizesRequests;
     public $ticket, $header;
-    public $TicketMessages ,$subject, $user_id, $content, $file, $cardNumber, $orderId, $productName, $priority, $status, $child = [], $user_name, $answer, $answerFile, $oldSubject, $oldUser;
+    public $TicketMessages, $subject, $user_id, $content, $file, $cardNumber, $orderId, $productName, $priority, $status, $child = [], $user_name, $answer, $answerFile, $oldSubject, $oldUser;
     public function mount($action, $id = null)
     {
         $this->authorize('show_tickets');
@@ -162,7 +162,20 @@ class StoreTicket extends BaseComponent
         $new->save();
         $this->child->push($new);
         $this->ticket->child->push($new);
-        \App\Http\Controllers\Smsir\Facades\Smsir::send("کاربر گرامی پاسخی برای تیکت شما ثبت شد \n\n فارس گیمر", $this->ticket->user->mobile);
+        \App\Http\Controllers\Smsir\Facades\Smsir::sendPatern(
+            "
+            سلام رفیق
+            \n\n
+            یک پاسخ جدید در ساعت '"
+                . jalaliDate($new->created_at, 'Y-m-d H:i:s') .
+                "'
+            برای درخواست پشتیبانی شما گذاشته شد، لطفا توی اولین فرصت پنلتو چک کن❤️
+            \n\n
+            FarsGamer.Com
+            ",
+            $this->ticket->user->mobile,
+            jalaliDate($new->created_at, 'Y-m-d H:i:s')
+        );
         $this->emitNotify('اطلاعات با موفقیت ثبت شد');
     }
 

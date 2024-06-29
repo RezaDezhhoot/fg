@@ -6,7 +6,7 @@
 </svg>
 
 <script src="{{asset('site/library/bootstrap/js/bootstrap.min.js?v=1.0.1')}}"></script>
-<script src="{{asset('site/library/bootstrap-5.0.1/js/bootstrap.min.js?v=1.0.1')}}"></script>
+{{-- <script src="{{asset('site/library/bootstrap-5.0.1/js/bootstrap.min.js?v=1.0.1')}}"></script> --}}
 <script src="{{asset('site/library/swiper/swiper.min.js?v=1.0.1')}}"></script>
 <script src="{{asset('site/library/easytab/easytab-dist.js?v=1.0.1')}}"></script>
 <script src="{{asset('site/library/jquery/jquery-3.5.1.min.js?v=1.0.1')}}"></script>

@@ -65,7 +65,7 @@
                 @endforeach
                 <div class="flex justify-center">
                     <button wire:click="nextStep('first')" type="button"
-                        class="input-submit-style !rounded-[0.5rem] !w-[15rem] ml-[0.5rem]">مرحله قبل</button>
+                        class="input-submit-style-border !rounded-[0.5rem] !w-[15rem] ml-[0.5rem]">مرحله قبل</button>
 
                     <button wire:click="nextStep('description')" type="button"
                         class="input-submit-style !rounded-[0.5rem] !w-[15rem]">مرحله بعد</button>
@@ -100,7 +100,7 @@
                 @enderror
                 <div class="flex justify-center">
                     <button wire:click="nextStep('subject')" type="button"
-                        class="input-submit-style !rounded-[0.5rem] !w-[15rem] ml-[0.5rem]">مرحله قبل</button>
+                        class="input-submit-style-border !rounded-[0.5rem] !w-[15rem] ml-[0.5rem]">مرحله قبل</button>
 
                     <button wire:click="nextStep('form')" type="button"
                         class="input-submit-style !rounded-[0.5rem] !w-[15rem]">مرحله بعد</button>
@@ -218,7 +218,7 @@
                 </div>
                 <div class="flex justify-center items-start mt-[1rem]">
                     <button wire:click="nextStep('subject')" type="button"
-                    class="input-submit-style !rounded-[0.5rem] !w-[15rem] mr-[0.5rem]">مرحله قبل</button>
+                    class="input-submit-style-border !rounded-[0.5rem] !w-[15rem] mr-[0.5rem]">مرحله قبل</button>
                 </div>
                 @error('file')
                     <span class="text-danger">

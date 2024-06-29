@@ -385,6 +385,37 @@ FarsGamer.com';
         // return json_decode($result->getBody(), true);
     }
 
+    public function sendPatern($message, $number, $CreateAt)
+    {
+        //        dd('sms'.$message);
+        if (app()->environment('local')) {
+            return;
+        }
+
+        try {
+            $user = User::where('mobile', $number)->first();
+            if (!empty($user->email))
+                Mail::to($user->email)->send(new EventMail('پیگیری سفارش', $message));
+        } catch (\Exception $exception) {
+        }
+
+        $client = new Client();
+        $query = Arr::query([
+            'username' => $this->username,
+            'password' => $this->password,
+            'from' => $this->lineNumber,
+            'to' => $number,
+            'pattern_code' => "fadi3eqc2oam6li",
+            'input_data' => json_encode([
+                "time" => $CreateAt
+            ]),
+        ]);
+
+        $result = $client->post("https://ippanel.com/patterns/pattern"."?$query");
+        return json_decode($result->getBody(), true);
+    }
+
+
     public function send($message, $number)
     {
 //        dd('sms'.$message);

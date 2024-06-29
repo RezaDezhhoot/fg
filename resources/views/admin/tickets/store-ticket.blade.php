@@ -76,7 +76,7 @@
                                             <div style="color: white !important">
                                                 {!! $item->content !!}
                                             </div>
-                                            <small class="text-warning">{{ jalaliDate($ticket->created_at) }}</small>
+                                            <small class="text-warning">{{ jalaliDate($item->created_at) }}</small>
                                             @if (!empty($item->file))
                                                 <p>
                                                     <label for="">فایل</label>
@@ -104,7 +104,7 @@
                                                     {!! $item->content !!}
                                                 </p>
                                                 <small
-                                                    class="text-warning">{{ jalaliDate($ticket->created_at) }}</small>
+                                                    class="text-warning">{{ jalaliDate($item->created_at) }}</small>
                                                 @if (!empty($item->file))
                                                     <p>
                                                         <label for="">فایل</label>

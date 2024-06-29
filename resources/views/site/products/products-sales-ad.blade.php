@@ -1,16 +1,149 @@
 <section id="main-search">
     <div id="right-search">
-        <div class="item-header-main-search flex-box flex-justify-space">
-            <div class="text-filter-search">
-                <span>فیلتر ها</span>
-            </div>
-
-            <button class="btn-delete-filter-search">
-                <span>حذف فیلتر ها</span>
-            </button>
+        <div class="fw-bold text-black mb-2 p-2">
+            <h3>آگهی های ثبت شده</h3>
         </div>
 
-        <div class="item-message-main-search">
+        <div class="item-header-main-search flex-box flex-justify-space">
+            <div class="fw-normal text-black">
+                <span>دسته بندی</span>
+            </div>
+        </div>
+
+        <div class="bg-white w-full p-4" style="border-radius: 1rem">
+            <div id="box-header-box-hever-shop w-full">
+                <ul>
+                    <a href="#">
+                        <li class="item-box-hever-store header-box-hever-shop">
+                            <div class="img">
+                                <img src="https://farsgamer.com/media/6635e71a0ac06.png" alt="محصولات فورتنایت">
+                            </div>
+
+                            <span>محصولات فورتنایت</span>
+                        </li>
+                    </a>
+                    <a href="#">
+                        <li class="item-box-hever-store header-box-hever-shop">
+                            <div class="img">
+                                <img src="https://farsgamer.com/media/6635e75008d57.png" alt="گیفت کارت">
+                            </div>
+
+                            <span>گیفت کارت</span>
+                        </li>
+                    </a>
+                    <a href="#">
+                        <li id="item1-box-hever-store" class="item-box-hever-store header-box-hever-shop">
+                            <div class="img">
+                                <img src="https://farsgamer.com/media/6635e7a201103.png" alt="تجهیزات گیمینگ">
+                            </div>
+
+                            <span>تجهیزات گیمینگ</span>
+                        </li>
+                    </a>
+                    <a href="#">
+                        <li id="item1-box-hever-store" class="item-box-hever-store header-box-hever-shop">
+                            <div class="img">
+                                <img src="https://farsgamer.com/media/icone/62379483e7a3e.png" alt="استیم">
+                            </div>
+
+                            <span>استیم</span>
+                        </li>
+                    </a>
+                    <a href="#">
+                        <li id="item1-box-hever-store" class="item-box-hever-store header-box-hever-shop">
+                            <div class="img">
+                                <img src="https://farsgamer.com/media/6635e7f0e4f42.png" alt="اپیک گیمز">
+                            </div>
+
+                            <span>اپیک گیمز</span>
+                        </li>
+                    </a>
+                    <a href="#">
+                        <li id="item1-box-hever-store" class="item-box-hever-store header-box-hever-shop">
+                            <div class="img">
+                                <img src="https://farsgamer.com/media/icone/62379483e8402.png" alt="بتل نت">
+                            </div>
+
+                            <span>بتل نت</span>
+                        </li>
+                    </a>
+                    <a href="#">
+                        <li id="item1-box-hever-store" class="item-box-hever-store header-box-hever-shop">
+                            <div class="img">
+                                <img src="https://farsgamer.com/media/6635e81f47589.png" alt="اورجین">
+                            </div>
+
+                            <span>اورجین</span>
+                        </li>
+                    </a>
+                    <a href="#">
+                        <li id="item1-box-hever-store" class="item-box-hever-store header-box-hever-shop">
+                            <div class="img">
+                                <img src="https://farsgamer.com/media/6635e84539eca.png" alt="راکستار گیمز">
+                            </div>
+
+                            <span>راکستار گیمز</span>
+                        </li>
+                    </a>
+                    <a href="#">
+                        <li id="item1-box-hever-store" class="item-box-hever-store header-box-hever-shop">
+                            <div class="img">
+                                <img src="https://farsgamer.com/media/6635e865b8153.png" alt="بازی های دیگر">
+                            </div>
+
+                            <span>بازی های دیگر</span>
+                        </li>
+                    </a>
+                    <a href="#">
+                        <li id="item1-box-hever-store" class="item-box-hever-store header-box-hever-shop">
+                            <div class="img">
+                                <img src="https://farsgamer.com/media/icone/62379483d2b1a.png" alt="ریوت گیمز">
+                            </div>
+
+                            <span>ریوت گیمز</span>
+                        </li>
+                    </a>
+                    <a href="#">
+                        <li id="item1-box-hever-store" class="item-box-hever-store header-box-hever-shop">
+                            <div class="img">
+                                <img src="https://farsgamer.com/media/6635e88708870.png" alt="بازی های موبایل">
+                            </div>
+
+                            <span>بازی های موبایل</span>
+                        </li>
+                    </a>
+                    <a href="#">
+                        <li id="item1-box-hever-store" class="item-box-hever-store header-box-hever-shop">
+                            <div class="img">
+                                <img src="https://farsgamer.com/media/6635e8afdf415.png" alt="نرم افزار های کاربری">
+                            </div>
+
+                            <span>نرم افزار های کاربری</span>
+                        </li>
+                    </a>
+                    <a href="#">
+                        <li id="item1-box-hever-store" class="item-box-hever-store header-box-hever-shop">
+                            <div class="img">
+                                <img src="https://farsgamer.com/media/6635e7cd7deff.png" alt="ویزا کارت">
+                            </div>
+
+                            <span>ویزا کارت</span>
+                        </li>
+                    </a>
+                    <a href="#">
+                        <li id="item1-box-hever-store" class="item-box-hever-store header-box-hever-shop">
+                            <div class="img">
+                                <img src="https://farsgamer.com/media/6635e7cd7deff.png" alt="شارژ کارت FGPAY">
+                            </div>
+
+                            <span>شارژ کارت FGPAY</span>
+                        </li>
+                    </a>
+                </ul>
+            </div>
+        </div>
+
+        <div class="item-message-main-search mt-4">
             <div>
                 <div class="item-header-mobile open-box-category">
                     <span>فیلتر ها</span>
@@ -301,7 +434,7 @@
 
                             <div class="checkbox-container">
                                 <input type="checkbox" id="checkbox2" class="checkbox">
-
+        
                                 <label for="checkbox2" class="checkbox-label">
                                     <span class="checkbox-icon unchecked">
                                         <svg width="11" height="11" viewBox="0 0 11 11" fill="none"
@@ -310,7 +443,7 @@
                                                 stroke-width="2" stroke-linecap="round" />
                                         </svg>
                                     </span>
-
+        
                                     <span class="checkbox-icon checked">
                                         <svg width="11" height="9" viewBox="0 0 11 9" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -412,14 +545,14 @@
                                 <h2 class="input-min massage-box-price" id="rangeMaxValue2">0</h2>
                                 <span class="txt1-box-price">تومان</span>
                             </div>
-
+    
                             <div class="price-input">
                                 <span class="txt2-box-price">از</span>
                                 <h2 class="input-max massage-box-price" id="rangeMinValue2">100</h2>
                                 <span class="txt1-box-price">تومان</span>
                             </div>
                         </div>
-
+    
                         <div class="range-slider">
                             <input type="range" id="rangeMin2" min="0" max="1000" value="0"
                                 step="10">
@@ -462,10 +595,139 @@
             </div>
         </div>
 
-        <div class="left-message-main-search flex-box flex-wrap flex-right">
-            @foreach ($products as $product)
-                @include('site.components.products.product-box')
-            @endforeach
+        <div class="hide-item-mobile">
+            {{-- اگه دسته بندی انتخاب نکرده بود کاربر --}}
+
+            <div class="bg-white w-full p-4 mb-4" style="border-radius: 1rem">
+                <div class="fw-bold text-black mb-5">
+                    <h3 class="fs-4">دسته بندی</h3>
+                </div>
+                
+                <div id="box-header-box-hever-shop-m">
+                    <a href="#" class="item-box-hever-store header-box-hever-shop d-flex flex-col">
+                        <div class="img">
+                            <img src="https://farsgamer.com/media/6635e71a0ac06.png" alt="محصولات فورتنایت">
+                        </div>
+
+                        <span>محصولات فورتنایت</span>
+                    </a>
+
+                    <a href="#" class="item-box-hever-store header-box-hever-shop d-flex flex-col">
+                        <div class="img">
+                            <img src="https://farsgamer.com/media/6635e71a0ac06.png" alt="محصولات فورتنایت">
+                        </div>
+
+                        <span>محصولات فورتنایت</span>
+                    </a>
+
+                    <a href="#" class="item-box-hever-store header-box-hever-shop d-flex flex-col">
+                        <div class="img">
+                            <img src="https://farsgamer.com/media/6635e71a0ac06.png" alt="محصولات فورتنایت">
+                        </div>
+
+                        <span>محصولات فورتنایت</span>
+                    </a>
+
+                    <a href="#" class="item-box-hever-store header-box-hever-shop d-flex flex-col">
+                        <div class="img">
+                            <img src="https://farsgamer.com/media/6635e71a0ac06.png" alt="محصولات فورتنایت">
+                        </div>
+
+                        <span>محصولات فورتنایت</span>
+                    </a>
+
+                    <a href="#" class="item-box-hever-store header-box-hever-shop d-flex flex-col">
+                        <div class="img">
+                            <img src="https://farsgamer.com/media/6635e71a0ac06.png" alt="محصولات فورتنایت">
+                        </div>
+
+                        <span>محصولات فورتنایت</span>
+                    </a>
+                </div>
+            </div>
+
+            {{-- اگه دسته  بندی انتخاب کرده بود کاربر--}}
+            
+            <div class="bg-white w-full p-4 mb-4  open-box-category  cursor-pointer" style="border-radius: 1rem">
+                <div class="fw-bold text-black flex-box flex-justify-space">
+                    <div class="flex-box">
+                        <svg class="icon-header-store-mbile icon-category-header-store ml-4 mr-0" width="24" height="24"
+                            viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M13.098 6.75012L8.9415 11.6401C8.45063 12.2176 7.64738 12.2176 7.1565 11.6401L3 6.75012"
+                                stroke="black" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+
+                        
+                        <h3 class="fs-4 mr-2">دسته بندی</h3>
+                    </div>
+
+                    <div class="category-selected-sale">
+                        <img src="https://farsgamer.com/media/6635e71a0ac06.png" alt="محصولات فورتنایت">
+
+                        <span>فورتنایت</span>
+                    </div>
+                </div>
+
+                <div class="message-category-store-mobile hide-item mt-8" id="box-header-box-hever-shop-m">
+                    <a href="#" class="item-box-hever-store header-box-hever-shop header-box-hever-shop-activate d-flex flex-col">
+                        <div class="img">
+                            <img src="https://farsgamer.com/media/6635e71a0ac06.png" alt="محصولات فورتنایت">
+                        </div>
+
+                        <span>محصولات فورتنایت</span>
+                    </a>
+
+                    <a href="#" class="item-box-hever-store header-box-hever-shop d-flex flex-col">
+                        <div class="img">
+                            <img src="https://farsgamer.com/media/6635e71a0ac06.png" alt="محصولات فورتنایت">
+                        </div>
+
+                        <span>محصولات فورتنایت</span>
+                    </a>
+
+                    <a href="#" class="item-box-hever-store header-box-hever-shop d-flex flex-col">
+                        <div class="img">
+                            <img src="https://farsgamer.com/media/6635e71a0ac06.png" alt="محصولات فورتنایت">
+                        </div>
+
+                        <span>محصولات فورتنایت</span>
+                    </a>
+
+                    <a href="#" class="item-box-hever-store header-box-hever-shop d-flex flex-col">
+                        <div class="img">
+                            <img src="https://farsgamer.com/media/6635e71a0ac06.png" alt="محصولات فورتنایت">
+                        </div>
+
+                        <span>محصولات فورتنایت</span>
+                    </a>
+
+                    <a href="#" class="item-box-hever-store header-box-hever-shop d-flex flex-col">
+                        <div class="img">
+                            <img src="https://farsgamer.com/media/6635e71a0ac06.png" alt="محصولات فورتنایت">
+                        </div>
+
+                        <span>محصولات فورتنایت</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="hide-item-pc">
+            <div class="left-message-main-search flex-box flex-wrap flex-right">
+                @foreach ($products as $product)
+                    @include('site.components.products.productSaleAd-box')
+                @endforeach
+            </div>
+        </div>
+
+        <div class=" hide-item-mobile">
+            <div class="left-message-main-search flex-box flex-wrap flex-right">
+                @foreach ($products as $product)
+                    @include('site.components.products.product-box')
+                @endforeach
+            </div>
         </div>
     </div>
 </section>

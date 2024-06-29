@@ -128,7 +128,7 @@
                     @can('show_tickets')
                         <x-admin.sidebar-link href="{{ route('admin.ticket') }}" :active="request()->routeIs(['admin.ticket', 'admin.store.ticket'])"
                             icons="fas fa-ticket-alt">تیکت ها
-                            ({{ \App\Models\Ticket::where('status','!=',\App\Models\Ticket::DEACTIVATE)->where('parent_id',null)->get()->count() }})
+                            ({{ \App\Models\Ticket::where('status',\App\Models\Ticket::PENDING)->where('parent_id',null)->get()->count() }})
                         </x-admin.sidebar-link>
                     @endcan
                     <li class="menu-section">

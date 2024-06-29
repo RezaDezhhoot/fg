@@ -15,6 +15,16 @@
         </section>
 
         <section id="left-header">
+            <div class="btn-add-sales-ad">
+                <a href="{{ route('dashboard.sales-ad.create', ['create']) }}">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 4L12 20M20 12L4 12" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+    
+                    <span>ثبت آگهی اکانت</span>
+                </a>
+            </div>
+
             <div id="box-icon-notif">
                 <div id="icon-notif" class="nav-right-icon open-menu">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

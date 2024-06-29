@@ -75,9 +75,9 @@ class CartPaymentComponent extends Component
         TwitterCard::setTitle('پرداخت - فارس گیمر');
         JsonLd::setTitle('پرداخت - فارس گیمر');
 
-		if ( auth()->id() == 55867 ) {
-			// dd($this->getLocation());
-		}
+		// if ( auth()->id() == 55867 ) {
+		// 	dd($this->getLocation());
+		// }
 
 
 		$this->checkProducts();
@@ -194,9 +194,9 @@ class CartPaymentComponent extends Component
             return;
         }
 
-		// if ( $this->getLocation() != "IR" ) {
-		// 	return $this->addError('gateway', 'کاربر گرامی لطفا قبل از پرداخت از قطع بودن اتصال vpn خود اطمینان حاصل فرمایید.');
-		// }
+		if ( $this->getLocation() != "IR" ) {
+			return $this->addError('gateway', 'کاربر گرامی لطفا قبل از پرداخت از قطع بودن اتصال vpn خود اطمینان حاصل فرمایید.');
+		}
 
 
 		// if ($this->getLocation() != "IR") {

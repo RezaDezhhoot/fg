@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\CloseTicketsCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\Models\Form;
@@ -9,6 +10,7 @@ use App\Models\AdminForm;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
+use App\Models\Ticket;
 
 class Kernel extends ConsoleKernel
 {
@@ -19,6 +21,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
          Commands\SetCronJobsCommand::class,
+        CloseTicketsCommand::class
     ];
 
     /**
@@ -29,53 +32,65 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-		$schedule->call(function () {
-            $forms = Form::where('cron',Form::DAILY)->get();
-			foreach ($forms as $form) {
-				$phones = explode(',',$form->users);
-				foreach ($phones as $phone) {
-					$user = User::where('mobile',$phone)->first();
-					$user->forms()->create([
-						'form_title' => $form->title,
-						'form_id' => $form->id,
-						'status' => AdminForm::PENDING,
-						'form_cron' => $form->cron_title,
-					]);
-				}
-			}
-        })->everyMinute();
+        // $schedule->command("ticket:close")->everyMinute();
 
-		$schedule->call(function () {
-            $forms = Form::where('cron',Form::WEEKLY)->get();
-			foreach ($forms as $form) {
-				$phones = explode(',',$form->users);
-				foreach ($phones as $phone) {
-					$user = User::where('mobile',$phone)->first();
-					$user->forms()->create([
-						'form_title' => $form->title,
-						'form_id' => $form->id,
-						'status' => AdminForm::PENDING,
-						'form_cron' => $form->cron_title,
-					]);
-				}
-			}
-        })->weeklyOn(Schedule::FRIDAY,'00:00');
 
-		$schedule->call(function () {
-            $forms = Form::where('cron',Form::MOUNTLY)->get();
-			foreach ($forms as $form) {
-				$phones = explode(',',$form->users);
-				foreach ($phones as $phone) {
-					$user = User::where('mobile',$phone)->first();
-					$user->forms()->create([
-						'form_title' => $form->title,
-						'form_id' => $form->id,
-						'status' => AdminForm::PENDING,
-						'form_cron' => $form->cron_title,
+			$schedule->call(function () {
+				Ticket::query()
+					->whereNull('parent_id')
+					->where('created_at','<=',now()->subDays(2))
+					->update([
+						'status' => Ticket::DEACTIVATE
 					]);
-				}
-			}
-        })->monthlyOn(29,'00:00');
+			})->everyMinute();
+
+		// $schedule->call(function () {
+        //     $forms = Form::where('cron',Form::DAILY)->get();
+		// 	foreach ($forms as $form) {
+		// 		$phones = explode(',',$form->users);
+		// 		foreach ($phones as $phone) {
+		// 			$user = User::where('mobile',$phone)->first();
+		// 			$user->forms()->create([
+		// 				'form_title' => $form->title,
+		// 				'form_id' => $form->id,
+		// 				'status' => AdminForm::PENDING,
+		// 				'form_cron' => $form->cron_title,
+		// 			]);
+		// 		}
+		// 	}
+        // })->everyMinute();
+
+		// $schedule->call(function () {
+        //     $forms = Form::where('cron',Form::WEEKLY)->get();
+		// 	foreach ($forms as $form) {
+		// 		$phones = explode(',',$form->users);
+		// 		foreach ($phones as $phone) {
+		// 			$user = User::where('mobile',$phone)->first();
+		// 			$user->forms()->create([
+		// 				'form_title' => $form->title,
+		// 				'form_id' => $form->id,
+		// 				'status' => AdminForm::PENDING,
+		// 				'form_cron' => $form->cron_title,
+		// 			]);
+		// 		}
+		// 	}
+        // })->weeklyOn(Schedule::FRIDAY,'00:00');
+
+		// $schedule->call(function () {
+        //     $forms = Form::where('cron',Form::MOUNTLY)->get();
+		// 	foreach ($forms as $form) {
+		// 		$phones = explode(',',$form->users);
+		// 		foreach ($phones as $phone) {
+		// 			$user = User::where('mobile',$phone)->first();
+		// 			$user->forms()->create([
+		// 				'form_title' => $form->title,
+		// 				'form_id' => $form->id,
+		// 				'status' => AdminForm::PENDING,
+		// 				'form_cron' => $form->cron_title,
+		// 			]);
+		// 		}
+		// 	}
+        // })->monthlyOn(29,'00:00');
 
 
     }

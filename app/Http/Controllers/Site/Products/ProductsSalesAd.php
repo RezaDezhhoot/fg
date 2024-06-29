@@ -12,7 +12,7 @@ use Artesaos\SEOTools\Facades\TwitterCard;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class ProductsComponent extends Component
+class ProductsSalesAd extends Component
 {
     use WithPagination;
 
@@ -108,8 +108,9 @@ class ProductsComponent extends Component
         } else if ($this->sort == 'price-desc') {
             $products = $products->sortByDesc('price');
         }
+        // dd("hi");
 
-        return view('site.products.products-component', ['products' => $products,'max' => $max,'range'=>$range, 'link' => $link])
+        return view('site.products.products-sales-ad', ['products' => $products,'max' => $max,'range'=>$range, 'link' => $link])
             ->extends('site.layouts.shop');
     }
 }

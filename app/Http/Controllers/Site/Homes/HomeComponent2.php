@@ -12,6 +12,7 @@ use Artesaos\SEOTools\Facades\OpenGraph;
 use Artesaos\SEOTools\Facades\SEOMeta;
 use Artesaos\SEOTools\Facades\TwitterCard;
 use Livewire\Component;
+use Illuminate\Support\Facades\Http;
 
 class HomeComponent2 extends Component
 {
@@ -39,7 +40,8 @@ class HomeComponent2 extends Component
         JsonLd::setTitle('فارس گیمر - اولین مرجع رسمی فروش بازی های آنلاین - گران نخرید ! خرید انواع بازی دیجیتال');
         JsonLd::setDescription('خرید محصولات فورتنایت - خرید محصولات کالاف دیوتی موبایل - خرید پابجی - ارزان تر از همه جا - خرید ویباکس - خرید ویباکس ارزان -100% مشتریان راضی بوده اند');
 
-
+		$Res = Http::get("https://gifkart.com/gapi/?APIKEY=P8iucL@HvTt3+%a@iV8;bb/1*L&GetAllProducts=All");
+		dd($Res->body(),"168.119.200.8",request()->ip());
 
 		
         $settings = Setting::whereIn('name', [

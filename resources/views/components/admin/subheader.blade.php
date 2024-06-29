@@ -1,4 +1,4 @@
-@props(['title', 'mode' => false, 'create'=> false,'factor'=> false])
+@props(['title', 'mode' => false, 'create'=> false,'factor'=> false,'posttag'=> false])
 
 <div id="kt_subheader" class="subheader py-2 py-lg-6 subheader-solid">
     <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
@@ -29,6 +29,9 @@
 		@endif	
         @if($factor)
 		  <div class="btn btn-light-primary mx-2 font-weight-bolder btn-sm" wire:click="sendFactor()">صدور فاکتور</div>
+		@endif
+        @if($posttag)
+		  <div class="btn btn-light-primary font-weight-bolder btn-sm" wire:click="sendPostTag()">صدور برچسب پست</div>
 		@endif
         </div>
     </div>

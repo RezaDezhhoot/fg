@@ -180,6 +180,12 @@ class StoreOrder extends BaseComponent
         $this->emitNotify('سفارش با موفقیت ویرایش شد');
     }
 
+	public function sendPostTag()
+	{
+		$orderDetail = $this->model;
+		redirect()->route('admin.post_tag',[$orderDetail->id]);
+	}
+
 	public function sendFactor()
 	{
 		$orderDetail = $this->model;
@@ -246,11 +252,14 @@ class StoreOrder extends BaseComponent
 							'licenses' => $this->orderSms
 						]);
 					}
+
+					if (!is_null($check_depot) && !is_null($check))
+					{
+						$this->depotId = Depot::where('depot_items_id',$check->id)->first();
+					}
 				}
 
-
 				redirect()->route('admin.factor',[$this->depotId->id]);
-					
 	}
 
 

@@ -152,10 +152,8 @@
                         <div class="flex my-[1rem]">
                             <div class="w-full bg-white p-[1rem] rounded-[0.5rem]">
                                 <div class="text-[12px] font-semibold mb-[0.5rem] flex justify-start">
-                                    <span>پشتیبانی سفارشات</span>
-
-                                    <span
-                                        class="text-[#0F45FF] mr-[0.5rem]">{{ $item->sender->name . ' ' . $item->sender->family }}</span>
+                                    <span>پشتیبانی سفارشات <span
+                                        class="text-[#0F45FF] mr-[0.5rem]">{{ $item->sender->name . ' ' . $item->sender->family }}</span></span>
                                 </div>
 
                                 <div class="text-justify font-semibold text-[14px]">
