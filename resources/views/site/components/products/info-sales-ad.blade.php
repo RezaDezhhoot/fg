@@ -18,46 +18,13 @@
         </div> --}}
 
         <div class="border-top border-bottom mt-4 mb-4  pb-4 pt-4">
-            <span>کد آگهی:313245</span>
+            <span>کد آگهی:{{ $product->code }}</span>
         </div>
     </div>
 
     <div class="description-header-detalist-product">
         <ul dir="rtl">
-            @if ($detail_display == 0)
-                <li>{!! $product->short_description !!}</li>
-            @elseif($detail_display == 1)
-                <ul dir="rtl">
-                    @foreach ($parameters as $key => $item)
-                        @if (!empty(@$item->name))
-                            <li>
-                                <p>
-                                    <span style="font-size:14px">
-                                        <strong>-</strong>
-                                        {{ @$item->name }} : {{ @$parametersValue[$key] }}
-                                    </span>
-                                </p>
-                            </li>
-                        @endif
-                    @endforeach
-                </ul>
-            @elseif($detail_display == 2)
-                <li>{!! $product->short_description !!}</li>
-                <ul dir="rtl">
-                    @foreach ($parameters as $key => $item)
-                        @if (!empty(@$item->name))
-                            <li>
-                                <p>
-                                    <span style="font-size:14px">
-                                        <strong>-</strong>
-                                        {{ @$item->name }} : {{ @$parametersValue[$key] }}
-                                    </span>
-                                </p>
-                            </li>
-                        @endif
-                    @endforeach
-                </ul>
-            @endif
+            <li>{!! $product->description !!}</li>
         </ul>
     </div>
 </div>

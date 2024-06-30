@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Site\Products;
 
+use App\Models\Account;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Setting;
@@ -19,35 +20,38 @@ class ProductsSalesAd extends Component
     protected $queryString = ['q', 'category', 'sort'];
 
     public $categories;
-    public $category = 'all' , $level;
+    public $category = null , $level;
     public $sortable;
+    public $min , $max;
     public $sort = 'latest';
     public $q;
     public $perPage = 12 , $priceRange = 100;
+
+    public $fg_depot = false;
 
     public $banners;
 
     public function mount()
     {
-        SEOMeta::setTitle('محصولات - فارس گیمر');
+        SEOMeta::setTitle('اگهی ها - فارس گیمر');
         SEOMeta::setDescription('خرید محصولات فورتنایت - خرید محصولات کالاف دیوتی موبایل - خرید پابجی - ارزان تر از همه جا - خرید ویباکس - خرید ویباکس ارزان -100% مشتریان راضی بوده اند');
 
-        OpenGraph::setTitle('محصولات - فارس گیمر');
+        OpenGraph::setTitle('اگهی ها - فارس گیمر');
         OpenGraph::setDescription('خرید محصولات فورتنایت - خرید محصولات کالاف دیوتی موبایل - خرید پابجی - ارزان تر از همه جا - خرید ویباکس - خرید ویباکس ارزان -100% مشتریان راضی بوده اند');
 
-        TwitterCard::setTitle('محصولات - فارس گیمر');
+        TwitterCard::setTitle('اگهی ها - فارس گیمر');
         TwitterCard::setDescription('خرید محصولات فورتنایت - خرید محصولات کالاف دیوتی موبایل - خرید پابجی - ارزان تر از همه جا - خرید ویباکس - خرید ویباکس ارزان -100% مشتریان راضی بوده اند');
 
-        JsonLd::setTitle('محصولات - فارس گیمر');
+        JsonLd::setTitle('اگهی ها - فارس گیمر');
         JsonLd::setDescription('خرید محصولات فورتنایت - خرید محصولات کالاف دیوتی موبایل - خرید پابجی - ارزان تر از همه جا - خرید ویباکس - خرید ویباکس ارزان -100% مشتریان راضی بوده اند');
 
         $this->sortable = ['latest' => 'جدید ترین', 'oldest' => 'قدیمی ترین',
             'price-asc' => 'ارزان ترین', 'price-desc' => 'گران ترین',
             Product::STATUS_AVAILABLE => 'محصولات موجود'
             ];
-        $this->categories = Category::with('subCategories')->whereNull('parent_id')->get();
-
-        $this->banners = Setting::whereIn('name', ['products_medium_one', 'products_medium_two'])->get()->pluck('value', 'id');
+        $this->categories = Category::query()->account()->get();
+        $this->max = Account::query()->max('amount');
+        $this->min = Account::query()->min('amount');
     }
 
     public function updated()
@@ -78,39 +82,27 @@ class ProductsSalesAd extends Component
 
     public function render()
     {
-        $products = Product::with('category')->fgtal()->orderBy('status')->latest();
-
-        $products = $products->where('status', '!=', Product::STATUS_DRAFT);
-
-        if ($this->category != 'all') {
-            $category = Category::where('slug', $this->category)->firstOrFail();
-            $products = $products->whereIn('category_id', $category->subCategories()->pluck('id')->push($category->id));
-        }
-
-        if ($this->q) {
-            $products = $products->where('title', 'LIKE', '%' . $this->q . '%');
-        }
-
-        if ($this->sort == Product::STATUS_AVAILABLE || $this->level) {
-            $products->where('status', Product::STATUS_AVAILABLE);
-        }
-        $max = $products->max('amount');
-        $range = ($this->priceRange/100)*($max);
-        $products = $products->where('amount','>=', 0)->where('amount','<=', $range)->paginate(20);
-        $link = $products->links('site.components.pagination');
-
-        if ($this->sort == 'latest') {
-            $products = $products->sortByDesc('created_at');
-        } else if ($this->sort == 'oldest') {
-            $products = $products->sortBy('created_at');
-        } else if ($this->sort == 'price-asc') {
-            $products = $products->sortBy('price');
-        } else if ($this->sort == 'price-desc') {
-            $products = $products->sortByDesc('price');
-        }
-        // dd("hi");
-
-        return view('site.products.products-sales-ad', ['products' => $products,'max' => $max,'range'=>$range, 'link' => $link])
+        $products = Account::query()
+            ->latest()
+            ->when(($this->category) , function ($q){
+                $q->where('category_id', $this->category);
+            })
+            ->when($this->min , function ($q) {
+                $q->where('amount',">=" ,$this->min);
+            })
+            ->when($this->max , function ($q) {
+                $q->where('amount',"<=" ,$this->max);
+            })
+            ->when($this->fg_depot , function ($q){
+                $q->where('fg_depot' , true);
+            })
+            ->when($this->sort , function ($q) {
+                $q->orderBy($this->sort === 'latest' ? 'id' : ($this->sort ?? 'id'),'desc');
+            })
+            ->with(['category','user'])
+            ->published()
+            ->paginate($this->perPage);
+        return view('site.products.products-sales-ad' , get_defined_vars())
             ->extends('site.layouts.shop');
     }
 }

@@ -104,6 +104,11 @@ Route::middleware(['auth', 'role:admin', 'schedule'])->group(function () {
     Route::get('comments/{action}/{id?}', \App\Http\Controllers\Admin\Comments\StoreComment::class)
         ->name('comments.store');
 
+    Route::get('accounts', \App\Http\Controllers\Admin\Accounts\IndexAccount::class)
+        ->name('accounts');
+    Route::get('accounts/{action}/{id?}', \App\Http\Controllers\Admin\Accounts\StoreAccount::class)
+        ->name('accounts.store');
+
     Route::get('questions', \App\Http\Controllers\Admin\Questions\IndexQuestion::class)
         ->name('questions');
 

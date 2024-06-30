@@ -13,6 +13,7 @@ class IndexSalesAd extends Component
 {
     public function mount()
     {
+
         SEOMeta::setTitle('تیکت ها - فارس گیمر');
         OpenGraph::setTitle('تیکت ها - فارس گیمر');
         TwitterCard::setTitle('تیکت ها - فارس گیمر');
@@ -20,11 +21,6 @@ class IndexSalesAd extends Component
     }
     public function render()
     {
-        $items = Ticket::query()->where('user_id',auth()->id())
-            ->whereNull('parent_id')
-            ->limit(100)
-            ->latest()
-            ->get();
-        return view('site.dashboard.index-sales-ad' , get_defined_vars())->extends('site.layouts.dashboard');
+        return view('site.dashboard.index-sales-ad' )->extends('site.layouts.dashboard');
     }
 }

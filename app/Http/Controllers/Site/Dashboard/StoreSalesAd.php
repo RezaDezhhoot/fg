@@ -34,9 +34,7 @@ class StoreSalesAd extends Component
         OpenGraph::setTitle('آگهی جدید - فارس گیمر');
         TwitterCard::setTitle('آگهی جدید - فارس گیمر');
         JsonLd::setTitle('آگهی جدید - فارس گیمر');
-        if (Ticket::query()->where('user_id',\auth()->id())->whereNull('parent_id')->where('status','!=',Ticket::DEACTIVATE)->exists()) {
-            abort('506');
-        }
+
     }
     public function render()
     {

@@ -50,6 +50,15 @@ class Category extends Model
     use LogsActivity;
     use Searchable;
 
+    const ACCOUNT = 'account';
+
+    public static function getTypes(): array
+    {
+        return [
+            self::ACCOUNT => 'اکانت ها'
+        ];
+    }
+
     protected $guarded = [];
 
     protected static $logAttributes = ['*'];
@@ -117,5 +126,10 @@ class Category extends Model
 	 public function groups()
     {
         return $this->hasMany(FilterGroup::class,'category_id')->orderByDesc('id');
+    }
+
+    public function scopeAccount($q)
+    {
+        return $q->where('type',self::ACCOUNT);
     }
 }

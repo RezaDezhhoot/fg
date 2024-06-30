@@ -1,5 +1,5 @@
 <div wire:init="lnit">
-    {{ Breadcrumbs::view('site.components.breadcrumb', 'products.show', $product) }}
+{{--    {{ Breadcrumbs::view('site.components.breadcrumb', 'products.show', $product) }}--}}
 
     <section id="main-product" class="flex-box flex-justify-space flex-aling-auto">
         <section class="right-main-product">
@@ -17,7 +17,7 @@
                         <div class="price">
                             <span>قیمت</span>
 
-                            <span>26,000</span>
+                            <span>{{ $product->amount }}</span>
                         </div>
 
                         <div class="toman">
@@ -37,7 +37,7 @@
                         <div class="box-contact-sale-ad-item">
                             <div class="contact-sale-ad-item">
                                 <div class="text">
-                                    <span>09152086073</span>
+                                    <span>{{ $product->user->mobile }}</span>
                                 </div>
 
                                 <div class="icon">
@@ -52,7 +52,7 @@
 
                             <div class="contact-sale-ad-item">
                                 <div class="text">
-                                    <span>mosio_farshchi@</span>
+                                    <span>{{ $product->telegram_id ?? "-" }}</span>
                                 </div>
 
                                 <div class="icon">
@@ -71,7 +71,7 @@
 
             <div class="box-safe-transaction hide-item">
                 <div class="code">
-                    <span>123456</span>
+                    <span>{{ $product->code }}</span>
                 </div>
 
                 <div class="description">
@@ -122,7 +122,7 @@
                     <div class="price">
                         <span>قیمت</span>
 
-                        <span>26,000</span>
+                        <span>{{ number_format($product->amount) }}</span>
                     </div>
 
                     <div class="toman">
@@ -143,7 +143,7 @@
                     <div class="box-contact-sale-ad-item">
                         <div class="contact-sale-ad-item">
                             <div class="text">
-                                <span>09152086073</span>
+                                <span>{{ $product->user->mobile }}</span>
                             </div>
 
                             <div class="icon">
@@ -158,7 +158,7 @@
 
                         <div class="contact-sale-ad-item">
                             <div class="text">
-                                <span>mosio_farshchi@</span>
+                                <span>{{ $product->telegram_id ?? "-" }}</span>
                             </div>
 
                             <div class="icon">
@@ -204,7 +204,7 @@
 
             <div class="box-safe-transaction hide-item">
                 <div class="code">
-                    <span>123456</span>
+                    <span>{{ $product->code }}</span>
                 </div>
 
                 <div class="description">
@@ -221,7 +221,7 @@
             </div>
         </section>
     </section>
-    
+
     <!-- Modal -->
     <div class="modal fade" id="violation-report-sale-ad" tabindex="-1" role="dialog"
         aria-labelledby="violation-report-sale-adLabel" aria-hidden="true">
