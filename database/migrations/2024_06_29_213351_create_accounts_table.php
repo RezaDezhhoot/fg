@@ -22,8 +22,8 @@ class CreateAccountsTable extends Migration
             $table->text('image');
             $table->text('gallery')->nullable();
             $table->text('description')->nullable();
-            $table->foreignId('category_id')->constrained('categories')->cascadeOnDelete();
-            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('category_id')->index();
+            $table->foreignId('user_id')->index();
             $table->string('status');
             $table->integer('views')->default(0);
             $table->string('admin_description')->nullable();
