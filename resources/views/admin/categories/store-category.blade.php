@@ -46,6 +46,8 @@
 				<x-admin.forms.text-editor id="description" label="توضیحات " required="true" wire:model.defer="description"/>
 				<x-admin.forms.lfm-standalone id="icon" label="ایکون" :image="$icon" required="true" wire:model="icon"/>
 				<x-admin.forms.lfm-standalone id="picture" label="تصویر اصلی" :image="$picture" required="true" wire:model="picture"/>
+                <x-admin.forms.dropdown id="type" label="نوع دسته" :options="$data['type']"  wire:model.defer="type"/>
+
 				<div class="form-group col-12">
 					<label for="category_atr">گروه فیلتر ها</label>
 					<button wire:click.prevent="addGroup('new')" class="btn btn-light-primary font-weight-bolder btn-sm">افزودن</button>

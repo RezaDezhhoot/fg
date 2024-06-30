@@ -6,8 +6,8 @@
                     <img src="{{ asset($product->image) }}" alt="{{ $product->title }}">
                 </div>
 
-                @if ($product->media)
-                    @foreach (explode(',', $product->media) as $item)
+                @if ($product->gallery)
+                    @foreach (explode(',', $product->gallery) as $item)
                         <div class="swiper-slide">
                             <img src="{{ asset($item) }}" alt="{{ $product->title }}">
                         </div>
@@ -25,15 +25,15 @@
             <img src="{{ asset($product->image) }}" alt="{{ $product->title }}">
         </div>
 
-        @if ($product->media)
-            @foreach (explode(',', $product->media) as $key => $item)
-                @if (count(explode(',', $this->product->media)) > 4 && $key == 2)
+        @if ($product->gallery)
+            @foreach (explode(',', $product->gallery) as $key => $item)
+                @if (count(explode(',', $product->galllery)) > 4 && $key == 2)
                     <div class="item-more-img-detalist-product last-more-img-detalist-product flex-box">
                         <img src="{{ asset($item) }}" alt="{{ $product->title }}">
 
                         <div class="flex-box modal-img-prudect-more" dir="ltr" data-bs-toggle="modal"
                             data-bs-target="#modal-img-prudect">
-                            <span>+{{ count(explode(',', $this->product->media)) - 3 }}</span>
+                            <span>+{{ count(explode(',', $product->galllery)) - 3 }}</span>
                         </div>
                     </div>
                 @break
@@ -74,8 +74,8 @@
                         <img class="product-image" src="{{ asset($product->image) }}" alt="{{ $product->title }}">
                     </div>
 
-                    @if ($product->media)
-                        @foreach (explode(',', $product->media) as $item)
+                    @if ($product->gallery)
+                        @foreach (explode(',', $product->gallery) as $item)
                             <div class="swiper-slide product-image-container">
                                 <img class="product-image" src="{{ asset($item) }}" alt="{{ $product->title }}">
                             </div>
@@ -89,8 +89,8 @@
                         <img src="{{ asset($product->image) }}" alt="{{ $product->title }}">
                     </div>
 
-                    @if ($product->media)
-                        @foreach (explode(',', $product->media) as $key => $item)
+                    @if ($product->gallery)
+                        @foreach (explode(',', $product->gallery) as $key => $item)
                             <div class="swiper-slide">
                                 <img src="{{ asset($item) }}" alt="{{ $product->title }}">
                             </div>

@@ -132,6 +132,21 @@
                         </x-admin.sidebar-link>
                     @endcan
                     <li class="menu-section">
+                        <h4 class="menu-text">بخش اگهی ها</h4>
+                        <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
+                    </li>
+
+{{--                    @can('show_tickets')--}}
+                        <x-admin.sidebar-link href="{{ route('admin.accounts') }}" :active="request()->routeIs(['admin.accounts', 'admin.accounts.store'])"
+                                              icons="fab fa-buysellads">اکانت ها
+                            ({{ \App\Models\Account::where('status',\App\Models\Account::PENDING)->count() }})
+                        </x-admin.sidebar-link>
+                        <x-admin.sidebar-link href="{{ route('admin.infractions-subjects') }}" :active="request()->routeIs(['admin.infractions-subjects', 'admin.infractions-subjects.store'])"
+                                              icons="flaticon2-warning">موضوعات تخلف ها
+                        </x-admin.sidebar-link>
+{{--                    @endcan--}}
+
+                    <li class="menu-section">
                         <h4 class="menu-text">بخش خصوصی و فنی</h4>
                         <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
                     </li>

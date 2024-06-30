@@ -9,6 +9,7 @@ use App\Models\Filter;
 use App\Models\CategoryParameter;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Models\CategoryParameterProduct;
+use Illuminate\Validation\Rule;
 
 class StoreCategory extends BaseComponent
 {
@@ -18,6 +19,7 @@ class StoreCategory extends BaseComponent
 
 	public $group_title , $modal_title , $modes , $filters = [] , $telegram_bot = false , $telegram_bot_view = 0;
 
+    public $type;
 
 	public $groupList = [];
 
@@ -118,7 +120,7 @@ class StoreCategory extends BaseComponent
     {
 		$this->i = CategoryParameter::orderBy('id','DESC')->first()->id;
 
-		
+
         if ($action == 'create') {
             $this->create();
         } elseif ($action == 'edit') {
@@ -126,18 +128,19 @@ class StoreCategory extends BaseComponent
         } else {
             abort(404);
         }
+        $this->data['type'] = Category::getTypes();
 
         $this->data['parent_id'] = Category::whereNull('parent_id')
             ->where('id', '!=', $this->model->id ?? 0)
             ->get()->pluck('title', 'id');
-			
+
     }
 
 
 
     public function render()
     {
-		
+
         return view('admin.categories.store-category')
             ->extends('admin.layouts.admin');
     }
@@ -168,9 +171,10 @@ class StoreCategory extends BaseComponent
         $this->setMode(self::MODE_UPDATE);
         $this->model = Category::findOrFail($id);
 		$this->groupList = $this->model->groups()->with(['filters'])->get()->toArray();
-	
+
         $this->title = $this->model->title;
         $this->slug = $this->model->slug;
+        $this->type = $this->model->type;
         $this->image = $this->model->image;
         $this->parent_id = $this->model->parent_id;
 
@@ -179,7 +183,7 @@ class StoreCategory extends BaseComponent
 		$this->picture = $this->model->picture;
 		$this->telegram_bot = $this->model->telegram_bot;
 		$this->telegram_bot_view = $this->model->telegram_bot_view;
-		
+
     }
 
     public function update()
@@ -206,7 +210,8 @@ class StoreCategory extends BaseComponent
 				'icon' => ['nullable','string'],
 				'picture' => ['nullable','string'],
 				'telegram_bot' => ['required','boolean'],
-				'telegram_bot_view' => ['required','integer']
+				'telegram_bot_view' => ['required','integer'],
+                'type' => ['nullable',Rule::in(array_keys($this->data['type']))]
             ],
             [],
             [
@@ -215,13 +220,15 @@ class StoreCategory extends BaseComponent
                 'image' => 'تصویر',
                 'parent_id' => 'دسته',
 				'telegram_bot' => 'نمایش در ربات تلگرام',
-				'telegram_bot_view' => 'شماره نمایش در ربات تلگرام'
+				'telegram_bot_view' => 'شماره نمایش در ربات تلگرام',
+                'type' => 'نوع دسته'
             ]
         );
 
         $category->title = $this->title;
         $category->slug = $this->slug;
         $category->image = $this->image;
+        $category->type = $this->type ?? null;
         $category->parent_id = $this->parent_id;
 		$category->description = $this->description;
 		$category->icon = $this->icon;
@@ -229,7 +236,7 @@ class StoreCategory extends BaseComponent
 		$category->telegram_bot = $this->telegram_bot;
 		$category->telegram_bot_view = $this->telegram_bot_view;
         $category->save();
-	
+
 		foreach ($this->groupList as $item)
         {
             $group = $item['id'] == 0 ? new FilterGroup() : FilterGroup::find($item['id']);

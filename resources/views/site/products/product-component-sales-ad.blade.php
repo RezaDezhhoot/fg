@@ -1,5 +1,5 @@
 <div wire:init="lnit">
-    {{ Breadcrumbs::view('site.components.breadcrumb', 'products.show', $product) }}
+{{--    {{ Breadcrumbs::view('site.components.breadcrumb', 'products.show', $product) }}--}}
 
     <section id="main-product" class="flex-box flex-justify-space flex-aling-auto">
         <section class="right-main-product">
@@ -17,7 +17,7 @@
                         <div class="price">
                             <span>قیمت</span>
 
-                            <span>26,000</span>
+                            <span>{{ $product->amount }}</span>
                         </div>
 
                         <div class="toman">
@@ -37,7 +37,7 @@
                         <div class="box-contact-sale-ad-item">
                             <div class="contact-sale-ad-item">
                                 <div class="text">
-                                    <span>09152086073</span>
+                                    <span>{{ $product->user->mobile }}</span>
                                 </div>
 
                                 <div class="icon">
@@ -52,7 +52,7 @@
 
                             <div class="contact-sale-ad-item">
                                 <div class="text">
-                                    <span>mosio_farshchi@</span>
+                                    <span>{{ $product->telegram_id ?? "-" }}</span>
                                 </div>
 
                                 <div class="icon">
@@ -71,7 +71,7 @@
 
             <div class="box-safe-transaction hide-item">
                 <div class="code">
-                    <span>123456</span>
+                    <span>{{ $product->code }}</span>
                 </div>
 
                 <div class="description">
@@ -122,7 +122,7 @@
                     <div class="price">
                         <span>قیمت</span>
 
-                        <span>26,000</span>
+                        <span>{{ number_format($product->amount) }}</span>
                     </div>
 
                     <div class="toman">
@@ -143,7 +143,7 @@
                     <div class="box-contact-sale-ad-item">
                         <div class="contact-sale-ad-item">
                             <div class="text">
-                                <span>09152086073</span>
+                                <span>{{ $product->user->mobile }}</span>
                             </div>
 
                             <div class="icon">
@@ -158,7 +158,7 @@
 
                         <div class="contact-sale-ad-item">
                             <div class="text">
-                                <span>mosio_farshchi@</span>
+                                <span>{{ $product->telegram_id ?? "-" }}</span>
                             </div>
 
                             <div class="icon">
@@ -204,7 +204,7 @@
 
             <div class="box-safe-transaction hide-item">
                 <div class="code">
-                    <span>123456</span>
+                    <span>{{ $product->code }}</span>
                 </div>
 
                 <div class="description">
@@ -221,9 +221,9 @@
             </div>
         </section>
     </section>
-    
+
     <!-- Modal -->
-    <div class="modal fade" id="violation-report-sale-ad" tabindex="-1" role="dialog"
+    <div class="modal fade" wire:ignore.self id="violation-report-sale-ad" tabindex="-1" role="dialog"
         aria-labelledby="violation-report-sale-adLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -250,39 +250,38 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div>
+                    <div class="{{ ($selectedSubject || $reportSubmitted) ? "hidden" : "" }}">
                         <div class="p-4">
                             <p>موضوع گزارش خود را انتخاب نمایید</p>
                         </div>
 
                         <div class="box-item-report-sale-ad">
-                            <button>خشونت</button>
-
-                            <button>خشونت</button>
-
-                            <button>خشونت</button>
-
-                            <button>خشونت</button>
+                            @foreach($subjects as $subject)
+                                <button wire:click="$set('selectedSubject','{{$subject->title}}')">{{ $subject->title }}</button>
+                            @endforeach
                         </div>
                     </div>
 
-                    <div class="box-form-report-sale-ad hidden">
+                    <div class="box-form-report-sale-ad {{ (! $selectedSubject || $reportSubmitted) ? "hidden" : "" }}">
                         <div class="title">
-                            <span>موضوع : خشونت</span>
+                            <span>موضوع : {{ $selectedSubject }}</span>
                         </div>
 
                         <div class="body">
                             <label for="body">لطفا شرح کوتاهی از ثبت گزارش ثبت کنید</label>
 
-                            <textarea id="body" placeholder="لطفا متن موضوع  خود را وارد نمایید"></textarea>
+                            <textarea id="body" placeholder="لطفا متن موضوع  خود را وارد نمایید" wire:model.defer="reportDescription"></textarea>
+                            @error('body')
+                            <small class="text-danger">{{ $message }}</small>
+                            @enderror
                         </div>
 
                         <div class="btn">
-                            <button class="input-submit-style h-12">ارسال</button>
+                            <button wire:click="submitReport" class="input-submit-style h-12">ارسال</button>
                         </div>
                     </div>
 
-                    <div class="box-thanks-report-sale-ad hidden">
+                    <div class="box-thanks-report-sale-ad {{  ($reportSubmitted) ? "" : "hidden" }} ">
                         <div class="img">
                             <img src="https://farsgamer.com/media/667af0fcdb5c2.png" alt="">
                         </div>

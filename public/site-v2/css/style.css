@@ -2690,6 +2690,7 @@ footer{
     width: 40px;
     height: 40px;
     border-radius: 100px;
+    z-index: 1 !important;
 }
 
 
@@ -4239,6 +4240,11 @@ footer{
     padding: 1rem;
     max-height: 3.5rem;
     margin-bottom: 1rem;
+}
+
+
+#box-header-box-hever-shop .active{
+    background-color: #F7F7FA;
 }
 
 
