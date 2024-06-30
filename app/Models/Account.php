@@ -64,4 +64,9 @@ class Account extends Model
     {
         return $q->where('status',self::PUBLISHED);
     }
+
+    public function infractions()
+    {
+        return $this->hasMany(AccountInfraction::class,'account_id');
+    }
 }

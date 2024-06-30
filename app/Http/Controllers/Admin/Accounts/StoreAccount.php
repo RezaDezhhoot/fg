@@ -31,7 +31,7 @@ class StoreAccount extends BaseComponent
     public function edit($id)
     {
         $this->setMode(self::MODE_UPDATE);
-        $this->model = Account::findOrFail($id);
+        $this->model = Account::query()->findOrFail($id);
         $this->title = $this->model->title;
         $this->description = $this->model->description;
         $this->image = $this->model->image;
@@ -102,6 +102,8 @@ class StoreAccount extends BaseComponent
 
     public function render()
     {
-        return view('admin.accounts.store-account')->extends('admin.layouts.admin');
+        $infractions = $this->model->infractions()->latest()->paginate($this->perPage);
+
+        return view('admin.accounts.store-account' , get_defined_vars())->extends('admin.layouts.admin');
     }
 }

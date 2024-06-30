@@ -7,6 +7,7 @@ use App\Http\Controllers\FormBuilder\Facades\FormBuilder;
 use App\Models\Account;
 use App\Models\Category;
 use App\Models\Comment;
+use App\Models\InfractionSubject;
 use App\Models\Product;
 use App\Models\Setting;
 use Artesaos\SEOTools\Facades\JsonLd;
@@ -14,6 +15,7 @@ use Artesaos\SEOTools\Facades\OpenGraph;
 use Artesaos\SEOTools\Facades\SEOMeta;
 use Artesaos\SEOTools\Facades\JsonLdMulti;
 use Artesaos\SEOTools\Facades\TwitterCard;
+use Illuminate\Validation\Rule;
 use Livewire\Component;
 use App\Models\CategoryParameter;
 use App\Models\CategoryParameterProduct;
@@ -26,27 +28,35 @@ class ProductSalesAdComponent extends Component
 	use WithFileUploads , WithPagination;
 
     public $readyToLoad = false;
-    public $isLoaded = false;
 
     public $product;
-    public $form, $price, $priceWithDiscount;
-    public $avg , $start_lottery  ;
-    public $quantity = 1;
-    public $questionsCount = 0, $commentsCount = 5 ;
-    public $prePageComment = 6, $prePageQuestion = 6;
 
-    public $relatedProducts ;
-    public $banners , $detail_display;
-	public $parameters = [],$parametersValue = [] , $file , $needUpload = false , $needConfirm = false , $showLaw = false , $lawOK = false;
+    public $selectedSubject;
+    public $reportDescription;
+    public $reportSubmitted = false;
+
+    public $subjects = [];
 
     public function lnit()
     {
         $this->readyToLoad = true;
     }
 
+    private function checkReportSubmitted()
+    {
+        if (auth()->check()) {
+            return $this->reportSubmitted = $this->product
+                ->infractions()->where('user_id' , auth()->id())
+                ->exists();
+        }
+        return false;
+    }
+
     public function mount($id)
     {
         $this->product = Account::query()->published()->findOrFail($id);
+        $this->subjects = InfractionSubject::query()->get();
+        $this->checkReportSubmitted();
         SEOMeta::setTitle('خرید ' . $this->product->title . ' - فارس گیمر');
         SEOMeta::setDescription($this->product->seo_description);
         OpenGraph::setTitle('خرید ' . $this->product->title . ' - فارس گیمر');
@@ -62,10 +72,31 @@ class ProductSalesAdComponent extends Component
         TwitterCard::setDescription($this->product->seo_description);
     }
 
+    public function submitReport()
+    {
+        if (! auth()->check()) {
+            $this->addError('body','کاربر گرامی قبل از ثبت گزارش می بایست ثبت نام نمایید.');
+            return ;
+        }
+
+        if ($this->checkReportSubmitted()) {
+            $this->addError('body','کاربر گرامی گزارش شما از پیش ثبث شده است.');
+            return;
+        }
+        $this->validate([
+            'reportDescription' => ['required','string','max:150'],
+            'selectedSubject' => ['required','string',Rule::exists('infraction_subjects','title')]
+        ]);
+        $report = $this->product->infractions()->create([
+            'subject' => $this->selectedSubject,
+            'description'=> $this->reportDescription,
+            'user_id' => auth()->id()
+        ]);
+        $this->checkReportSubmitted();
+    }
 
     public function render()
     {
-
         return view('site.products.product-component-sales-ad')
             ->extends('site.layouts.product');
     }

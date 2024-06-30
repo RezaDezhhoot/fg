@@ -138,8 +138,11 @@
 
 {{--                    @can('show_tickets')--}}
                         <x-admin.sidebar-link href="{{ route('admin.accounts') }}" :active="request()->routeIs(['admin.accounts', 'admin.accounts.store'])"
-                                              icons="fas fa-ticket-alt">اکانت ها
+                                              icons="fab fa-buysellads">اکانت ها
                             ({{ \App\Models\Account::where('status',\App\Models\Account::PENDING)->count() }})
+                        </x-admin.sidebar-link>
+                        <x-admin.sidebar-link href="{{ route('admin.infractions-subjects') }}" :active="request()->routeIs(['admin.infractions-subjects', 'admin.infractions-subjects.store'])"
+                                              icons="flaticon2-warning">موضوعات تخلف ها
                         </x-admin.sidebar-link>
 {{--                    @endcan--}}
 

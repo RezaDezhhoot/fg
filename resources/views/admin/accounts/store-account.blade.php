@@ -28,6 +28,44 @@
 
             </x-admin.forms.form>
 
+            <div class="card">
+                <div class="card-body">
+
+                    @include('admin.components.advanced-table')
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>موضوع </th>
+                                <th>توضیخات </th>
+                                <th>کاربر</th>
+                                <th>تاریخ</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @forelse($infractions as $item)
+                                <tr>
+                                    <td>{{iteration($loop, $perPage)}}</td>
+                                    <td>{{$item->subject}}</td>
+                                    <td>{{$item->description}}</td>
+                                    <td>{{$item->user->full_name ." ". $item->username ." ". $item->phone}}</td>
+                                    <td>{{jalaliDate($item->created_at)}}</td>
+                                </tr>
+                            @empty
+                                <td class="text-center" colspan="8">
+                                    دیتایی جهت نمایش وجود ندارد
+                                </td>
+                            @endforelse
+                            <tr>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    {{ $infractions->links('admin.components.pagination') }}
+                </div>
+            </div>
+
         </div>
     </div>
 </div>

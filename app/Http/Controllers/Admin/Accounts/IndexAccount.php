@@ -25,6 +25,7 @@ class IndexAccount extends BaseComponent
     {
         $items = Account::query()
             ->with(['category','user'])
+            ->withCount('infractions')
             ->when($this->status , function ($q) {
                 $q->where('status', $this->status);
             })

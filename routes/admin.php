@@ -109,6 +109,11 @@ Route::middleware(['auth', 'role:admin', 'schedule'])->group(function () {
     Route::get('accounts/{action}/{id?}', \App\Http\Controllers\Admin\Accounts\StoreAccount::class)
         ->name('accounts.store');
 
+    Route::get('accounts-infraction-subjects', \App\Http\Controllers\Admin\Accounts\IndexInfractionSubject::class)
+        ->name('infractions-subjects');
+    Route::get('accounts-infraction-subjects/{action}/{id?}', \App\Http\Controllers\Admin\Accounts\StoreInfractionSubject::class)
+        ->name('infractions-subjects.store');
+
     Route::get('questions', \App\Http\Controllers\Admin\Questions\IndexQuestion::class)
         ->name('questions');
 
