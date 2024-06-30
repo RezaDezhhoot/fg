@@ -16,7 +16,7 @@ class CreateAccountInfractionsTable extends Migration
         Schema::create('account_infractions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('account_id')->constrained('accounts')->cascadeOnDelete();
-            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('user_id')->index();
             $table->string('subject');
             $table->text('description');
             $table->timestamps();
