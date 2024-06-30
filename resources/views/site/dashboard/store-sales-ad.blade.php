@@ -44,7 +44,14 @@
                 </div>
 
                 <div class="flex justify-center">
-                    <button wire:click="setCategory" type="button" class="input-submit-style !rounded-[0.5rem] !w-[15rem]">مرحله بعد</button>
+                    <button wire:click="setCategory" wire:loading.attr="disabled" type="button" class="input-submit-style !rounded-[0.5rem] !w-[15rem]">
+                       <span wire:loading.remove>
+                            مرحله بعد
+                       </span>
+                        <span wire:loading>
+                            لظفا صبر کنید...
+                       </span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -74,6 +81,8 @@
                                 class="upload-click-file-sale w-[12rem] h-[12rem] bg-[#F8F9FB] border border-[#BDBDC7] p-[1rem] rounded-[0.5rem] cursor-pointer flex flex-col justify-center items-center">
                                 @if($image)
                                     <img src="{{ $image->temporaryUrl() }}" alt="">
+                                @elseif($oldImage)
+                                    <img src="{{ asset($oldImage) }}" alt="">
                                 @else
                                     <svg width="45" height="45" viewBox="0 0 45 45" fill="none"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -102,13 +111,16 @@
                         @error('image')
                         <small class="text-danger">{{ $message }}</small>
                         @enderror
+                        @error('oldImage')
+                        <small class="text-danger">{{ $message }}</small>
+                        @enderror
                     </div>
 
                     <div>
                         <div class="flex justify-between items-center">
                             <p>عکس برای گالری آگهی خود انتخاب کنید</p>
 
-                            <span class="text-[#3D42DF] text-[14px] font-[700]">{{ sizeof($galleries) }}/5</span>
+                            <span class="text-[#3D42DF] text-[14px] font-[700]">{{ sizeof($galleries) + sizeof($oldGalleries) }}/5</span>
                         </div>
 
                         <div
@@ -118,7 +130,7 @@
                             x-on:livewire-upload-error="isUploading = false"
                             x-on:livewire-upload-progress="progress = $event.detail.progress"
                             class="grid grid-cols-3 lg:grid-cols-5 gap-2 my-[1rem]">
-                            @if(sizeof($galleries) < 5)
+                            @if(sizeof($galleries) + sizeof($oldGalleries) < 5)
                                 <input type="file" accept="image/*" class="upload-input-file-sale hidden"  wire:model="gallery">
                                 <div
                                     class="w-full p-[0.5rem] upload-click-file-sale bg-[#F8F9FB] border border-[#BDBDC7] rounded-[0.5rem] cursor-pointer flex flex-col justify-center items-center">
@@ -168,8 +180,32 @@
                                     </svg>
                                 </div>
                             @endforeach
+                                @foreach($oldGalleries as $key => $item)
+                                    <div wire:click="removeOldGallery({{$key}})"
+                                         class="w-full p-[0.25rem] bg-[#F8F9FB] border border-[#BDBDC7] rounded-[0.5rem] cursor-pointer flex flex-col justify-center items-center">
+                                        <img class="w-full h-full rounded-[0.5rem]"
+                                             src="{{ asset($item) }}" alt="">
+
+                                        <svg class="absolute" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                             xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M19.5 5.5L18.8803 15.5251C18.7219 18.0864 18.6428 19.3671 18.0008 20.2879C17.6833 20.7431 17.2747 21.1273 16.8007 21.416C15.8421 22 14.559 22 11.9927 22C9.42312 22 8.1383 22 7.17905 21.4149C6.7048 21.1257 6.296 20.7408 5.97868 20.2848C5.33688 19.3626 5.25945 18.0801 5.10461 15.5152L4.5 5.5"
+                                                stroke="#FF3838" stroke-width="1.5" stroke-linecap="round" />
+                                            <path
+                                                d="M3 5.5H21M16.0557 5.5L15.3731 4.09173C14.9196 3.15626 14.6928 2.68852 14.3017 2.39681C14.215 2.3321 14.1231 2.27454 14.027 2.2247C13.5939 2 13.0741 2 12.0345 2C10.9688 2 10.436 2 9.99568 2.23412C9.8981 2.28601 9.80498 2.3459 9.71729 2.41317C9.32164 2.7167 9.10063 3.20155 8.65861 4.17126L8.05292 5.5"
+                                                stroke="#FF3838" stroke-width="1.5" stroke-linecap="round" />
+                                            <path d="M9.5 16.5L9.5 10.5" stroke="#FF3838" stroke-width="1.5"
+                                                  stroke-linecap="round" />
+                                            <path d="M14.5 16.5L14.5 10.5" stroke="#FF3838" stroke-width="1.5"
+                                                  stroke-linecap="round" />
+                                        </svg>
+                                    </div>
+                                @endforeach
                         </div>
                         @error('galleries')
+                        <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                        @error('gallery')
                         <small class="text-danger">{{ $message }}</small>
                         @enderror
                     </div>
@@ -225,11 +261,24 @@
                 </div>
 
                 <div class="flex justify-center mt-[1.5rem]">
-                    <button wire:click="$set('step','category')" type="button"
-                        class="input-submit-style-border !rounded-[0.5rem] !w-[15rem] ml-[0.5rem]">مرحله
-                        قبل</button>
+                    <button wire:click="$set('step','category')" wire:loading.attr="disabled" type="button"
+                        class="input-submit-style-border !rounded-[0.5rem] !w-[15rem] ml-[0.5rem]">
+                         <span wire:loading.remove>
+                            مرحله قبل
+                       </span>
+                        <span wire:loading>
+                            لظفا صبر کنید...
+                       </span>
+                    </button>
 
-                    <button wire:click="setBasicInfo" type="button" class="input-submit-style !rounded-[0.5rem] !w-[15rem]">مرحله بعد</button>
+                    <button wire:click="setBasicInfo" wire:target="setBasicInfo" type="button"  wire:loading.attr="disabled" class="input-submit-style !rounded-[0.5rem] !w-[15rem]">
+                         <span wire:loading.remove wire:target="setBasicInfo">
+                            مرحله بعد
+                       </span>
+                        <span wire:loading wire:target="setBasicInfo">
+                            لظفا صبر کنید...
+                       </span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -296,7 +345,7 @@
                         </div>
                     </div>
 
-                    @if($extraSocial)
+                    @if($extraSocial && $dont_show_phone)
                         <div class="mt-[1rem]">
                             <label for="price">{{ $extraSocial }}</label>
 
@@ -325,7 +374,14 @@
                             <span class="mr-[0.5rem]">افزودن راه ارتباطی دیگر</span>
                         </button>
                         @endif
-                        <button wire:click="setExtraInfo" type="button" class="input-submit-style !rounded-[0.5rem] !w-[70%]">ارسال</button>
+                        <button wire:click="setExtraInfo"  wire:loading.attr="disabled" type="button" class="input-submit-style !rounded-[0.5rem] !w-[70%]">
+                              <span wire:loading.remove >
+                            ارسال
+                       </span>
+                            <span wire:loading >
+                            لظفا صبر کنید...
+                       </span>
+                        </button>
                     </div>
 
             </div>

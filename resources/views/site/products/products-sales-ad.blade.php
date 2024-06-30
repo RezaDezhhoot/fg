@@ -203,6 +203,11 @@
                         </li>
                     </ul>
                 </div>
+
+                <div class="modal-footer text-center">
+                    <button data-bs-dismiss="modal"
+                            aria-label="Close" class="w-100 btn btn-primary text-center">اعمال</button>
+                </div>
             </div>
         </div>
     </div>
@@ -268,6 +273,11 @@
                             </div>
                         </li>
                     </ul>
+                </div>
+
+                <div class="modal-footer text-center">
+                    <button data-bs-dismiss="modal"
+                            aria-label="Close" class="w-100 btn btn-primary text-center">اعمال</button>
                 </div>
             </div>
         </div>
@@ -393,15 +403,15 @@
                                 stroke="black" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
                                 stroke-linejoin="round" />
                         </svg>
+                        <h3 class="fs-4 mr-2" wire:loading.remove>دسته بندی</h3>
+                        <h3  class="fs-4 mr-2" wire:loading>لطفا صبر کنید...</h3>
 
-
-                        <h3 class="fs-4 mr-2">دسته بندی</h3>
                     </div>
 
                     <div class="category-selected-sale">
-                        <img src="https://farsgamer.com/media/6635e71a0ac06.png" alt="محصولات فورتنایت">
+                        <img src="{{ asset($categoryModel->icon ?? '') }}" alt=" {{ $categoryModel->title ?? '' }}">
 
-                        <span>فورتنایت</span>
+                        <span>{{ $categoryModel->title ?? '' }}</span>
                     </div>
                 </div>
 

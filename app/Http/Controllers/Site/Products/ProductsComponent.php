@@ -95,6 +95,7 @@ class ProductsComponent extends Component
             $products->where('status', Product::STATUS_AVAILABLE);
         }
         $max = $products->max('amount');
+        $min = $products->min('amount');
         $range = ($this->priceRange/100)*($max);
         $products = $products->where('amount','>=', 0)->where('amount','<=', $range)->paginate(20);
         $link = $products->links('site.components.pagination');

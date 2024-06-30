@@ -22,7 +22,7 @@ class ProductsSalesAd extends Component
     protected $queryString = ['q', 'category', 'sort'];
 
     public $categories;
-    public $category = null , $level;
+    public $category = null , $level , $categoryModel;
     public $sortable;
     public $min , $max;
     public $sort = 'latest';
@@ -54,11 +54,19 @@ class ProductsSalesAd extends Component
         $this->categories = Category::query()->account()->get();
         $this->max = Account::query()->max('amount');
         $this->min = Account::query()->min('amount');
+        $this->updatedCategory($this->category);
     }
 
     public function updated()
     {
         $this->resetPage();
+    }
+
+    public function updatedCategory($value)
+    {
+        if ($value) {
+            $this->categoryModel = Category::query()->find($value);
+        }
     }
 
     public function levelTest()

@@ -28,24 +28,47 @@ class StoreSalesAd extends Component
 
     public $description , $dont_show_phone = false;
 
-    public  $safe = true , $acceptLaw = false , $telegram_id , $other_social_id , $extraSocial;
+    public  $safe = false , $acceptLaw = false , $telegram_id , $other_social_id , $extraSocial;
 
     public $add_other_social;
 
     public $file ;
 
+    public $account;
+
+    public $oldImage , $oldGalleries = [];
 
     public function updatedDontShowPhone()
     {
-        $this->reset(['add_other_social']);
+        $this->reset(['add_other_social','extraSocial']);
     }
 
-    public function mount()
+    public function mount($action , $id =null)
     {
         SEOMeta::setTitle('آگهی جدید - فارس گیمر');
         OpenGraph::setTitle('آگهی جدید - فارس گیمر');
         TwitterCard::setTitle('آگهی جدید - فارس گیمر');
         JsonLd::setTitle('آگهی جدید - فارس گیمر');
+
+        if ($action == 'edit') {
+            $this->account = Account::query()
+                ->where('user_id',auth()->id())
+                ->findOrFail($id);
+
+            $this->category = $this->account->category_id;
+            $this->title = $this->account->title;
+            $this->amount = $this->account->amount;
+            $this->safe = $this->account->safe;
+            $this->telegram_id = $this->account->telegram_id;
+            $this->description = $this->account->description;
+            $this->dont_show_phone = ! $this->account->show_phone;
+            $this->other_social_id = $this->account->other_social_id;
+            $this->extraSocial = $this->account->extraSocial;
+            $this->add_other_social = $this->account->extraSocial;
+            $this->oldImage = $this->account->image;
+            $this->oldGalleries = explode(',',$this->account->gallery);
+        }
+
         $this->categories = Category::query()
             ->account()
             ->pluck('title','id');
@@ -64,20 +87,26 @@ class StoreSalesAd extends Component
         $this->step = 'basic-info';
     }
 
+
+
     public function setBasicInfo()
     {
         $this->validate([
-            'image' => ['required','file','mimes:jpg,jpeg,png,PNG,JPG,JPEG','max:2048'],
+            'image' => [ ($this->account && $this->oldImage) ? 'nullable' : 'required' , 'file','mimes:jpg,jpeg,png,PNG,JPG,JPEG','max:2048'],
+            'oldImage' => [...(($this->account && ! $this->image ) ? ['required'] : ['nullable']),'string','max:1000'],
             'amount' => ['required','numeric','between:1000,10000000000000000000'],
             'title' => ['required','string','max:70'],
-            'galleries' => ['required','array','min:1','max:5'],
+            'galleries' => [...(sizeof($this->oldGalleries) > 0 ? ['nullable'] : ['required','min:1']),'array','max:5'],
+            'oldGalleries' => [...($this->account  ? ['required','min:1'] : ['nullable']),'array','max:5'],
             'galleries.*' => ['required','file','mimes:jpg,jpeg,png,PNG,JPG,JPEG','max:1024'],
             'safe' => ['nullable','boolean']
         ],[] , [
             'image' => 'تصویر',
+            'oldImage' => 'تصویر',
             'amount' => 'مبلغ',
             'title' => 'اسم',
-            'galleries' => 'گالری تصاویر'
+            'galleries' => 'گالری تصاویر',
+            'oldGalleries' => 'گالری تصاویر',
         ]);
         $this->step = 'extra-info';
     }
@@ -102,10 +131,12 @@ class StoreSalesAd extends Component
     {
         $this->validate([
             'category' => ['required',Rule::exists('categories','id')->where('type',Category::ACCOUNT)],
-            'image' => ['required','file','mimes:jpg,jpeg,png,PNG,JPG,JPEG','max:2048'],
+            'image' => [ ($this->account && $this->oldImage) ? 'nullable' : 'required' , 'file','mimes:jpg,jpeg,png,PNG,JPG,JPEG','max:2048'],
+            'oldImage' => [...(($this->account && ! $this->image ) ? ['required'] : ['nullable']),'string','max:1000'],
             'amount' => ['required','numeric','between:1000,10000000000000000000'],
             'title' => ['required','string','max:70'],
-            'galleries' => ['required','array','min:1','max:5'],
+            'galleries' => [...(sizeof($this->oldGalleries) > 0 ? ['nullable'] : ['required','min:1']),'array','max:'.(5 - sizeof($this->oldGalleries))],
+            'oldGalleries' => [...($this->account  ? ['required','min:1'] : ['nullable']),'array','max:'.(5 - sizeof($this->galleries))],
             'galleries.*' => ['required','file','mimes:jpg,jpeg,png,PNG,JPG,JPEG','max:1024'],
             'safe' => ['nullable','boolean'],
             'description' => ['required','string','max:1000'],
@@ -116,9 +147,11 @@ class StoreSalesAd extends Component
             'extraSocial' => [$this->dont_show_phone ? "required" : 'nullable','string','max:50']
         ] , [] , [
             'image' => 'تصویر',
+            'oldImage' => 'تصویر',
             'amount' => 'مبلغ',
             'title' => 'اسم',
             'galleries' => 'گالری تصاویر',
+            'oldGalleries' => 'گالری تصاویر',
             'description' => 'توضیحات',
             'acceptLaw' => 'تاییدیه',
             'telegram_id' => 'تلگرام',
@@ -133,33 +166,56 @@ class StoreSalesAd extends Component
                 'show_phone' => ! $this->dont_show_phone,
                 'description' => $this->description,
                 'telegram_id' => $this->telegram_id,
+                'extraSocial' => $this->extraSocial,
                 'other_social_id' =>  $this->other_social_id ? ($this->extraSocial .":". $this->other_social_id) : null,
                 'safe' => $this->safe,
                 'status' => Account::PENDING,
-                'image' =>  'media/'.$this->image->store('accounts','media'),
-                'gallery' => collect($this->galleries)->map(function ($item) {
+                'image' =>  $this->image ? ('media/'.$this->image->store('accounts','media')) : $this->oldImage,
+                'gallery' =>  collect($this->galleries)->map(function ($item) {
                     return 'media/'.$item->store('accounts','media');
-                })->implode(',')
+                })->merge($this->oldGalleries)->implode(',')
             ];
-            $account = new Account();
+            $account = $this->account ?? (new Account());
             $account->fill($data)->save();
             $this->step = 'finish';
         } catch (\Exception $exception) {
-            dd($exception->getMessage());
             $this->addError('acceptLaw','مشکلی در حین ثبت اگهی وجود دارد لطفا بررسی سپس مجدد تلاش نمایید. ');
         }
     }
 
     public function updatedGallery($value)
     {
+        $this->validate([
+            'gallery' => ['required','file','mimes:jpg,jpeg,png,PNG,JPG,JPEG','max:1024'],
+        ],[] , [
+            'gallery' => 'گالری'
+        ]);
         $this->galleries[] = $value;
         $this->reset('gallery');
     }
+
+    public function updatedImage($value)
+    {
+        $this->validate([
+            'image' => ['required','file','mimes:jpg,jpeg,png,PNG,JPG,JPEG','max:2048'],
+        ],[] , [
+            'image' => 'تصویر'
+        ]);
+        $this->reset('oldImage');
+    }
+
 
     public function removeGallery($key)
     {
         if (isset($this->galleries[$key])) {
             unset($this->galleries[$key]);
+        }
+    }
+
+    public function removeOldGallery($key)
+    {
+        if (isset($this->oldGalleries[$key])) {
+            unset($this->oldGalleries[$key]);
         }
     }
 

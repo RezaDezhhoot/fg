@@ -78,7 +78,7 @@
                                     <td class="d-flex flex-column justify-content-center aling-items-center">
                                         <a href="#" class="btn-remove-sale-add-dashboard">حذف</a>
 
-                                        <a href="#" class="btn-edit-sale-add-dashboard">ویرایش</a>
+                                        <a href="{{ route('dashboard.sales-ad.create', ['edit' , $item->id]) }}" class="btn-edit-sale-add-dashboard">ویرایش</a>
 
                                         @if($item->status == \App\Models\Account::PUBLISHED)
                                             <a href="{{ route('products-sales-ad.show' , [$item->id]) }}" class="btn-open-sale-add-dashboard">مشاهده آگهی</a>
@@ -137,7 +137,7 @@
                                     </div>
 
                                     <div class="box-sale-ad-mobile-btn">
-                                        <a href="#" class="edit">ویرایش</a>
+                                        <a href="{{ route('dashboard.sales-ad.create', ['edit' , $item->id]) }}" class="edit">ویرایش</a>
 
                                         <a href="#" class="remove">حذف</a>
                                     </div>
@@ -172,7 +172,6 @@
                 </div>
                 @endif
                 <div class="left-message-main-search flex-box flex-wrap flex-right">
-
                         @foreach($items as $item)
                             <div class="show-swiper-slide-prudect show-swiper-slide-prudect-dashboard  flex-box flex-column">
                                 <a href="{{ route('products-sales-ad.show' , [$item->id]) }}">
