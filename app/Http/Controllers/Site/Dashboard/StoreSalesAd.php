@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Site\Dashboard;
 
+use App\Models\Account;
+use App\Models\Category;
 use App\Models\Subject;
 use App\Models\Ticket;
 use Artesaos\SEOTools\Facades\JsonLd;
@@ -17,16 +19,26 @@ class StoreSalesAd extends Component
 {
     use WithFileUploads;
 
-    public $ticketSubject , $orderStep , $subjects = [] , $ticketStep = 'first';
+    public $step = 'category';
 
-    public $acceptBody;
+    public $categories = [];
 
-    public $subject;
 
-    public $formSubject , $orderId , $productName , $cardNumber , $priority , $body;
+    public $category , $image , $galleries = [] , $title , $amount , $gallery;
 
-    public $file , $description;
+    public $description , $dont_show_phone = false;
 
+    public  $safe = true , $acceptLaw = false , $telegram_id , $other_social_id , $extraSocial;
+
+    public $add_other_social;
+
+    public $file ;
+
+
+    public function updatedDontShowPhone()
+    {
+        $this->reset(['add_other_social']);
+    }
 
     public function mount()
     {
@@ -34,103 +46,125 @@ class StoreSalesAd extends Component
         OpenGraph::setTitle('آگهی جدید - فارس گیمر');
         TwitterCard::setTitle('آگهی جدید - فارس گیمر');
         JsonLd::setTitle('آگهی جدید - فارس گیمر');
-
+        $this->categories = Category::query()
+            ->account()
+            ->pluck('title','id');
     }
     public function render()
     {
         return view('site.dashboard.store-sales-ad')->extends('site.layouts.tickets');
     }
 
-    public function updatedOrderStep()
+
+    public function setCategory()
     {
-        switch ($this->orderStep){
-            case Subject::BEFORE_ORDER:
-                $this->subjects = Subject::query()->where('category',Subject::BEFORE_ORDER)->get()->chunk(2)->values()->toArray();
-                break;
-            case Subject::AFTER_ORDER:
-                $this->subjects = Subject::query()->where('category',Subject::AFTER_ORDER)->get()->chunk(2)->values()->toArray();
-                break;
+        $this->validate([
+            'category' => ['required',Rule::exists('categories','id')->where('type',Category::ACCOUNT)]
+        ]);
+        $this->step = 'basic-info';
+    }
+
+    public function setBasicInfo()
+    {
+        $this->validate([
+            'image' => ['required','file','mimes:jpg,jpeg,png,PNG,JPG,JPEG','max:2048'],
+            'amount' => ['required','numeric','between:1000,10000000000000000000'],
+            'title' => ['required','string','max:70'],
+            'galleries' => ['required','array','min:1','max:5'],
+            'galleries.*' => ['required','file','mimes:jpg,jpeg,png,PNG,JPG,JPEG','max:1024'],
+            'safe' => ['nullable','boolean']
+        ],[] , [
+            'image' => 'تصویر',
+            'amount' => 'مبلغ',
+            'title' => 'اسم',
+            'galleries' => 'گالری تصاویر'
+        ]);
+        $this->step = 'extra-info';
+    }
+
+    public function setExtraInfo()
+    {
+        $this->validate([
+            'description' => ['required','string','max:1000'],
+            'dont_show_phone' => ['nullable','boolean'],
+            'telegram_id' => ['nullable','string','max:1000'],
+            'other_social_id' => [$this->dont_show_phone ? "required" : 'nullable','string','max:50'],
+            'extraSocial' => [$this->dont_show_phone ? "required" : 'nullable','string','max:50']
+        ],[] , [
+            'description' => 'توضیحات',
+            'telegram_id' => 'تلگرام',
+            'other_social_id' => 'راه ارتباطی دیگر'
+        ]);
+        $this->step = 'accept-law';
+    }
+
+    public function submit()
+    {
+        $this->validate([
+            'category' => ['required',Rule::exists('categories','id')->where('type',Category::ACCOUNT)],
+            'image' => ['required','file','mimes:jpg,jpeg,png,PNG,JPG,JPEG','max:2048'],
+            'amount' => ['required','numeric','between:1000,10000000000000000000'],
+            'title' => ['required','string','max:70'],
+            'galleries' => ['required','array','min:1','max:5'],
+            'galleries.*' => ['required','file','mimes:jpg,jpeg,png,PNG,JPG,JPEG','max:1024'],
+            'safe' => ['nullable','boolean'],
+            'description' => ['required','string','max:1000'],
+            'dont_show_phone' => ['nullable','boolean'],
+            'acceptLaw' => ['required','boolean','in:1'],
+            'telegram_id' => ['nullable','string','max:1000'],
+            'other_social_id' => [$this->dont_show_phone ? "required" : 'nullable','string','max:50'],
+            'extraSocial' => [$this->dont_show_phone ? "required" : 'nullable','string','max:50']
+        ] , [] , [
+            'image' => 'تصویر',
+            'amount' => 'مبلغ',
+            'title' => 'اسم',
+            'galleries' => 'گالری تصاویر',
+            'description' => 'توضیحات',
+            'acceptLaw' => 'تاییدیه',
+            'telegram_id' => 'تلگرام',
+            'other_social_id' => 'راه ارتباطی دیگر'
+        ]);
+        try {
+            $data = [
+                'title' => $this->title,
+                'amount' => $this->amount,
+                'category_id' => $this->category,
+                'user_id' => auth()->id(),
+                'show_phone' => ! $this->dont_show_phone,
+                'description' => $this->description,
+                'telegram_id' => $this->telegram_id,
+                'other_social_id' =>  $this->other_social_id ? ($this->extraSocial .":". $this->other_social_id) : null,
+                'safe' => $this->safe,
+                'status' => Account::PENDING,
+                'image' =>  'media/'.$this->image->store('accounts','media'),
+                'gallery' => collect($this->galleries)->map(function ($item) {
+                    return 'media/'.$item->store('accounts','media');
+                })->implode(',')
+            ];
+            $account = new Account();
+            $account->fill($data)->save();
+            $this->step = 'finish';
+        } catch (\Exception $exception) {
+            dd($exception->getMessage());
+            $this->addError('acceptLaw','مشکلی در حین ثبت اگهی وجود دارد لطفا بررسی سپس مجدد تلاش نمایید. ');
         }
     }
 
-    public function submitTicket()
+    public function updatedGallery($value)
     {
-        if (Ticket::query()->where('user_id',\auth()->id())->whereNull('parent_id')->where('status','!=',Ticket::DEACTIVATE)->doesntExist()) {
-            $this->validate([
-                'ticketSubject' => ['required','exists:subjects,id'],
-                'formSubject' => ['required','string','max:100'],
-                'orderId' => [$this->orderStep == Subject::AFTER_ORDER ?  'required' : 'nullable','string','max:100000'],
-                'productName' => [$this->orderStep == Subject::AFTER_ORDER ? 'required' : 'nullable','string','max:200'],
-                'cardNumber' => [$this->orderStep == Subject::AFTER_ORDER ?  'required' : 'nullable','string','max:30'],
-                'priority' => ['required',Rule::in(array_keys(Ticket::getPriority()))],
-                'body' => ['required','string','max:1000']
-            ],[],[
-                'formSubject' => 'موضوغ',
-                'orderId' => 'کد سفارش',
-                'productName' => 'نام محصول',
-                'cardNumber' => 'شماره کارت',
-                'priority' => 'اولویت',
-                'body' => 'متن'
-            ]);
-            $user_id = auth()->id();
-            $ticket = new Ticket();
-            $path = null;
-            if ($this->file) {
-                $this->validate(['file' => ['image','max:2048']]);
-                $path = 'media/'.$this->file->store('tickets','media');
-            }
-            $ticket->user()->associate(auth()->user());
-            $ticket->fill([
-                'user_id' =>  $user_id,
-                'content' => $this->body,
-                'sender_id' => $user_id,
-                'priority' => $this->priority,
-                'status' => Ticket::PENDING,
-                'sender_type' => Ticket::USER,
-                'subject_id' => $this->ticketSubject,
-                'data' => [
-                    'orderId' => $this->orderId,
-                    'productName' => $this->productName,
-                    'cardNumber' => $this->cardNumber,
-                    'formSubject' => $this->formSubject,
-                ],
-                'file' => $path
-            ]);
-            $ticket->save();
-            redirect()->route('dashboard.tickets.endPage');
+        $this->galleries[] = $value;
+        $this->reset('gallery');
+    }
 
-        } else {
-            $this->addError('body','شما یک تیکت در حال بررسی دارید');
+    public function removeGallery($key)
+    {
+        if (isset($this->galleries[$key])) {
+            unset($this->galleries[$key]);
         }
     }
 
-    public function endPage()
+    public function finish()
     {
-        return view('site.dashboard.end-page-ticket')->extends('site.layouts.tickets');
-    }
-
-
-    public function nextStep($step)
-    {
-        if ($step == 'subject') {
-            $this->validate(['orderStep' => 'required']);
-            $this->reset(['ticketSubject']);
-        }
-        if ($step == 'form') {
-            $this->validate(['acceptBody' => ['required','boolean']],[],[
-                'acceptBody' => 'تاییدیه'
-            ]);
-        }
-        if ($step == 'description') {
-            $this->validate(['ticketSubject' => ['required','exists:subjects,id']]);
-            $this->subject = Subject::query()->find($this->ticketSubject);
-            $this->description = $this->subject->body;
-            if (empty($this->subject->body)) {
-                $step = 'form';
-            }
-        }
-
-
-        $this->ticketStep = $step;
+        return redirect()->route('dashboard.sales-ad');
     }
 }

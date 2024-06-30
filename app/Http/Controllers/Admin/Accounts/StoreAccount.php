@@ -14,6 +14,8 @@ class StoreAccount extends BaseComponent
 
     public $seo_keywords , $seo_description , $gallery;
 
+    public $other_social_id , $safe, $show_phone;
+
     public function mount($action, $id = null)
     {
         if ($action == 'edit') {
@@ -36,6 +38,9 @@ class StoreAccount extends BaseComponent
         $this->description = $this->model->description;
         $this->image = $this->model->image;
         $this->fg_depot = $this->model->fg_depot;
+        $this->other_social_id = $this->model->other_social_id;
+        $this->safe = $this->model->safe;
+        $this->show_phone = $this->model->show_phone;
         $this->telegram_id = $this->model->telegram_id;
         $this->amount = $this->model->amount;
         $this->category_id = $this->model->category_id;
@@ -67,7 +72,10 @@ class StoreAccount extends BaseComponent
                 'admin_description' => ['nullable','string','max:15000'],
                 'seo_keywords' => ['nullable', 'string', 'max:65500'],
                 'seo_description' => ['nullable', 'string', 'max:250'],
-                'gallery' => ['nullable','string','max:5000']
+                'gallery' => ['nullable','string','max:5000'],
+                'other_social_id' => [ 'nullable','string','max:50'],
+                'safe' => ['nullable','boolean'],
+                'show_phone' => ['nullable','boolean'],
             ],
             [],
             [
@@ -82,7 +90,10 @@ class StoreAccount extends BaseComponent
                 'admin_description' => 'توضیحات',
                 'seo_keywords' => 'کلمات کلیدی سئو',
                 'seo_description' => 'توضیحات سئو',
-                'gallery' => 'گالری'
+                'gallery' => 'گالری',
+                'other_social_id' => 'راه ارتباطی اضافه',
+                'safe' => 'معامله امن',
+                'show_phone' => 'نمایش شماره',
             ]
         );
         $data = [
@@ -95,7 +106,10 @@ class StoreAccount extends BaseComponent
             'category_id' => $this->category_id,
             'status' => $this->status,
             'gallery' => $this->gallery,
-            'admin_description' => $this->admin_description
+            'admin_description' => $this->admin_description,
+            'other_social_id' => $this->other_social_id,
+            'safe' => $this->safe,
+            'show_phone' => $this->show_phone,
         ];
         $account->fill($data)->save();
     }

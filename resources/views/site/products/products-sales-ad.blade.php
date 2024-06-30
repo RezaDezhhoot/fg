@@ -25,7 +25,7 @@
                     @foreach ($categories as $item)
                         <a wire:click="$set('category','{{ $item->id }}')">
                             <li
-                                class="item-box-hever-store active header-box-hever-shop {{ $item->id == $category ? 'header-box-hever-shop-activate' : '' }} cursor-pointer">
+                                class="item-box-hever-store  header-box-hever-shop {{ $item->id == $category ? 'active' : '' }} cursor-pointer">
                                 <div class="img">
                                     <img src="{{ asset($item->icon) }}" alt="{{ $item->title }}">
                                 </div>
@@ -34,6 +34,7 @@
                             </li>
                         </a>
                     @endforeach
+
                 </ul>
             </div>
         </div>
@@ -432,35 +433,37 @@
         </div>
         {{-- اگه آگهی وجود نداشت ................ --}}
 
-        <div class="w-full h-full mt-10 pt-10 d-flex flex-column justify-content-center align-items-center">
-            <div>
-                <img src="https://farsgamer.com/media/667c3740edf65.png" alt="">
+        @if(sizeof($products) == 0)
+            <div class="w-full h-full mt-10 pt-10 d-flex flex-column justify-content-center align-items-center">
+                <div>
+                    <img src="https://farsgamer.com/media/667c3740edf65.png" alt="">
+                </div>
+
+                <div class="mt-4">
+                    <p>متاسفانه هیچ آگهی ای یافت نشد</p>
+                </div>
+            </div>
+        @else
+            <div class="hide-item-pc">
+                <div class="left-message-main-search flex-box flex-wrap flex-right">
+                    @foreach ($products as $product)
+                        @include('site.components.products.productSaleAd-box')
+                    @endforeach
+                </div>
+            </div>
+
+            <div class=" hide-item-mobile">
+                <div class="left-message-main-search flex-box flex-wrap flex-right">
+                    @foreach ($products as $product)
+                        @include('site.components.products.productSaleAd-box')
+                    @endforeach
+                </div>
             </div>
 
             <div class="mt-4">
-                <p>متاسفانه هیچ آگهی ای یافت نشد</p>
+                {{ $products->links('site.components.pagination') }}
             </div>
-        </div>
-
-        <div class="hide-item-pc">
-            <div class="left-message-main-search flex-box flex-wrap flex-right">
-                @foreach ($products as $product)
-                    @include('site.components.products.productSaleAd-box')
-                @endforeach
-            </div>
-        </div>
-
-        <div class=" hide-item-mobile">
-            <div class="left-message-main-search flex-box flex-wrap flex-right">
-                @foreach ($products as $product)
-                    @include('site.components.products.productSaleAd-box')
-                @endforeach
-            </div>
-        </div>
-
-        <div class="mt-4">
-            {{ $products->links('site.components.pagination') }}
-        </div>
+        @endif
     </div>
 
 

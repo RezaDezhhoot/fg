@@ -226,4 +226,9 @@ class User extends Authenticatable implements Wallet, Confirmable
 	{
 		return $this->hasMany(UserNote::class)->latest();
 	}
+
+    public function accounts()
+    {
+        return $this->belongsToMany(Account::class,'user_accounts');
+    }
 }

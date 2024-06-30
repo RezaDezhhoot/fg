@@ -55,6 +55,7 @@ class ProductSalesAdComponent extends Component
     public function mount($id)
     {
         $this->product = Account::query()->published()->findOrFail($id);
+        $this->product->increment('views');
         $this->subjects = InfractionSubject::query()->get();
         $this->checkReportSubmitted();
         SEOMeta::setTitle('خرید ' . $this->product->title . ' - فارس گیمر');
