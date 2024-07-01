@@ -167,7 +167,7 @@ class StoreSalesAd extends Component
                 'description' => $this->description,
                 'telegram_id' => $this->telegram_id,
                 'extraSocial' => $this->extraSocial,
-                'other_social_id' =>  $this->other_social_id ? ($this->extraSocial .":". $this->other_social_id) : null,
+                'other_social_id' =>  $this->other_social_id,
                 'safe' => $this->safe,
                 'status' => Account::PENDING,
                 'image' =>  $this->image ? ('media/'.$this->image->store('accounts','media')) : $this->oldImage,

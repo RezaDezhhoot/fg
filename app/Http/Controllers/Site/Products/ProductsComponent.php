@@ -25,6 +25,8 @@ class ProductsComponent extends Component
     public $q;
     public $perPage = 12 , $priceRange = 100;
 
+    public $max , $min;
+
     public $banners;
 
     public function mount()
@@ -48,6 +50,9 @@ class ProductsComponent extends Component
         $this->categories = Category::with('subCategories')->whereNull('parent_id')->get();
 
         $this->banners = Setting::whereIn('name', ['products_medium_one', 'products_medium_two'])->get()->pluck('value', 'id');
+
+        $this->max = Product::query()->max('amount');
+        $this->min = Product::query()->min('amount');
     }
 
     public function updated()
@@ -94,10 +99,10 @@ class ProductsComponent extends Component
         if ($this->sort == Product::STATUS_AVAILABLE || $this->level) {
             $products->where('status', Product::STATUS_AVAILABLE);
         }
-        $max = $products->max('amount');
-        $min = $products->min('amount');
-        $range = ($this->priceRange/100)*($max);
-        $products = $products->where('amount','>=', 0)->where('amount','<=', $range)->paginate(20);
+        if ($this->sort == 'most-sell') {
+            $products = $products->withCount('details')->orderBy('details_count','desc');
+        }
+        $products = $products->where('amount','>=', $this->min)->where('amount','<=', $this->max)->paginate(8);
         $link = $products->links('site.components.pagination');
 
         if ($this->sort == 'latest') {
@@ -110,7 +115,7 @@ class ProductsComponent extends Component
             $products = $products->sortByDesc('price');
         }
 
-        return view('site.products.products-component', ['products' => $products,'max' => $max,'range'=>$range, 'link' => $link])
+        return view('site.products.products-component', ['products' => $products, 'link' => $link])
             ->extends('site.layouts.shop');
     }
 }

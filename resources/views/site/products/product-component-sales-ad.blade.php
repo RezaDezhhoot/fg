@@ -53,7 +53,7 @@
                             @else
                                 <div class="contact-sale-ad-item">
                                     <div class="text">
-                                        <span>{{ $product->other_social_id ?? "-" }}</span>
+                                        <span>{{ $product->extraSocial." : ".$product->other_social_id ?? "-" }}</span>
                                     </div>
 
                                     <div class="icon">
@@ -177,7 +177,7 @@
                         @else
                             <div class="contact-sale-ad-item">
                                 <div class="text">
-                                    <span>{{ $product->other_social_id ?? "-" }}</span>
+                                    <span>{{ $product->extraSocial." : ".$product->other_social_id ?? "-" }}</span>
                                 </div>
 
                                 <div class="icon">
