@@ -120,7 +120,7 @@ class CategoryComponent extends Component
 		})->when($this->sub_category,function($query){
 			$this->activeLink();
 			return $query->where('category_id',$this->sub_category);
-		})->when($this->most_amount,function($query){
+		})->where('fgtal' , false)->when($this->most_amount,function($query){
 			$this->activeLink();
 			return $query->orderBy('amount',$this->most_amount);
 		})->where(function($query){
