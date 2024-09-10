@@ -37,7 +37,7 @@
                                     <td>{{$item->code}}</td>
                                     <td>{{$item->title}}</td>
                                     <td>{{ number_format($item->infractions_count) }}</td>
-                                    <td>{{$item->category->title}}</td>
+                                    <td>{{$item->category->title ?? ''}}</td>
                                     <td><a href="{{route('admin.users.store',['edit',$item->user_id])}}">{{ $item->user->full_name ?? $item->user->username ?? $item->user->phone }}</a></td>
                                     <td>{{number_format($item->amount)}}</td>
                                     <td>{{$item->status_label}}</td>

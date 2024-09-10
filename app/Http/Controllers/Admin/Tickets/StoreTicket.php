@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Tickets;
 use App\Models\User;
 use App\Models\Ticket;
 use App\Models\Setting;
+use App\Models\OrderDetail;
 use App\Models\TicketMessage;
 use GuzzleHttp\Psr7\MessageTrait;
 use Illuminate\Support\Facades\Auth;
@@ -16,6 +17,8 @@ class StoreTicket extends BaseComponent
     use AuthorizesRequests;
     public $ticket, $header;
     public $TicketMessages, $subject, $user_id, $content, $file, $cardNumber, $orderId, $productName, $priority, $status, $child = [], $user_name, $answer, $answerFile, $oldSubject, $oldUser;
+    public $allow = false, $user_in_order;
+
     public function mount($action, $id = null)
     {
         $this->authorize('show_tickets');
@@ -57,6 +60,38 @@ class StoreTicket extends BaseComponent
         $this->authorize('edit_tickets');
 
         $this->setMode(self::MODE_UPDATE);
+
+        $this->model = Ticket::findOrFail($id);
+        $online_time = date("Y-m-d H:i:s");
+        $user_online = $this->model->user_online;
+        $last_online_time = $this->model->online_time;
+
+        if (!empty($user_online)) {
+            if ($user_online == auth()->user()->id) {
+                $this->model->online_time = $online_time;
+            } else {
+
+                $origin = date_create($last_online_time);
+                $target = date_create($online_time);
+                $interval = date_diff($origin, $target);
+                $m = $interval->format('%i');
+
+                if ($m < 2) {
+                    $this->allow = true;
+
+                    $this->user_in_order = User::where('id', $user_online)->first()->name;
+                } else {
+                    $this->model->online_time = $online_time;
+                    $this->model->user_online = auth()->user()->id;
+                }
+            }
+        } else {
+            $this->model->online_time = $online_time;
+            $this->model->user_online = auth()->user()->id;
+        }
+
+        $this->model->save();
+
         $this->ticket = Ticket::findOrFail($id);
         $this->subject = $this->ticket->subject_id;
         $this->oldSubject = $this->ticket->subject->toArray();
@@ -74,6 +109,16 @@ class StoreTicket extends BaseComponent
         $this->data['cardNumber'] = $this->ticket->data['cardNumber'];
         $this->data['productName'] = $this->ticket->data['productName'];
         $this->data['orderId'] = $this->ticket->data['orderId'];
+    }
+
+    public function updateTime()
+    {
+        $online_time = date("Y-m-d H:i:s");
+        $user_online = $this->model->user_online;
+        if ($user_online == auth()->user()->id) {
+            $this->model->online_time = $online_time;
+            $this->model->save();
+        }
     }
 
     public function update()

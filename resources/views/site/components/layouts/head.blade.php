@@ -18,7 +18,7 @@
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
     </script>
     <link rel="stylesheet" href="{{ asset('site/fonts/icons/style.css?v=1.0.1') }}">
-    <link rel="stylesheet" href="{{ asset('site/library/swiper/swiper.min.css?v=1.0.1') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="stylesheet" href="{{ asset('site/library/easytab/easytab.css?v=1.0.1') }}">
     <!-- <link rel="stylesheet" href="{{ asset('site/library/plyr/plyr.css?v=1.0.1') }}"> filtering-v -->
     <link rel="stylesheet" href="{{ asset('site/css/dist.css?v=1.0.1') }}">

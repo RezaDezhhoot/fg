@@ -15,7 +15,11 @@
 
                 <x-admin.forms.input type="text" id="telegram_id" label="ای دی تلگرام" wire:model.defer="telegram_id"/>
 
-                <x-admin.forms.checkbox id="lottery" value="1" wire:model.defer="fg_depot">موجود در انبار فارس گیمر</x-admin.forms.checkbox>
+                <x-admin.forms.input type="text" id="other_social_id" label="راه ارتباطی اضافه"  wire:model.defer="other_social_id"/>
+
+                <x-admin.forms.checkbox id="fg_depot" value="1" wire:model.defer="fg_depot">موجود در انبار فارس گیمر</x-admin.forms.checkbox>
+                <x-admin.forms.checkbox id="safe" value="1" wire:model.defer="safe">معامله امن</x-admin.forms.checkbox>
+                <x-admin.forms.checkbox id="show_phone" value="1" wire:model.defer="show_phone">نمایش شماره</x-admin.forms.checkbox>
 
                 <x-admin.forms.lfm-standalone id="image" label="تصویر" :image="$image" required="true" wire:model="image"/>
                 <x-admin.forms.lfm-standalone id="gallery" label="تصاویر" :image="$gallery" wire:model.defer="gallery"/>

@@ -3,6 +3,26 @@
 
     <div class="content d-flex flex-column-fluid">
         <div class="container">
+            @if ($allow == true)
+                @push('scripts')
+                    <script>
+                        Swal.fire({
+                            title: ' اخطار!',
+                            text: 'هم اکنون {{ $user_in_order ?? 'شخص دیگری' }} در حال ویرایش این سفارش می باشد',
+                            icon: 'warning',
+                            showCancelButton: false,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            cancelButtonText: 'خیر',
+                            confirmButtonText: 'باشه'
+                        }).then((result) => {
+                            if (result.value) {
+                                // @this.call('', '')
+                            }
+                        })
+                    </script>
+                @endpush
+            @endif
 
             <div>
                 <x-admin.forms.validation-errors />
@@ -13,28 +33,28 @@
                         wire:model.defer="status" />
 
                     @if ($mode == 'update')
-                    <table class="table table-striped table-bordered dt-responsive">
-                        <thead>
-                            <tr>
-                                <td>کد سفارش</td>
-                                <td>نام محصول</td>
-                                <td>شماره کارت پرداخت شده</td>
-                                <td>شماره کاربر</td>
-                                <td>نام و نام خانوادگی کاربر</td>
-                                <td>وضعیت</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>{{ $orderId }}</td>
-                                <td>{{ $productName }}</td>
-                                <td>{{ $cardNumber }}</td>
-                                <td>{{ $ticket->sender->mobile }}</td>
-                                <td>{{ $ticket->sender->name . ' ' . $ticket->sender->family }}</td>
-                                <td>{{ $ticket->status_label }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                        <table class="table table-striped table-bordered dt-responsive">
+                            <thead>
+                                <tr>
+                                    <td>کد سفارش</td>
+                                    <td>نام محصول</td>
+                                    <td>شماره کارت پرداخت شده</td>
+                                    <td>شماره کاربر</td>
+                                    <td>نام و نام خانوادگی کاربر</td>
+                                    <td>وضعیت</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{ $orderId }}</td>
+                                    <td>{{ $productName }}</td>
+                                    <td>{{ $cardNumber }}</td>
+                                    <td>{{ $ticket->sender->mobile }}</td>
+                                    <td>{{ $ticket->sender->name . ' ' . $ticket->sender->family }}</td>
+                                    <td>{{ $ticket->status_label }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     @endif
                     <x-admin.forms.dynamic-select2 :data="$oldSubject" text="title" id="subject" label="موضوع"
                         ajaxUrl="{{ route('admin.subjects.feed') }}" wire:model.defer="subject" />
@@ -103,8 +123,7 @@
                                                 <p>
                                                     {!! $item->content !!}
                                                 </p>
-                                                <small
-                                                    class="text-warning">{{ jalaliDate($item->created_at) }}</small>
+                                                <small class="text-warning">{{ jalaliDate($item->created_at) }}</small>
                                                 @if (!empty($item->file))
                                                     <p>
                                                         <label for="">فایل</label>

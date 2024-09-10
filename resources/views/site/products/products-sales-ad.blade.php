@@ -14,7 +14,7 @@
             <div id="box-header-box-hever-shop">
                 <ul>
                     <a wire:click="$set('category','')">
-                        <li class="item-box-hever-store header-box-hever-shop cursor-pointer active">
+                        <li class="item-box-hever-store header-box-hever-shop cursor-pointer {{ $category == '' ? 'active' : '' }}">
                             <div class="img">
                                 <img src="https://farsgamer.com/media/6635e71a0ac06.png" alt="">
                             </div>
@@ -25,7 +25,7 @@
                     @foreach ($categories as $item)
                         <a wire:click="$set('category','{{ $item->id }}')">
                             <li
-                                class="item-box-hever-store active header-box-hever-shop {{ $item->id == $category ? 'header-box-hever-shop-activate' : '' }} cursor-pointer">
+                                class="item-box-hever-store  header-box-hever-shop {{ $item->id == $category ? 'active' : '' }} cursor-pointer">
                                 <div class="img">
                                     <img src="{{ asset($item->icon) }}" alt="{{ $item->title }}">
                                 </div>
@@ -34,6 +34,7 @@
                             </li>
                         </a>
                     @endforeach
+
                 </ul>
             </div>
         </div>
@@ -76,36 +77,6 @@
                             value="{{ $max }}" step="10" wire:model="max">
                         <div class="track"></div>
                         <div class="range-track" id="rangeTrack1"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="flex-box flex-justify-space margin-vetical-1">
-                <div>
-                    <span>کالاهای موجود</span>
-                </div>
-
-                <div>
-                    <div class="checkbox-container">
-                        <input type="checkbox" id="checkbox" value="1" class="checkbox" wire:model="fg_depot">
-
-                        <label for="checkbox" class="checkbox-label">
-                            <span class="checkbox-icon unchecked">
-                                <svg width="11" height="11" viewBox="0 0 11 11" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M9.07266 1L1.84766 9.5M9.07266 9.5L1.84766 1" stroke="black"
-                                        stroke-width="2" stroke-linecap="round" />
-                                </svg>
-                            </span>
-
-                            <span class="checkbox-icon checked">
-                                <svg width="11" height="9" viewBox="0 0 11 9" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M9.47734 1L3.95234 7.5L1.40234 5" stroke="white" stroke-width="2"
-                                        stroke-linecap="round" />
-                                </svg>
-                            </span>
-                        </label>
                     </div>
                 </div>
             </div>
@@ -202,6 +173,11 @@
                         </li>
                     </ul>
                 </div>
+
+                <div class="modal-footer text-center">
+                    <button data-bs-dismiss="modal"
+                            aria-label="Close" class="w-100 btn btn-primary text-center">اعمال</button>
+                </div>
             </div>
         </div>
     </div>
@@ -239,34 +215,12 @@
                                     stroke-linejoin="round" />
                             </svg>
                         </li>
-
-                        <li class="item-filters-search-mo flex-box flex-justify-space">
-                            <span class="txt-item-filter-search-mo">کالاهای موجود</span>
-
-                            <div class="checkbox-container">
-                                <input type="checkbox" id="checkbox2" value="1" class="checkbox"
-                                    wire:model="fg_depot">
-
-                                <label for="checkbox2" class="checkbox-label">
-                                    <span class="checkbox-icon unchecked">
-                                        <svg width="11" height="11" viewBox="0 0 11 11" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M9.07266 1L1.84766 9.5M9.07266 9.5L1.84766 1" stroke="black"
-                                                stroke-width="2" stroke-linecap="round" />
-                                        </svg>
-                                    </span>
-
-                                    <span class="checkbox-icon checked">
-                                        <svg width="11" height="9" viewBox="0 0 11 9" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M9.47734 1L3.95234 7.5L1.40234 5" stroke="white" stroke-width="2"
-                                                stroke-linecap="round" />
-                                        </svg>
-                                    </span>
-                                </label>
-                            </div>
-                        </li>
                     </ul>
+                </div>
+
+                <div class="modal-footer text-center">
+                    <button data-bs-dismiss="modal"
+                            aria-label="Close" class="w-100 btn btn-primary text-center">اعمال</button>
                 </div>
             </div>
         </div>
@@ -392,15 +346,15 @@
                                 stroke="black" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
                                 stroke-linejoin="round" />
                         </svg>
+                        <h3 class="fs-4 mr-2" wire:loading.remove>دسته بندی</h3>
+                        <h3  class="fs-4 mr-2" wire:loading>لطفا صبر کنید...</h3>
 
-
-                        <h3 class="fs-4 mr-2">دسته بندی</h3>
                     </div>
 
                     <div class="category-selected-sale">
-                        <img src="https://farsgamer.com/media/6635e71a0ac06.png" alt="محصولات فورتنایت">
+                        <img src="{{ asset($categoryModel->icon ?? '') }}" alt=" {{ $categoryModel->title ?? '' }}">
 
-                        <span>فورتنایت</span>
+                        <span>{{ $categoryModel->title ?? '' }}</span>
                     </div>
                 </div>
 
@@ -432,35 +386,37 @@
         </div>
         {{-- اگه آگهی وجود نداشت ................ --}}
 
-        <div class="w-full h-full mt-10 pt-10 d-flex flex-column justify-content-center align-items-center">
-            <div>
-                <img src="https://farsgamer.com/media/667c3740edf65.png" alt="">
+        @if(sizeof($products) == 0)
+            <div class="w-full h-full mt-10 pt-10 d-flex flex-column justify-content-center align-items-center">
+                <div>
+                    <img src="https://farsgamer.com/media/667c3740edf65.png" alt="">
+                </div>
+
+                <div class="mt-4">
+                    <p>متاسفانه هیچ آگهی ای یافت نشد</p>
+                </div>
+            </div>
+        @else
+            <div class="hide-item-pc">
+                <div class="left-message-main-search flex-box flex-wrap flex-right">
+                    @foreach ($products as $product)
+                        @include('site.components.products.productSaleAd-box')
+                    @endforeach
+                </div>
+            </div>
+
+            <div class=" hide-item-mobile">
+                <div class="left-message-main-search flex-box flex-wrap flex-right">
+                    @foreach ($products as $product)
+                        @include('site.components.products.productSaleAd-box')
+                    @endforeach
+                </div>
             </div>
 
             <div class="mt-4">
-                <p>متاسفانه هیچ آگهی ای یافت نشد</p>
+                {{ $products->links('site.components.pagination') }}
             </div>
-        </div>
-
-        <div class="hide-item-pc">
-            <div class="left-message-main-search flex-box flex-wrap flex-right">
-                @foreach ($products as $product)
-                    @include('site.components.products.productSaleAd-box')
-                @endforeach
-            </div>
-        </div>
-
-        <div class=" hide-item-mobile">
-            <div class="left-message-main-search flex-box flex-wrap flex-right">
-                @foreach ($products as $product)
-                    @include('site.components.products.productSaleAd-box')
-                @endforeach
-            </div>
-        </div>
-
-        <div class="mt-4">
-            {{ $products->links('site.components.pagination') }}
-        </div>
+        @endif
     </div>
 
 

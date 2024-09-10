@@ -113,6 +113,7 @@ return [
         'image' => 'تصویر',
         'parent_id' => 'دسته',
         'amount' => 'قیمت',
+        'gallery' => 'گالری',
         'short_description' => 'توضیحات کوتاه',
         'description' => 'توضیحات',
         'currency_id' => 'واحد پول',

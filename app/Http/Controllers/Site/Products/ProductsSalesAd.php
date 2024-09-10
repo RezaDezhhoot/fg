@@ -6,10 +6,12 @@ use App\Models\Account;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Setting;
+use App\Models\User;
 use Artesaos\SEOTools\Facades\JsonLd;
 use Artesaos\SEOTools\Facades\OpenGraph;
 use Artesaos\SEOTools\Facades\SEOMeta;
 use Artesaos\SEOTools\Facades\TwitterCard;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -20,7 +22,7 @@ class ProductsSalesAd extends Component
     protected $queryString = ['q', 'category', 'sort'];
 
     public $categories;
-    public $category = null , $level;
+    public $category = null , $level , $categoryModel;
     public $sortable;
     public $min , $max;
     public $sort = 'latest';
@@ -52,11 +54,19 @@ class ProductsSalesAd extends Component
         $this->categories = Category::query()->account()->get();
         $this->max = Account::query()->max('amount');
         $this->min = Account::query()->min('amount');
+        $this->updatedCategory($this->category);
     }
 
     public function updated()
     {
         $this->resetPage();
+    }
+
+    public function updatedCategory($value)
+    {
+        if ($value) {
+            $this->categoryModel = Category::query()->find($value);
+        }
     }
 
     public function levelTest()
@@ -82,6 +92,7 @@ class ProductsSalesAd extends Component
 
     public function render()
     {
+        $user = Auth::user();
         $products = Account::query()
             ->latest()
             ->when(($this->category) , function ($q){
@@ -104,5 +115,18 @@ class ProductsSalesAd extends Component
             ->paginate($this->perPage);
         return view('site.products.products-sales-ad' , get_defined_vars())
             ->extends('site.layouts.shop');
+    }
+
+    public function save($id)
+    {
+        if (auth()->check()) {
+            $user = Auth::user();
+
+            if (! $user->accounts()->where('account_id',$id)->exists()) {
+                $user->accounts()->attach($id);
+            } else {
+                $user->accounts()->detach($id);
+            }
+        }
     }
 }
